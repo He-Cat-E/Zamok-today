@@ -43,7 +43,7 @@ export function PriceMap() {
           <div className="relative overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200 dark:bg-black dark:ring-white/10">
             <div className="relative w-full h-[280px]">
               <Image
-                src={isDark ? "/images/dark-map.png" : "/images/light-map.png"}
+                src={isDark ? "/Images/dark-map.png" : "/Images/light-map.png"}
                 alt={t("pricemap.title")}
                 fill
                 priority={false}
