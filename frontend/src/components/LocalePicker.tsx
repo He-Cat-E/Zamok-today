@@ -263,7 +263,7 @@ export function LocalePicker() {
   const currentCountry = allCountries.find((c) => c.code === country) || allCountries[0]!;
 
   return (
-    <div className="relative" ref={rootRef}>
+    <div className="relative z-[60]" ref={rootRef}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -276,7 +276,7 @@ export function LocalePicker() {
       </button>
 
       {open ? (
-        <div className="absolute right-0 top-[calc(100%+10px)] w-[420px] rounded-2xl bg-white dark:bg-black shadow-xl ring-1 ring-black/10 dark:ring-white/10">
+        <div className="absolute right-0 top-[calc(100%+10px)] z-[70] w-[420px] rounded-2xl bg-white dark:bg-black shadow-xl ring-1 ring-black/10 dark:ring-white/10">
           <div className="p-3">
             <div className="grid grid-cols-3 rounded-2xl bg-slate-100 dark:bg-white/10 p-1 ring-1 ring-slate-200 dark:ring-white/15">
               <button

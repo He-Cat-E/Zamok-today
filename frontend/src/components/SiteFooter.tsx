@@ -13,13 +13,13 @@ export function SiteFooter() {
       <div className="mx-auto w-full max-w-[1440px] px-4 py-10">
         <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-3">
           <div className="flex items-center gap-3">
-            <div className="relative h-10 w-10 overflow-hidden rounded-xl">
+            <div className="relative h-18 w-18 overflow-hidden rounded-xl">
               <Image
                 src={isDark ? "/dark-icon.png" : "/light-icon.png"}
                 alt="Zamok Today"
-                width={40}
-                height={40}
-                className="h-10 w-10 object-cover"
+                width={72}
+                height={72}
+                className="h-18 w-18 object-cover"
               />
             </div>
             <div>
@@ -53,11 +53,6 @@ export function SiteFooter() {
             </div>
           </div>
         </div>
-
-        <div className="mt-8 text-center text-[11px] leading-relaxed text-slate-600 dark:text-white/70">
-          {t("footer.disclaimer")}
-        </div>
-
         <div className="mt-6">
           <a className="text-xs text-slate-600 dark:text-white/70 hover:text-slate-900 dark:hover:text-white" href="#">
             {t("footer.privacy")}

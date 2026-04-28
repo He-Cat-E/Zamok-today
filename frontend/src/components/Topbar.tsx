@@ -11,7 +11,7 @@ export function Topbar() {
   const { resolved, toggle } = useTheme();
   const isDark = resolved === "dark";
   return (
-    <header className="sticky top-0 z-20 h-16 bg-red-600 dark:bg-black">
+    <header className="sticky top-0 z-50 h-16 bg-red-600 dark:bg-black">
       <div className="mx-auto flex h-full w-full max-w-[1440px] items-center justify-between px-4">
         <div className="flex items-center gap-3">
           <div className="relative h-10 w-10 overflow-hidden rounded-xl">

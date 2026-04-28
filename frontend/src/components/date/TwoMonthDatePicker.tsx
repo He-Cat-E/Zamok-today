@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 type Props = {
@@ -168,7 +169,7 @@ export function TwoMonthDatePicker({ value, minYmd, onChange, onClose }: Props) 
 
   const rightMonth = useMemo(() => addMonths(leftMonth, 1), [leftMonth]);
 
-  return (
+  const content = (
     <div className="fixed inset-0 z-[60] flex items-center justify-center px-4 py-6">
       <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" aria-hidden="true" />
 
@@ -234,5 +235,8 @@ export function TwoMonthDatePicker({ value, minYmd, onChange, onClose }: Props) 
       </div>
     </div>
   );
+
+  if (typeof document === "undefined") return null;
+  return createPortal(content, document.body);
 }
 

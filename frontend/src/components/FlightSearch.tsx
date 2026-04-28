@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { searchFlights } from "@/store/flightsSlice";
 import { useT } from "@/i18n/I18nProvider";
@@ -53,7 +53,9 @@ function FlightSearchContent({
   setOpenBooking,
   activeDateField,
   setActiveDateField,
-  onSearch
+  onSearch,
+  compact = false,
+  pickersActive = true
 }: {
   from: string;
   setFrom: (v: string) => void;
@@ -72,15 +74,19 @@ function FlightSearchContent({
   activeDateField: null | "depart" | "return";
   setActiveDateField: (v: null | "depart" | "return") => void;
   onSearch: () => void;
+  compact?: boolean;
+  pickersActive?: boolean;
 }) {
   const t = useT();
 
   return (
-    <div className="w-full flex flex-col gap-8">
+    <div className={cn("w-full flex flex-col", compact ? "gap-3" : "gap-8")}>
       <div className={cn("flex items-center justify-center")}>
         <div
           className={[
-            "inline-flex w-[260px] rounded-3xl p-1 ring-1",
+            compact
+              ? "inline-flex w-[250px] rounded-2xl p-1.5 ring-1"
+              : "inline-flex w-[260px] rounded-3xl p-1 ring-1",
             "bg-red-700/35 ring-white/20 backdrop-blur",
             "dark:bg-white/10 dark:ring-white/15"
           ].join(" ")}
@@ -89,14 +95,16 @@ function FlightSearchContent({
             type="button"
             onClick={() => setTab("flights")}
             className={[
-              "w-[120px] rounded-2xl px-3 py-2 text-xs font-semibold transition",
+              compact
+                ? "w-[116px] rounded-xl px-2.5 py-2 text-xs font-semibold transition"
+                : "w-[120px] rounded-2xl px-3 py-2 text-xs font-semibold transition",
               tab === "flights"
                 ? "bg-white text-slate-900 shadow-sm"
                 : "text-white/85 hover:text-white"
             ].join(" ")}
           >
-            <span className="flex flex-col items-center justify-center gap-1">
-              <BiSolidPlaneAlt className="h-7 w-7 mt-1" />
+            <span className={cn("items-center justify-center", compact ? "flex gap-1.5" : "flex flex-col gap-1")}>
+              <BiSolidPlaneAlt className={cn(compact ? "h-5 w-5" : "h-7 w-7 mt-1")} />
               <span>{t("tabs.flights")}</span>
             </span>
           </button>
@@ -104,14 +112,16 @@ function FlightSearchContent({
             type="button"
             onClick={() => setTab("hotels")}
             className={[
-              "w-[120px] rounded-2xl px-3 ml-3 py-2 text-xs font-semibold transition",
+              compact
+                ? "w-[116px] rounded-xl px-2.5 py-2 text-xs font-semibold transition ml-2"
+                : "w-[120px] rounded-2xl px-3 ml-3 py-2 text-xs font-semibold transition",
               tab === "hotels"
                 ? "bg-white text-slate-900 shadow-sm"
                 : "text-white/85 hover:text-white"
             ].join(" ")}
           >
-            <span className="flex flex-col items-center justify-center gap-1">
-              <FaBed className="h-7 w-7 mt-1" />
+            <span className={cn("items-center justify-center", compact ? "flex gap-1.5" : "flex flex-col gap-1")}>
+              <FaBed className={cn(compact ? "h-5 w-5" : "h-7 w-7 mt-1")} />
               <span>{t("tabs.hotels")}</span>
             </span>
           </button>
@@ -149,7 +159,7 @@ function FlightSearchContent({
                 {departDate}
               </button>
               <FiCalendar className="pointer-events-none absolute right-4 top-1/2 text-slate-500" />
-              {activeDateField === "depart" ? (
+              {pickersActive && activeDateField === "depart" ? (
                 <TwoMonthDatePicker value={departDate} onChange={(ymd) => setDepartDate(ymd)} onClose={() => setActiveDateField(null)} />
               ) : null}
             </div>
@@ -162,7 +172,7 @@ function FlightSearchContent({
               >
                 {returnDate || "mm/dd/yyyy"}
               </button>
-              {activeDateField === "return" ? (
+              {pickersActive && activeDateField === "return" ? (
                 <TwoMonthDatePicker
                   value={returnDate || undefined}
                   minYmd={departDate}
@@ -253,11 +263,33 @@ export function FlightSearch({
   const [tab, setTab] = useState<"flights" | "hotels">("flights");
   const [openBooking, setOpenBooking] = useState(true);
   const [activeDateField, setActiveDateField] = useState<null | "depart" | "return">(null);
+  const [stickyVisible, setStickyVisible] = useState(false);
+  const [reservedHeight, setReservedHeight] = useState(0);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function onScroll() {
+      setStickyVisible(window.scrollY > 200);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (!returnDate) return;
     if (returnDate < departDate) setReturnDate("");
   }, [departDate, returnDate]);
+
+  useEffect(() => {
+    function measure() {
+      if (!contentRef.current) return;
+      setReservedHeight(contentRef.current.offsetHeight);
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [stickyVisible, tab, openBooking, activeDateField, departDate, returnDate, pax, from, to]);
 
   function onSearch() {
     const passengers = pax.adults + pax.children + pax.infants;
@@ -274,25 +306,40 @@ export function FlightSearch({
   }
 
   return (
-      <FlightSearchContent
-        from={from}
-        setFrom={setFrom}
-        to={to}
-        setTo={setTo}
-        departDate={departDate}
-        setDepartDate={setDepartDate}
-        returnDate={returnDate}
-        setReturnDate={setReturnDate}
-        pax={pax}
-        setPax={setPax}
-        tab={tab}
-        setTab={setTab}
-        openBooking={openBooking}
-        setOpenBooking={setOpenBooking}
-        activeDateField={activeDateField}
-        setActiveDateField={setActiveDateField}
-        onSearch={onSearch}
-      />
+    <div style={{ height: stickyVisible ? `${reservedHeight}px` : undefined }}>
+      <div
+        ref={contentRef}
+        className={cn(
+          stickyVisible
+            ? "fixed left-0 right-0 top-14 z-30 bg-red-600/95 dark:bg-black/95 backdrop-blur px-4 py-3 shadow-sm"
+            : "relative"
+        )}
+      >
+        <div className={cn(stickyVisible ? "mx-auto w-full max-w-[1440px] px-4" : "")}>
+          <FlightSearchContent
+            from={from}
+            setFrom={setFrom}
+            to={to}
+            setTo={setTo}
+            departDate={departDate}
+            setDepartDate={setDepartDate}
+            returnDate={returnDate}
+            setReturnDate={setReturnDate}
+            pax={pax}
+            setPax={setPax}
+            tab={tab}
+            setTab={setTab}
+            openBooking={openBooking}
+            setOpenBooking={setOpenBooking}
+            activeDateField={activeDateField}
+            setActiveDateField={setActiveDateField}
+            onSearch={onSearch}
+            compact={stickyVisible}
+            pickersActive
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 
