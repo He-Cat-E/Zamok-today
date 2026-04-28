@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+  @apply dark:bg-black dark:text-white;
+  @apply transition-colors duration-200;
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  font-weight: 500;
+}
+
+/* Keep emphasis without changing weight */
+strong,
+b {
+  font-weight: 500;
+}
+
+/* Thin scrollbar styled with primary colors */
+* {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #dc2626 #ffffff; /* thumb track */
+}
+
+.dark * {
+  scrollbar-color: #dc2626 #000000;
+}
+
+/* Chromium / Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dc2626;
+  border-radius: 999px;
+  border: 2px solid #ffffff;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  border-color: #000000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b91c1c;
+}
+
