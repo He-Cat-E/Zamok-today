@@ -39,6 +39,8 @@
   "footer.download": "Download",
   "footer.disclaimer": "Vi sælger ikke billetter — vi hjælper kun med at finde de billigste. Gratis.",
   "locale.countryHint": "Vælg et land for at se flere billetter fra lokale selskaber. Nogle gange er de billigere",
-  "locale.searchPlaceholder": "Søg"
+  "locale.searchPlaceholder": "Søg",
+  "map.viewMap": "Vis kort",
+  "map.backToList": "Tilbage til liste"
 }
 

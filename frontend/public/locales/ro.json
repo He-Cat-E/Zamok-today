@@ -39,6 +39,8 @@
   "footer.download": "Descarcă",
   "footer.disclaimer": "Nu vindem bilete — doar ajutăm să găsești cele mai ieftine. Gratuit.",
   "locale.countryHint": "Selectează o țară pentru a vedea mai multe bilete de la companii locale. Uneori sunt mai ieftine",
-  "locale.searchPlaceholder": "Caută"
+  "locale.searchPlaceholder": "Caută",
+  "map.viewMap": "Vezi hartă",
+  "map.backToList": "Înapoi la listă"
 }
 

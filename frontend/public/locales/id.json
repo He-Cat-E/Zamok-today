@@ -39,6 +39,8 @@
   "footer.download": "Unduh",
   "footer.disclaimer": "Kami tidak menjual tiket — kami hanya membantu menemukan yang termurah. Gratis.",
   "locale.countryHint": "Pilih negara untuk melihat lebih banyak tiket dari maskapai lokal. Terkadang lebih murah",
-  "locale.searchPlaceholder": "Cari"
+  "locale.searchPlaceholder": "Cari",
+  "map.viewMap": "Lihat peta",
+  "map.backToList": "Kembali ke daftar"
 }
 

@@ -39,6 +39,8 @@
   "footer.download": "डाउनलोड",
   "footer.disclaimer": "हम टिकट नहीं बेचते — बस सबसे सस्ते विकल्प खोजने में मदद करते हैं। मुफ़्त।",
   "locale.countryHint": "स्थानीय एयरलाइनों की अधिक टिकटें देखने के लिए देश चुनें। कभी‑कभी वे सस्ती होती हैं",
-  "locale.searchPlaceholder": "खोजें"
+  "locale.searchPlaceholder": "खोजें",
+  "map.viewMap": "मानचित्र देखें",
+  "map.backToList": "सूची पर वापस जाएं"
 }
 

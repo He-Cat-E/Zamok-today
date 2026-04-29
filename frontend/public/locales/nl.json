@@ -39,6 +39,8 @@
   "footer.download": "Downloaden",
   "footer.disclaimer": "We verkopen geen tickets — we helpen alleen de goedkoopste te vinden. Gratis.",
   "locale.countryHint": "Kies een land om meer tickets van lokale maatschappijen te zien. Soms zijn ze goedkoper",
-  "locale.searchPlaceholder": "Zoeken"
+  "locale.searchPlaceholder": "Zoeken",
+  "map.viewMap": "Kaart bekijken",
+  "map.backToList": "Terug naar lijst"
 }
 

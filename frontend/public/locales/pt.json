@@ -39,6 +39,8 @@
   "footer.download": "Baixar",
   "footer.disclaimer": "Não vendemos passagens — só ajudamos a encontrar as mais baratas. Grátis.",
   "locale.countryHint": "Selecione um país para ver mais passagens de companhias locais. Às vezes são mais baratas",
-  "locale.searchPlaceholder": "Pesquisar"
+  "locale.searchPlaceholder": "Pesquisar",
+  "map.viewMap": "Ver mapa",
+  "map.backToList": "Voltar à lista"
 }
 

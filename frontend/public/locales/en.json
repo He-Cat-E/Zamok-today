@@ -1,7 +1,7 @@
 {
   "topbar.support": "Support",
   "topbar.tagline": "We don’t sell tickets — we help you find them",
-  "hero.title": "Search cheap flight tickets",
+  "hero.title": "Search Cheap Flight Tickets",
   "tabs.flights": "Flights",
   "tabs.hotels": "Hotels",
   "search.from": "From",
@@ -39,6 +39,8 @@
   "footer.download": "Download",
   "footer.disclaimer": "We don’t sell tickets — we just help find the cheapest ones. Totally free.",
   "locale.countryHint": "Select a country to see more tickets from local carriers. Sometimes such tickets are cheaper",
-  "locale.searchPlaceholder": "Search"
+  "locale.searchPlaceholder": "Search",
+  "map.viewMap": "View map",
+  "map.backToList": "Back to list"
 }
 

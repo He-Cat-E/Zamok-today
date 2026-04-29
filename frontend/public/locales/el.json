@@ -39,6 +39,8 @@
   "footer.download": "Λήψη",
   "footer.disclaimer": "Δεν πουλάμε εισιτήρια — βοηθάμε μόνο να βρείτε τα φθηνότερα. Δωρεάν.",
   "locale.countryHint": "Επιλέξτε χώρα για να δείτε περισσότερα εισιτήρια από τοπικούς μεταφορείς. Μερικές φορές είναι φθηνότερα",
-  "locale.searchPlaceholder": "Αναζήτηση"
+  "locale.searchPlaceholder": "Αναζήτηση",
+  "map.viewMap": "Προβολή χάρτη",
+  "map.backToList": "Πίσω στη λίστα"
 }
 

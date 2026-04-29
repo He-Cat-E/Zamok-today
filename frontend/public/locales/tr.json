@@ -39,6 +39,8 @@
   "footer.download": "İndir",
   "footer.disclaimer": "Bilet satmıyoruz — sadece en ucuzunu bulmanıza yardım ediyoruz. Tamamen ücretsiz.",
   "locale.countryHint": "Yerel taşıyıcılardan daha fazla bilet görmek için ülke seçin. Bazen daha ucuz olur",
-  "locale.searchPlaceholder": "Ara"
+  "locale.searchPlaceholder": "Ara",
+  "map.viewMap": "Haritayı görüntüle",
+  "map.backToList": "Listeye dön"
 }
 

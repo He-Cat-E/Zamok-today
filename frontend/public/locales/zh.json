@@ -39,6 +39,8 @@
   "footer.download": "下载",
   "footer.disclaimer": "我们不卖机票 — 只帮助你找到最便宜的。完全免费。",
   "locale.countryHint": "选择国家以查看更多本地航司票价，有时更便宜",
-  "locale.searchPlaceholder": "搜索"
+  "locale.searchPlaceholder": "搜索",
+  "map.viewMap": "查看地图",
+  "map.backToList": "返回列表"
 }
 

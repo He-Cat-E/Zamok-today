@@ -39,6 +39,8 @@
   "footer.download": "Ladda ner",
   "footer.disclaimer": "Vi säljer inte biljetter — vi hjälper bara att hitta de billigaste. Gratis.",
   "locale.countryHint": "Välj ett land för att se fler biljetter från lokala flygbolag. Ibland är de billigare",
-  "locale.searchPlaceholder": "Sök"
+  "locale.searchPlaceholder": "Sök",
+  "map.viewMap": "Visa karta",
+  "map.backToList": "Tillbaka till listan"
 }
 

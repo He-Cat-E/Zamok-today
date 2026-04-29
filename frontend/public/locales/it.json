@@ -39,6 +39,8 @@
   "footer.download": "Scarica",
   "footer.disclaimer": "Non vendiamo biglietti — aiutiamo solo a trovare i più economici. Gratis.",
   "locale.countryHint": "Seleziona un paese per vedere più offerte di compagnie locali. A volte sono più economiche",
-  "locale.searchPlaceholder": "Cerca"
+  "locale.searchPlaceholder": "Cerca",
+  "map.viewMap": "Visualizza mappa",
+  "map.backToList": "Torna alla lista"
 }
 

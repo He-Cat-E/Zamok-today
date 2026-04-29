@@ -39,6 +39,8 @@
   "footer.download": "Lataa",
   "footer.disclaimer": "Emme myy lippuja — autamme vain löytämään halvimmat. Ilmaiseksi.",
   "locale.countryHint": "Valitse maa nähdäksesi enemmän paikallisten yhtiöiden lippuja. Joskus ne ovat halvempia",
-  "locale.searchPlaceholder": "Hae"
+  "locale.searchPlaceholder": "Hae",
+  "map.viewMap": "Näytä kartta",
+  "map.backToList": "Takaisin listaan"
 }
 

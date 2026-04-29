@@ -39,6 +39,8 @@
   "footer.download": "Descargar",
   "footer.disclaimer": "No vendemos billetes — solo ayudamos a encontrar los más baratos. Gratis.",
   "locale.countryHint": "Selecciona un país para ver más billetes de aerolíneas locales. A veces son más baratos",
-  "locale.searchPlaceholder": "Buscar"
+  "locale.searchPlaceholder": "Buscar",
+  "map.viewMap": "Ver mapa",
+  "map.backToList": "Volver a la lista"
 }
 

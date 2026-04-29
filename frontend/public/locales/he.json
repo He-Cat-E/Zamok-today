@@ -39,6 +39,8 @@
   "footer.download": "הורד",
   "footer.disclaimer": "אנחנו לא מוכרים כרטיסים — רק עוזרים למצוא את הזולים ביותר. בחינם.",
   "locale.countryHint": "בחר מדינה כדי לראות עוד כרטיסים ממפעילים מקומיים. לפעמים הם זולים יותר",
-  "locale.searchPlaceholder": "חיפוש"
+  "locale.searchPlaceholder": "חיפוש",
+  "map.viewMap": "צפה במפה",
+  "map.backToList": "חזרה לרשימה"
 }
 

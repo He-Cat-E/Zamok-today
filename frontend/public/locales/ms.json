@@ -39,6 +39,8 @@
   "footer.download": "Muat turun",
   "footer.disclaimer": "Kami tidak menjual tiket — kami hanya membantu mencari yang termurah. Percuma.",
   "locale.countryHint": "Pilih negara untuk melihat lebih banyak tiket daripada syarikat tempatan. Kadang‑kadang lebih murah",
-  "locale.searchPlaceholder": "Cari"
+  "locale.searchPlaceholder": "Cari",
+  "map.viewMap": "Papar peta",
+  "map.backToList": "Kembali ke senarai"
 }
 

@@ -39,6 +39,8 @@
   "footer.download": "Tải xuống",
   "footer.disclaimer": "Chúng tôi không bán vé — chỉ giúp bạn tìm vé rẻ nhất. Miễn phí.",
   "locale.countryHint": "Chọn quốc gia để xem thêm vé từ hãng địa phương. Đôi khi rẻ hơn",
-  "locale.searchPlaceholder": "Tìm kiếm"
+  "locale.searchPlaceholder": "Tìm kiếm",
+  "map.viewMap": "Xem bản đồ",
+  "map.backToList": "Quay lại danh sách"
 }
 

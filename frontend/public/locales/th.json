@@ -39,6 +39,8 @@
   "footer.download": "ดาวน์โหลด",
   "footer.disclaimer": "เราไม่ได้ขายตั๋ว — เราแค่ช่วยหาที่ถูกที่สุด ฟรีทั้งหมด",
   "locale.countryHint": "เลือกประเทศเพื่อดูตั๋วจากสายการบินท้องถิ่นมากขึ้น บางครั้งอาจถูกกว่า",
-  "locale.searchPlaceholder": "ค้นหา"
+  "locale.searchPlaceholder": "ค้นหา",
+  "map.viewMap": "ดูแผนที่",
+  "map.backToList": "กลับไปยังรายการ"
 }
 
