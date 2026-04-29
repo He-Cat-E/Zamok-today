@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { flightsReducer } from "@/store/flightsSlice";
+import { localeReducer } from "@/store/localeSlice";
 
 export const store = configureStore({
   reducer: {
-    flights: flightsReducer
+    flights: flightsReducer,
+    locale: localeReducer
   }
 });
 

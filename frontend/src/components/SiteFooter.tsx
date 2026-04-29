@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useT } from "@/i18n/I18nProvider";
 import { useTheme } from "@/theme/ThemeProvider";
 
@@ -12,10 +13,10 @@ export function SiteFooter() {
     <footer className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-black">
       <div className="mx-auto w-full max-w-[1440px] px-4 py-10">
         <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-3">
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <div className="relative h-18 w-18 overflow-hidden rounded-xl">
               <Image
-                src={isDark ? "/dark-icon.png" : "/light-icon.png"}
+                src={isDark ? "/logo.png" : "/icon.jfif"}
                 alt="Zamok Today"
                 width={72}
                 height={72}
@@ -26,7 +27,7 @@ export function SiteFooter() {
               <div className="text-sm font-semibold text-slate-900 dark:text-white">Zamok Today</div>
               <div className="text-xs text-slate-500 dark:text-white/70">© 2007–2026</div>
             </div>
-          </div>
+          </Link>
 
           <div className="flex flex-col gap-2 text-sm md:items-center md:text-center">
             <a className="text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white" href="#">

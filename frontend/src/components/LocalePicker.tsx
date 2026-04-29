@@ -4,13 +4,15 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ISO_REGIONS_ALPHA2 } from "@/lib/isoRegions";
 import { useT } from "@/i18n/I18nProvider";
 import { FiCheck, FiGlobe, FiSearch } from "react-icons/fi";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { setCountry, setCurrency, setLanguage } from "@/store/localeSlice";
 
 type Tab = "country" | "language" | "currency";
 
 type Country = { code: string; name: string; flag: string };
 type Language = { code: string; name: string };
 type Currency = { code: string; name: string; symbol: string };
-const FAV_CURRENCIES = new Set(["USD", "EUR"]);
+const FAV_CURRENCIES = new Set(["TRY", "USD", "EUR"]);
 
 function safeSupportedValuesOf(type: "region" | "language" | "currency"): string[] {
   try {
@@ -99,44 +101,16 @@ function currencySymbolFromCode(code: string): string {
 
 export function LocalePicker() {
   const t = useT();
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("country");
   const [query, setQuery] = useState("");
 
-  const [country, setCountry] = useState("US");
-  const [language, setLanguage] = useState("en");
-  const [currency, setCurrency] = useState("USD");
+  const country = useAppSelector((s) => s.locale.country);
+  const language = useAppSelector((s) => s.locale.language);
+  const currency = useAppSelector((s) => s.locale.currency);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem("zamok_locale");
-      if (!raw) return;
-      const parsed = JSON.parse(raw) as Partial<{
-        country: string;
-        language: string;
-        currency: string;
-      }>;
-      if (parsed.country) setCountry(String(parsed.country).toUpperCase());
-      if (parsed.language) setLanguage(String(parsed.language));
-      if (parsed.currency) setCurrency(String(parsed.currency).toUpperCase());
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(
-        "zamok_locale",
-        JSON.stringify({ country, language, currency })
-      );
-      window.dispatchEvent(new Event("zamok:locale-change"));
-    } catch {
-      // ignore
-    }
-  }, [country, language, currency]);
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -358,7 +332,7 @@ export function LocalePicker() {
                     <button
                       key={c.code}
                       type="button"
-                      onClick={() => setCountry(c.code)}
+                      onClick={() => dispatch(setCountry(c.code))}
                       className="flex w-full items-center justify-between gap-3 px-2 py-3 text-left hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl"
                     >
                       <div className="flex items-center gap-3">
@@ -383,7 +357,7 @@ export function LocalePicker() {
                     <button
                       key={l.code}
                       type="button"
-                      onClick={() => setLanguage(l.code)}
+                      onClick={() => dispatch(setLanguage(l.code))}
                       className="flex w-full items-center justify-between gap-3 px-2 py-3 text-left hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl"
                     >
                       <div className="flex items-center gap-3">
@@ -421,7 +395,7 @@ export function LocalePicker() {
                     <button
                       key={c.code}
                       type="button"
-                      onClick={() => setCurrency(c.code)}
+                      onClick={() => dispatch(setCurrency(c.code))}
                       className="flex w-full items-center justify-between gap-3 px-2 py-3 text-left hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl"
                     >
                       <div className="flex items-center gap-3">

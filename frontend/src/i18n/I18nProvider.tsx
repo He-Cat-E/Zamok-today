@@ -1,11 +1,12 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useAppSelector } from "@/store/hooks";
 
 type Dict = Record<string, string>;
 
 function normalizeLanguageTag(tag: string): string {
-  return String(tag || "en").split(/[-_]/)[0]!.toLowerCase() || "en";
+  return String(tag || "tr").split(/[-_]/)[0]!.toLowerCase() || "tr";
 }
 
 type I18nContextValue = {
@@ -15,39 +16,10 @@ type I18nContextValue = {
 
 const I18nContext = createContext<I18nContextValue | null>(null);
 
-function readLangFromStorage(): string {
-  try {
-    const raw = window.localStorage.getItem("zamok_locale");
-    if (!raw) return "en";
-    const parsed = JSON.parse(raw) as Partial<{ language: string }>;
-    return parsed.language ? String(parsed.language) : "en";
-  } catch {
-    return "en";
-  }
-}
-
 export function I18nProvider({ children }: { children: React.ReactNode }) {
-  const [langTag, setLangTag] = useState("en");
+  const langTag = useAppSelector((s) => s.locale.language);
   const [dict, setDict] = useState<Dict>({});
   const [enDict, setEnDict] = useState<Dict>({});
-
-  useEffect(() => {
-    setLangTag(readLangFromStorage());
-
-    function onStorage(e: StorageEvent) {
-      if (e.key === "zamok_locale") setLangTag(readLangFromStorage());
-    }
-    function onCustom() {
-      setLangTag(readLangFromStorage());
-    }
-
-    window.addEventListener("storage", onStorage);
-    window.addEventListener("zamok:locale-change", onCustom as EventListener);
-    return () => {
-      window.removeEventListener("storage", onStorage);
-      window.removeEventListener("zamok:locale-change", onCustom as EventListener);
-    };
-  }, []);
 
   const lang = useMemo(() => normalizeLanguageTag(langTag), [langTag]);
 
@@ -109,5 +81,11 @@ export function useT() {
   const ctx = useContext(I18nContext);
   if (!ctx) throw new Error("useT must be used within I18nProvider");
   return ctx.t;
+}
+
+export function useI18n() {
+  const ctx = useContext(I18nContext);
+  if (!ctx) throw new Error("useI18n must be used within I18nProvider");
+  return ctx;
 }
 

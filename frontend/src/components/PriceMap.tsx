@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useT } from "@/i18n/I18nProvider";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { FiChevronRight, FiInfo, FiX } from "react-icons/fi";
@@ -31,12 +32,12 @@ export function PriceMap() {
             </div>
 
             <div className="pt-2">
-              <button
-                type="button"
+              <Link
+                href="/map"
                 className="inline-flex h-12 w-full max-w-[360px] items-center justify-center rounded-2xl bg-slate-100 px-6 text-sm font-semibold text-slate-900 ring-1 ring-slate-200 hover:bg-slate-200 dark:bg-white/10 dark:text-white dark:ring-white/15 dark:hover:bg-white/15"
               >
                 {t("pricemap.open")}
-              </button>
+              </Link>
             </div>
           </div>
 

@@ -39,8 +39,8 @@ function applyHtmlTheme(resolved: "light" | "dark") {
   else root.classList.remove("dark");
 }
 
-function applyFavicon(resolved: "light" | "dark") {
-  const href = resolved === "dark" ? "/dark-icon.png" : "/light-icon.png";
+function applyFavicon() {
+  const href = "/icon.jfif";
   const links = Array.from(
     document.querySelectorAll<HTMLLinkElement>('link[rel~="icon"], link[rel="shortcut icon"]')
   );
@@ -64,7 +64,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const r = resolveMode(m);
     setResolved(r);
     applyHtmlTheme(r);
-    applyFavicon(r);
+    applyFavicon();
   }, []);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const r = resolveMode(mode);
     setResolved(r);
     applyHtmlTheme(r);
-    applyFavicon(r);
+    applyFavicon();
     window.dispatchEvent(new Event("zamok:theme-change"));
   }, [mode]);
 
@@ -88,7 +88,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       const r = resolveMode("system");
       setResolved(r);
       applyHtmlTheme(r);
-      applyFavicon(r);
+      applyFavicon();
     };
     media.addEventListener?.("change", onChange);
     return () => media.removeEventListener?.("change", onChange);

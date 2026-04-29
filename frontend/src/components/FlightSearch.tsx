@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useAppDispatch } from "@/store/hooks";
 import { searchFlights } from "@/store/flightsSlice";
 import { useT } from "@/i18n/I18nProvider";
@@ -55,7 +56,9 @@ function FlightSearchContent({
   setActiveDateField,
   onSearch,
   compact = false,
-  pickersActive = true
+  pickersActive = true,
+  showBottomActions = true,
+  showTabs = true
 }: {
   from: string;
   setFrom: (v: string) => void;
@@ -76,11 +79,14 @@ function FlightSearchContent({
   onSearch: () => void;
   compact?: boolean;
   pickersActive?: boolean;
+  showBottomActions?: boolean;
+  showTabs?: boolean;
 }) {
   const t = useT();
 
   return (
     <div className={cn("w-full flex flex-col", compact ? "gap-3" : "gap-8")}>
+      {showTabs ? (
       <div className={cn("flex items-center justify-center")}>
         <div
           className={[
@@ -127,6 +133,7 @@ function FlightSearchContent({
           </button>
         </div>
       </div>
+      ) : null}
 
       <div>
         <div className="w-full">
@@ -198,7 +205,8 @@ function FlightSearchContent({
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 px-0 py-2 mt-2 text-xs md:flex-row md:items-center md:justify-between">
+        {showBottomActions ? (
+          <div className="flex flex-col gap-2 px-0 py-2 mt-2 text-xs md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap items-center gap-2">
             <a
               href="#"
@@ -207,13 +215,13 @@ function FlightSearchContent({
               <FiShuffle className="h-4 w-4" />
               {t("search.multiCity")}
             </a>
-            <a
-              href="#"
+            <Link
+              href="/map"
               className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-white/90 ring-1 ring-white/20 hover:bg-white/20 hover:text-white transition"
             >
               <FiMapPin className="h-4 w-4" />
               {t("search.anywhere")}
-            </a>
+            </Link>
           </div>
 
           <label className="inline-flex select-none items-center gap-3 text-white/90">
@@ -244,19 +252,31 @@ function FlightSearchContent({
             </span>
             <span className="font-semibold">{t("search.openBooking")}</span>
           </label>
-        </div>
+          </div>
+        ) : null}
       </div>
     </div>
   );
 }
 
 export function FlightSearch({
+  stickyEnabled = true,
+  forceCompact = false,
+  showBottomActions = true,
+  initialFrom = "NYC",
+  initialTo = "LAX"
+}: {
+  stickyEnabled?: boolean;
+  forceCompact?: boolean;
+  showBottomActions?: boolean;
+  initialFrom?: string;
+  initialTo?: string;
 }) {
   const dispatch = useAppDispatch();
   const defaultDate = useMemo(() => todayYmd(), []);
 
-  const [from, setFrom] = useState("NYC");
-  const [to, setTo] = useState("LAX");
+  const [from, setFrom] = useState(initialFrom);
+  const [to, setTo] = useState(initialTo);
   const [departDate, setDepartDate] = useState(defaultDate);
   const [returnDate, setReturnDate] = useState("");
   const [pax, setPax] = useState<PaxState>({ adults: 1, children: 0, infants: 0, cabin: "economy" });
@@ -268,13 +288,17 @@ export function FlightSearch({
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (!stickyEnabled) {
+      setStickyVisible(false);
+      return;
+    }
     function onScroll() {
       setStickyVisible(window.scrollY > 200);
     }
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [stickyEnabled]);
 
   useEffect(() => {
     if (!returnDate) return;
@@ -305,17 +329,20 @@ export function FlightSearch({
     );
   }
 
+  const isPinnedCompact = stickyEnabled && stickyVisible;
+  const compactMode = forceCompact || isPinnedCompact;
+
   return (
-    <div style={{ height: stickyVisible ? `${reservedHeight}px` : undefined }}>
+    <div style={{ height: isPinnedCompact ? `${reservedHeight}px` : undefined }}>
       <div
         ref={contentRef}
         className={cn(
-          stickyVisible
-            ? "fixed left-0 right-0 top-14 z-30 bg-red-600/95 dark:bg-black/95 backdrop-blur px-4 py-3 shadow-sm"
+          isPinnedCompact
+            ? "fixed left-0 right-0 top-16 z-40 bg-red-600/95 dark:bg-black/95 backdrop-blur px-4 py-2 shadow-sm"
             : "relative"
         )}
       >
-        <div className={cn(stickyVisible ? "mx-auto w-full max-w-[1440px] px-4" : "")}>
+        <div className={cn(isPinnedCompact ? "mx-auto w-full max-w-[1440px] px-4" : "")}>
           <FlightSearchContent
             from={from}
             setFrom={setFrom}
@@ -334,8 +361,10 @@ export function FlightSearch({
             activeDateField={activeDateField}
             setActiveDateField={setActiveDateField}
             onSearch={onSearch}
-            compact={stickyVisible}
+            compact={compactMode}
             pickersActive
+            showBottomActions={showBottomActions}
+            showTabs={!compactMode}
           />
         </div>
       </div>

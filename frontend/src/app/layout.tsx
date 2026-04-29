@@ -1,5 +1,6 @@
 import "./globals.css";
 import "flag-icons/css/flag-icons.min.css";
+import "leaflet/dist/leaflet.css";
 import type { Metadata } from "next";
 import { Providers } from "@/store/Providers";
 import { I18nProvider } from "@/i18n/I18nProvider";
@@ -10,9 +11,9 @@ export const metadata: Metadata = {
   title: "Zamok Today — Flights",
   description: "Aviasales-style flight search starter",
   icons: {
-    icon: "/light-icon.png",
-    shortcut: "/light-icon.png",
-    apple: "/light-icon.png"
+    icon: "/icon.jfif",
+    shortcut: "/icon.jfif",
+    apple: "/icon.jfif"
   }
 };
 
