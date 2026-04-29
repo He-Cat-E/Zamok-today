@@ -468,6 +468,7 @@ export default function MapPage() {
             </div>
           </aside>
         </div>
+        
       </section>
       {isMobileViewport && mobileFullMapOpen ? (
         <div className="fixed inset-0 z-[95] bg-slate-100 dark:bg-black md:hidden">
