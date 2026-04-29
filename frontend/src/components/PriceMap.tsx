@@ -41,8 +41,11 @@ export function PriceMap() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200 dark:bg-black dark:ring-white/10">
-            <div className="relative w-full h-[280px]">
+          <Link
+            href="/map"
+            className="relative block overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200 transition hover:opacity-95 dark:bg-black dark:ring-white/10"
+          >
+            <div className="relative h-[280px] w-full">
               <Image
                 src={isDark ? "/Images/dark-map.png" : "/Images/light-map.png"}
                 alt={t("pricemap.title")}
@@ -50,9 +53,9 @@ export function PriceMap() {
                 priority={false}
                 className="object-cover"
                 sizes="(min-width: 768px) 50vw, 100vw"
-              />              
+              />
             </div>
-          </div>
+          </Link>
         </div>
       </section>
 

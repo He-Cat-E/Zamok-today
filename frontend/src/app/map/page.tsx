@@ -375,7 +375,7 @@ export default function MapPage() {
                     )}
                   </div>
 
-                  {!focusedGroup ? (
+                  {!focusedGroup && showSlider ? (
                     <div className="mt-4 flex justify-center">
                       <button
                         type="button"
