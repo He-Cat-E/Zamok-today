@@ -22,8 +22,8 @@ export function Header() {
       <Topbar />
 
       <section className="bg-red-600 dark:bg-black">
-        <div className="mx-auto w-full max-w-[1440px] px-4 py-20">
-          <div className="text-center text-white mt-12 mb-8">
+        <div className="mx-auto w-full max-w-[1440px] px-4 py-1 md:py-20">
+          <div className="mt-3 mb-4 text-center text-white md:mt-12 md:mb-8">
             <HeroTitle />
           </div>
           <FlightSearch />
@@ -32,7 +32,7 @@ export function Header() {
       <section
         className={[
           "bg-red-600 dark:bg-black transition-[height] duration-300",
-          "h-[80px]"
+          expandedSpacer ? "h-[200px] md:h-[80px]" : "h-3 md:h-[80px]"
         ].join(" ")}
       >
       </section>

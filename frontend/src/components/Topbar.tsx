@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaBed } from "react-icons/fa6";
 import { BiSolidPlaneAlt } from "react-icons/bi";
+import { BsFillPatchQuestionFill } from "react-icons/bs";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { LocalePicker } from "@/components/LocalePicker";
 import { useT } from "@/i18n/I18nProvider";
@@ -42,14 +43,14 @@ export function Topbar() {
               priority
             />
           </div>
-          <div className="leading-tight">
+          <div className="hidden leading-tight sm:block">
             <div className="text-lg font-semibold text-white">Zamok Today</div>
           </div>
         </Link>
 
         <div className="flex justify-center">
           {showSearchTabs ? (
-            <div className="inline-flex rounded-2xl border border-white/20 bg-red-700/35 p-1 dark:bg-white/10 dark:border-white/15">
+            <div className="inline-flex rounded-2xl border border-white/20 bg-red-700/35 p-1 dark:bg-white/10 dark:border-white/15 hidden md:block">
               <button
                 type="button"
                 onClick={() => setActiveTab("flights")}
@@ -77,8 +78,12 @@ export function Topbar() {
         </div>
 
         <div className="flex items-center justify-end gap-4 text-xs text-white/90">
-          <a className="hover:text-white" href="#">
-            {t("topbar.support")}
+          <a
+            className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-900 ring-1 ring-slate-200 hover:bg-slate-200"
+            href="#"
+          >
+            <BsFillPatchQuestionFill className="h-4 w-4" />
+            <span className="hidden sm:inline">{t("topbar.support")}</span>
           </a>
           <LocalePicker />
           <button

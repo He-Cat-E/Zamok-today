@@ -6,7 +6,7 @@ import { recoleta } from "@/theme/fonts";
 export function HeroTitle() {
   const t = useT();
   return (
-    <div className={`${recoleta.className} text-4xl font-semibold tracking-tight md:text-5xl`}>
+    <div className={`${recoleta.className} text-3xl font-semibold tracking-tight md:text-5xl`}>
       {t("hero.title")}
     </div>
   );

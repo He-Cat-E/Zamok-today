@@ -146,11 +146,11 @@ export function PopularDestinations() {
 
       {allOpen ? (
         <div
-          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/35 p-4"
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/35 p-0 md:p-4"
           onClick={() => setAllOpen(false)}
         >
           <div
-            className="w-full max-w-[1100px] max-h-[88vh] overflow-y-auto rounded-3xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 dark:bg-black dark:ring-white/10"
+            className="h-full w-full max-h-[100vh] overflow-y-auto rounded-none bg-white p-4 shadow-2xl ring-0 dark:bg-black md:max-h-[88vh] md:max-w-[1100px] md:rounded-3xl md:p-6 md:ring-1 md:ring-slate-200 md:dark:ring-white/10"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="sticky top-0 z-10 mb-4 flex items-center justify-between bg-white dark:bg-black pb-2">

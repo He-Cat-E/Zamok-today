@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { FiCheckCircle, FiCircle, FiMinus, FiPlus } from "react-icons/fi";
+import { createPortal } from "react-dom";
+import { FiCheckCircle, FiCircle, FiMinus, FiPlus, FiX } from "react-icons/fi";
 
 export type CabinValue = "economy" | "premium" | "business" | "first";
 
@@ -16,6 +17,8 @@ function cn(...parts: Array<string | false | undefined | null>) {
 
 export function PassengersPicker({ value, onChange }: Props) {
   const [open, setOpen] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
   const total = value.adults + value.children + value.infants;
@@ -30,10 +33,21 @@ export function PassengersPicker({ value, onChange }: Props) {
           : "First";
 
   useEffect(() => {
+    setMounted(true);
+    function syncViewport() {
+      setIsMobileViewport(window.innerWidth < 768);
+    }
+    syncViewport();
+    window.addEventListener("resize", syncViewport);
+    return () => window.removeEventListener("resize", syncViewport);
+  }, []);
+
+  useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
     }
     function onPointerDown(e: MouseEvent) {
+      if (isMobileViewport) return;
       const el = rootRef.current;
       if (!el) return;
       if (e.target instanceof Node && !el.contains(e.target)) setOpen(false);
@@ -44,7 +58,16 @@ export function PassengersPicker({ value, onChange }: Props) {
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("mousedown", onPointerDown);
     };
-  }, []);
+  }, [isMobileViewport]);
+
+  useEffect(() => {
+    if (!open || !isMobileViewport) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [open, isMobileViewport]);
 
   const canInc = useMemo(() => total < 9, [total]);
 
@@ -107,8 +130,8 @@ export function PassengersPicker({ value, onChange }: Props) {
             className={cn(
               "grid h-9 w-9 place-items-center rounded-full ring-1 transition",
               incDisabled
-                ? "bg-blue-100 text-blue-300 ring-blue-200 cursor-not-allowed"
-                : "bg-blue-600 text-white ring-blue-600 hover:bg-blue-700"
+                ? "bg-red-100 text-red-300 ring-red-200 cursor-not-allowed"
+                : "bg-red-600 text-white ring-red-600 hover:bg-red-700"
             )}
             aria-label={`Increase ${title}`}
           >
@@ -124,14 +147,15 @@ export function PassengersPicker({ value, onChange }: Props) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="w-full text-left"
+        className="w-full text-left truncate"
       >
-        <div className="text-sm font-semibold text-slate-900 dark:text-white">{labelTop}</div>
-        <div className="text-sm text-slate-500 dark:text-white/60">{cabinLabel}</div>
+        <div className="text-sm font-semibold truncate mt-1 md:mt-0 text-slate-900 dark:text-white">{labelTop}</div>
+        <div className="text-sm hidden md:block text-slate-500 dark:text-white/60">{cabinLabel}</div>
       </button>
 
       {open ? (
-        <div className="absolute -right-4 top-[calc(100%+20px)] z-50 w-[440px] rounded-3xl bg-white p-4 shadow-2xl ring-1 ring-black/10 dark:bg-black dark:ring-white/15">
+        <>
+        <div className="absolute -right-4 top-[calc(100%+20px)] z-50 hidden w-[440px] rounded-3xl bg-white p-4 shadow-2xl ring-1 ring-black/10 dark:bg-black dark:ring-white/15 md:block">
           <div className="text-xl font-bold text-slate-900 dark:text-white">
             Number of passengers
           </div>
@@ -186,7 +210,7 @@ export function PassengersPicker({ value, onChange }: Props) {
                 >
                   <div className="text-base text-slate-900 dark:text-white">{c.label}</div>
                   {selected ? (
-                    <FiCheckCircle className="h-5 w-5 text-blue-600" />
+                    <FiCheckCircle className="h-5 w-5 text-red-600" />
                   ) : (
                     <FiCircle className="h-5 w-5 text-slate-300 dark:text-white/25" />
                   )}
@@ -195,6 +219,93 @@ export function PassengersPicker({ value, onChange }: Props) {
             })}
           </div>
         </div>
+        {mounted && isMobileViewport ? createPortal(
+          <div className="fixed inset-0 z-[85] bg-slate-100 dark:bg-[#0f0f0f] md:hidden">
+            <div className="flex items-center justify-center border-b border-slate-300 bg-slate-100 px-4 py-4 dark:border-white/10 dark:bg-[#111111]">
+              <div className="text-2xl font-semibold text-slate-900 dark:text-white">Passengers and class</div>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="absolute right-4 top-3.5 grid h-9 w-9 place-items-center rounded-full text-slate-500 hover:bg-slate-200 dark:text-white/70 dark:hover:bg-white/10"
+                aria-label="Close passengers"
+              >
+                <FiX className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="h-[calc(100vh-84px)] overflow-y-auto px-5 pb-32 pt-4">
+              <div className="divide-y divide-slate-200 dark:divide-white/10">
+                <CounterRow
+                  title="Adults"
+                  subtitle="12 years and older"
+                  count={value.adults}
+                  onDec={() => setCounts({ adults: value.adults - 1 })}
+                  onInc={() => setCounts({ adults: value.adults + 1 })}
+                  decDisabled={value.adults <= 1}
+                  incDisabled={!canInc}
+                />
+                <CounterRow
+                  title="Children"
+                  subtitle="2-11 years old"
+                  count={value.children}
+                  onDec={() => setCounts({ children: value.children - 1 })}
+                  onInc={() => setCounts({ children: value.children + 1 })}
+                  decDisabled={value.children <= 0}
+                  incDisabled={!canInc}
+                />
+                <CounterRow
+                  title="Infants"
+                  subtitle="Under 2 y.o., on lap"
+                  count={value.infants}
+                  onDec={() => setCounts({ infants: value.infants - 1 })}
+                  onInc={() => setCounts({ infants: value.infants + 1 })}
+                  decDisabled={value.infants <= 0}
+                  incDisabled={!canInc}
+                />
+              </div>
+
+              <div className="mt-6 divide-y divide-slate-200 dark:divide-white/10">
+                {(
+                  [
+                    { value: "economy", label: "Economy" },
+                    { value: "premium", label: "Comfort" },
+                    { value: "business", label: "Business" },
+                    { value: "first", label: "First" }
+                  ] as const
+                ).map((c) => {
+                  const selected = value.cabin === c.value;
+                  return (
+                    <button
+                      key={c.value}
+                      type="button"
+                      onClick={() => onChange({ ...value, cabin: c.value })}
+                      className="flex w-full items-center justify-between py-3 text-left"
+                    >
+                      <div className="text-base text-slate-900 dark:text-white">{c.label}</div>
+                      {selected ? (
+                        <FiCheckCircle className="h-6 w-6 text-red-600" />
+                      ) : (
+                        <FiCircle className="h-6 w-6 text-slate-300 dark:text-white/25" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="fixed inset-x-0 bottom-0 z-[86] border-t border-slate-200 bg-slate-100 px-6 pb-6 pt-4 dark:border-white/10 dark:bg-[#0f0f0f]">
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="w-full rounded-2xl bg-red-600 py-3 text-xl font-semibold text-white hover:bg-red-700"
+              >
+                Ok
+              </button>
+            </div>
+          </div>,
+          document.body
+        ) : null}
+        </>
       ) : null}
     </div>
   );

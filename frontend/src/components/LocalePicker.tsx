@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ISO_REGIONS_ALPHA2 } from "@/lib/isoRegions";
 import { useT } from "@/i18n/I18nProvider";
-import { FiCheck, FiGlobe, FiSearch } from "react-icons/fi";
+import { FiCheck, FiGlobe, FiSearch, FiX } from "react-icons/fi";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setCountry, setCurrency, setLanguage } from "@/store/localeSlice";
 
@@ -241,17 +241,31 @@ export function LocalePicker() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="hidden sm:inline-flex items-center gap-2 rounded-full bg-slate-100 dark:bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white ring-1 ring-slate-200 dark:ring-white/15 hover:bg-slate-200 dark:hover:bg-white/15"
+        className="inline-flex items-center gap-2 rounded-full bg-slate-100 dark:bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white ring-1 ring-slate-200 dark:ring-white/15 hover:bg-slate-200 dark:hover:bg-white/15"
         aria-haspopup="dialog"
         aria-expanded={open}
+        aria-label={t("locale.searchPlaceholder")}
       >
         <FiGlobe className="h-4 w-4" />
-        {currency} • {language.toUpperCase()}
+        <span className="hidden sm:inline">{currency} • {language.toUpperCase()}</span>
       </button>
 
       {open ? (
-        <div className="absolute right-0 top-[calc(100%+10px)] z-[70] w-[420px] rounded-2xl bg-white dark:bg-black shadow-xl ring-1 ring-black/10 dark:ring-white/10">
-          <div className="p-3">
+        <div className="fixed inset-0 z-[90] bg-slate-100 dark:bg-[#0f0f0f] md:absolute md:inset-auto md:right-0 md:top-[calc(100%+10px)] md:w-[420px] md:rounded-2xl md:bg-white md:shadow-xl md:ring-1 md:ring-black/10 md:dark:bg-black md:dark:ring-white/10">
+          <div className="h-full overflow-hidden md:h-auto">
+            <div className="relative flex items-center justify-center border-b border-slate-300 px-4 py-3.5 dark:border-white/10 md:hidden">
+              <div className="text-xl font-semibold text-slate-900 dark:text-white">Settings</div>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="absolute right-4 top-2.5 grid h-9 w-9 place-items-center rounded-full text-slate-500 hover:bg-slate-200 dark:text-white/70 dark:hover:bg-white/10"
+                aria-label="Close settings"
+              >
+                <FiX className="h-6 w-6" />
+              </button>
+            </div>
+
+          <div className="p-4 md:p-3">
             <div className="grid grid-cols-3 rounded-2xl bg-slate-100 dark:bg-white/10 p-1 ring-1 ring-slate-200 dark:ring-white/15">
               <button
                 type="button"
@@ -260,7 +274,7 @@ export function LocalePicker() {
                   setQuery("");
                 }}
                 className={cn(
-                  "rounded-xl px-3 py-2 text-xs font-semibold",
+                  "rounded-xl px-3 py-2 text-xs font-semibold md:text-xs",
                   tab === "country"
                     ? "bg-white dark:bg-black text-slate-900 dark:text-white shadow-sm"
                     : "text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white"
@@ -276,7 +290,7 @@ export function LocalePicker() {
                   setQuery("");
                 }}
                 className={cn(
-                  "rounded-xl px-3 py-2 text-xs font-semibold",
+                  "rounded-xl px-3 py-2 text-xs font-semibold md:text-xs",
                   tab === "language"
                     ? "bg-white dark:bg-black text-slate-900 dark:text-white shadow-sm"
                     : "text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white"
@@ -294,7 +308,7 @@ export function LocalePicker() {
                   setQuery("");
                 }}
                 className={cn(
-                  "rounded-xl px-3 py-2 text-xs font-semibold",
+                  "rounded-xl px-3 py-2 text-xs font-semibold md:text-xs",
                   tab === "currency"
                     ? "bg-white dark:bg-black text-slate-900 dark:text-white shadow-sm"
                     : "text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white"
@@ -325,7 +339,7 @@ export function LocalePicker() {
               </div>
             </div>
 
-            <div className="mt-3 max-h-[340px] overflow-auto pr-1">
+            <div className="mt-3 h-[calc(100vh-220px)] overflow-auto pr-1 md:h-auto md:max-h-[340px]">
               {tab === "country" ? (
                 <div className="divide-y divide-slate-100 dark:divide-white/10">
                   {filteredCountries.map((c) => (
@@ -417,6 +431,7 @@ export function LocalePicker() {
               ) : null}
             </div>
 
+          </div>
           </div>
         </div>
       ) : null}

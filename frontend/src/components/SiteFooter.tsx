@@ -13,7 +13,7 @@ export function SiteFooter() {
     <footer className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-black">
       <div className="mx-auto w-full max-w-[1440px] px-4 py-10">
         <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-3">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center justify-center gap-3 md:justify-start">
             <div className="relative h-18 w-18 overflow-hidden rounded-xl">
               <Image
                 src={isDark ? "/logo.png" : "/icon.jfif"}
@@ -23,13 +23,13 @@ export function SiteFooter() {
                 className="h-18 w-18 object-cover"
               />
             </div>
-            <div>
+            <div className="text-center md:text-left">
               <div className="text-sm font-semibold text-slate-900 dark:text-white">Zamok Today</div>
               <div className="text-xs text-slate-500 dark:text-white/70">© 2007–2026</div>
             </div>
           </Link>
 
-          <div className="flex flex-col gap-2 text-sm md:items-center md:text-center">
+          <div className="flex flex-col items-center gap-2 text-center text-sm">
             <a className="text-slate-600 dark:text-white/80 hover:text-slate-900 dark:hover:text-white" href="#">
               {t("footer.about")}
             </a>
@@ -39,8 +39,8 @@ export function SiteFooter() {
           </div>
 
           <div className="md:justify-self-end">
-            <div className="flex items-center justify-between gap-4 rounded-2xl bg-slate-50 dark:bg-white/5 p-4 ring-1 ring-slate-200 dark:ring-white/10">
-              <div>
+            <div className="flex items-center justify-center gap-4 rounded-2xl bg-slate-50 dark:bg-white/5 p-4 ring-1 ring-slate-200 dark:ring-white/10">
+              <div className="text-center md:text-left">
                 <div className="text-sm font-semibold text-slate-900 dark:text-white">{t("footer.getApp")}</div>
                 <div className="mt-1 text-xs text-slate-600 dark:text-white/70">{t("footer.priceDrop")}</div>
               </div>
@@ -54,7 +54,7 @@ export function SiteFooter() {
             </div>
           </div>
         </div>
-        <div className="mt-6">
+        <div className="mt-6 text-center md:text-left">
           <a className="text-xs text-slate-600 dark:text-white/70 hover:text-slate-900 dark:hover:text-white" href="#">
             {t("footer.privacy")}
           </a>
