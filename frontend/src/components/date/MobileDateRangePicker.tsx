@@ -206,6 +206,9 @@ export function MobileDateRangePicker({
                       returnTime !== null &&
                       dayTime > departTime &&
                       dayTime < returnTime;
+                    if (isOutside) {
+                      return <div key={day.toISOString()} className="h-10 md:h-11" aria-hidden="true" />;
+                    }
                     return (
                       <button
                         key={day.toISOString()}
@@ -216,9 +219,7 @@ export function MobileDateRangePicker({
                           "h-10 text-[16px] leading-none md:h-11 md:text-[22px]",
                           disabled
                             ? "text-slate-300 dark:text-white/20"
-                            : isOutside
-                              ? "text-slate-300 dark:text-white/30"
-                              : "text-slate-900 dark:text-white",
+                            : "text-slate-900 dark:text-white",
                           inRange ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-200" : "",
                           isDepart || isReturn
                             ? "rounded-xl bg-red-600 text-white dark:bg-red-500 dark:text-white"

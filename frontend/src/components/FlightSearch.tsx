@@ -39,7 +39,7 @@ function formatPrettyDate(ymd: string) {
   if (!dt) return ymd;
   return new Intl.DateTimeFormat(undefined, {
     weekday: "short",
-    month: "short",
+    month: "long",
     day: "numeric"
   }).format(dt);
 }
@@ -242,11 +242,17 @@ function FlightSearchContent({
                 onClick={() => setActiveDateField(activeDateField === "depart" ? null : "depart")}
                 className="mt-1 w-full text-left bg-transparent text-sm outline-none pr-8 text-slate-900 dark:text-white"
               >
-                {departDate}
+                {prettyDepart}
               </button>
               <FiCalendar className="pointer-events-none absolute right-4 top-1/2 text-slate-500" />
               {!isMobileViewport && pickersActive && activeDateField === "depart" ? (
-                <TwoMonthDatePicker value={departDate} onChange={(ymd) => setDepartDate(ymd)} onClose={() => setActiveDateField(null)} />
+                <TwoMonthDatePicker
+                  value={departDate}
+                  rangeStartYmd={departDate}
+                  rangeEndYmd={returnDate || undefined}
+                  onChange={(ymd) => setDepartDate(ymd)}
+                  onClose={() => setActiveDateField(null)}
+                />
               ) : null}
             </div>
             <div className="relative rounded-2xl bg-white px-4 py-3 ring-1 ring-black/10 dark:bg-black dark:ring-white/15">
@@ -256,12 +262,14 @@ function FlightSearchContent({
                 onClick={() => setActiveDateField(activeDateField === "return" ? null : "return")}
                 className="mt-1 w-full text-left bg-transparent text-sm outline-none pr-2 text-slate-900 dark:text-white"
               >
-                {returnDate || "mm/dd/yyyy"}
+                {prettyReturn || "mm/dd/yyyy"}
               </button>
               {!isMobileViewport && pickersActive && activeDateField === "return" ? (
                 <TwoMonthDatePicker
                   value={returnDate || undefined}
                   minYmd={departDate}
+                  rangeStartYmd={departDate}
+                  rangeEndYmd={returnDate || undefined}
                   onChange={(ymd) => setReturnDate(ymd)}
                   onClose={() => setActiveDateField(null)}
                 />

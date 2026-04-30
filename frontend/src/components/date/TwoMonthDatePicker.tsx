@@ -7,6 +7,8 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 type Props = {
   value?: string; // YYYY-MM-DD
   minYmd?: string; // YYYY-MM-DD
+  rangeStartYmd?: string;
+  rangeEndYmd?: string;
   onChange: (ymd: string) => void;
   onClose: () => void;
 };
@@ -73,11 +75,15 @@ function cn(...parts: Array<string | false | undefined | null>) {
 function MonthView({
   month,
   selected,
+  rangeStart,
+  rangeEnd,
   minDate,
   onSelect
 }: {
   month: Date;
   selected: Date | null;
+  rangeStart: Date | null;
+  rangeEnd: Date | null;
   minDate: Date;
   onSelect: (d: Date) => void;
 }) {
@@ -109,6 +115,17 @@ function MonthView({
           const isOutside = d.getMonth() !== monthIndex;
           const isSelected = selected ? sameDay(selected, d) : false;
           const isDisabled = startOfDay(d).getTime() < minDate.getTime();
+          const dayTime = startOfDay(d).getTime();
+          const rangeStartTime = rangeStart ? startOfDay(rangeStart).getTime() : null;
+          const rangeEndTime = rangeEnd ? startOfDay(rangeEnd).getTime() : null;
+          const hasRange = rangeStartTime !== null && rangeEndTime !== null && rangeEndTime >= rangeStartTime;
+          const isRangeStart = rangeStart ? sameDay(rangeStart, d) : false;
+          const isRangeEnd = rangeEnd ? sameDay(rangeEnd, d) : false;
+          const inRange =
+            hasRange && rangeStartTime !== null && rangeEndTime !== null && dayTime > rangeStartTime && dayTime < rangeEndTime;
+          if (isOutside) {
+            return <div key={d.toISOString()} className="h-11 rounded-xl" aria-hidden="true" />;
+          }
           return (
             <button
               key={d.toISOString()}
@@ -119,10 +136,11 @@ function MonthView({
                 "h-11 rounded-xl text-sm transition",
                 isDisabled
                   ? "text-slate-300 cursor-not-allowed dark:text-white/35"
-                  : isOutside
-                    ? "text-slate-300 hover:bg-slate-50 dark:text-white/35 dark:hover:bg-white/10"
-                    : "text-slate-900 hover:bg-slate-50 dark:text-white dark:hover:bg-white/10",
-                isSelected ? "bg-blue-600 text-white hover:bg-blue-600" : ""
+                  : "text-slate-900 hover:bg-slate-50 dark:text-white dark:hover:bg-white/10",
+                inRange ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-200" : "",
+                isRangeStart ? "bg-red-600 text-white hover:bg-red-600" : "",
+                isRangeEnd ? "bg-red-600 text-white hover:bg-red-600" : "",
+                !isRangeStart && !isRangeEnd && isSelected ? "bg-red-600 text-white hover:bg-red-600" : ""
               )}
             >
               {d.getDate()}
@@ -134,8 +152,10 @@ function MonthView({
   );
 }
 
-export function TwoMonthDatePicker({ value, minYmd, onChange, onClose }: Props) {
+export function TwoMonthDatePicker({ value, minYmd, rangeStartYmd, rangeEndYmd, onChange, onClose }: Props) {
   const selected = useMemo(() => (value ? dateFromYmd(value) : null), [value]);
+  const rangeStart = useMemo(() => (rangeStartYmd ? dateFromYmd(rangeStartYmd) : null), [rangeStartYmd]);
+  const rangeEnd = useMemo(() => (rangeEndYmd ? dateFromYmd(rangeEndYmd) : null), [rangeEndYmd]);
   const minDate = useMemo(() => {
     const base = minYmd ? dateFromYmd(minYmd) : null;
     if (base) return startOfDay(base);
@@ -206,6 +226,8 @@ export function TwoMonthDatePicker({ value, minYmd, onChange, onClose }: Props) 
         <MonthView
           month={leftMonth}
           selected={selected}
+          rangeStart={rangeStart}
+          rangeEnd={rangeEnd}
           minDate={minDate}
           onSelect={(d) => {
             onChange(ymdFromDate(d));
@@ -214,6 +236,8 @@ export function TwoMonthDatePicker({ value, minYmd, onChange, onClose }: Props) 
         <MonthView
           month={rightMonth}
           selected={selected}
+          rangeStart={rangeStart}
+          rangeEnd={rangeEnd}
           minDate={minDate}
           onSelect={(d) => {
             onChange(ymdFromDate(d));
