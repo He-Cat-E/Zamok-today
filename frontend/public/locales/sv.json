@@ -41,6 +41,12 @@
   "locale.countryHint": "Välj ett land för att se fler biljetter från lokala flygbolag. Ibland är de billigare",
   "locale.searchPlaceholder": "Sök",
   "map.viewMap": "Visa karta",
-  "map.backToList": "Tillbaka till listan"
+  "map.backToList": "Tillbaka till listan",
+  "common.from": "från",
+  "destination.backHome": "Hem",
+  "destination.citiesTitle": "Städer",
+  "destination.cheapestTitle": "Billigaste biljetten",
+  "destination.showAll": "Visa alla",
+  "destination.filterAll": "Alla"
 }
 

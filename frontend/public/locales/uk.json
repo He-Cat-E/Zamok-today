@@ -41,6 +41,12 @@
   "locale.countryHint": "Оберіть країну, щоб бачити більше квитків від місцевих перевізників. Іноді вони дешевші",
   "locale.searchPlaceholder": "Пошук",
   "map.viewMap": "Переглянути карту",
-  "map.backToList": "Повернутися до списку"
+  "map.backToList": "Повернутися до списку",
+  "common.from": "від",
+  "destination.backHome": "Головна",
+  "destination.citiesTitle": "Міста",
+  "destination.cheapestTitle": "Найдешевші квитки",
+  "destination.showAll": "Показати всі",
+  "destination.filterAll": "Всі"
 }
 

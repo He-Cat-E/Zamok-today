@@ -41,6 +41,12 @@
   "locale.countryHint": "Pilih negara untuk melihat lebih banyak tiket dari maskapai lokal. Terkadang lebih murah",
   "locale.searchPlaceholder": "Cari",
   "map.viewMap": "Lihat peta",
-  "map.backToList": "Kembali ke daftar"
+  "map.backToList": "Kembali ke daftar",
+  "common.from": "dari",
+  "destination.backHome": "Beranda",
+  "destination.citiesTitle": "Kota",
+  "destination.cheapestTitle": "Tiket termurah",
+  "destination.showAll": "Tampilkan semua",
+  "destination.filterAll": "Semua"
 }
 

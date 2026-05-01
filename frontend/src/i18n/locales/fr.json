@@ -31,6 +31,12 @@
   "footer.download": "Télécharger",
   "footer.disclaimer": "Nous ne vendons pas de billets — nous aidons juste à trouver les moins chers. Gratuit.",
   "locale.countryHint": "Sélectionnez un pays pour voir plus d’offres de compagnies locales. Parfois moins cher",
-  "locale.searchPlaceholder": "Rechercher"
+  "locale.searchPlaceholder": "Rechercher",
+  "common.from": "à partir de",
+  "destination.backHome": "Accueil",
+  "destination.citiesTitle": "Villes",
+  "destination.cheapestTitle": "Billets les moins chers",
+  "destination.showAll": "Tout afficher",
+  "destination.filterAll": "Tous"
 }
 

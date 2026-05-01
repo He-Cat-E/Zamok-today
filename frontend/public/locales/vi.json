@@ -41,6 +41,12 @@
   "locale.countryHint": "Chọn quốc gia để xem thêm vé từ hãng địa phương. Đôi khi rẻ hơn",
   "locale.searchPlaceholder": "Tìm kiếm",
   "map.viewMap": "Xem bản đồ",
-  "map.backToList": "Quay lại danh sách"
+  "map.backToList": "Quay lại danh sách",
+  "common.from": "từ",
+  "destination.backHome": "Trang chủ",
+  "destination.citiesTitle": "Thành phố",
+  "destination.cheapestTitle": "Vé rẻ nhất",
+  "destination.showAll": "Hiển thị tất cả",
+  "destination.filterAll": "Tất cả"
 }
 

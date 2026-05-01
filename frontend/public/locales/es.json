@@ -41,6 +41,12 @@
   "locale.countryHint": "Selecciona un país para ver más billetes de aerolíneas locales. A veces son más baratos",
   "locale.searchPlaceholder": "Buscar",
   "map.viewMap": "Ver mapa",
-  "map.backToList": "Volver a la lista"
+  "map.backToList": "Volver a la lista",
+  "common.from": "desde",
+  "destination.backHome": "Inicio",
+  "destination.citiesTitle": "Ciudades",
+  "destination.cheapestTitle": "Billetes más baratos",
+  "destination.showAll": "Mostrar todos",
+  "destination.filterAll": "Todos"
 }
 

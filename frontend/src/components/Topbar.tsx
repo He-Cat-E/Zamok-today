@@ -12,21 +12,26 @@ import { LocalePicker } from "@/components/LocalePicker";
 import { useT } from "@/i18n/I18nProvider";
 import { useTheme } from "@/theme/ThemeProvider";
 
+function topbarTabsAlwaysVisible(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return pathname === "/map" || pathname.startsWith("/destinations");
+}
+
 export function Topbar() {
   const t = useT();
   const pathname = usePathname();
   const { resolved, toggle } = useTheme();
   const isDark = resolved === "dark";
-  const [showSearchTabs, setShowSearchTabs] = useState(pathname === "/map");
+  const [showSearchTabs, setShowSearchTabs] = useState(() => topbarTabsAlwaysVisible(pathname));
   const [activeTab, setActiveTab] = useState<"flights" | "hotels">("flights");
 
   useEffect(() => {
-    function onScroll() {
-      setShowSearchTabs(pathname === "/map" || window.scrollY > 200);
+    function sync() {
+      setShowSearchTabs(topbarTabsAlwaysVisible(pathname) || window.scrollY > 200);
     }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    return () => window.removeEventListener("scroll", sync);
   }, [pathname]);
 
   return (

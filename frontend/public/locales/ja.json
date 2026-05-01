@@ -41,6 +41,12 @@
   "locale.countryHint": "国を選ぶと現地航空会社のチケットが増える場合があります。安いこともあります",
   "locale.searchPlaceholder": "検索",
   "map.viewMap": "地図を表示",
-  "map.backToList": "リストに戻る"
+  "map.backToList": "リストに戻る",
+  "common.from": "から",
+  "destination.backHome": "ホーム",
+  "destination.citiesTitle": "都市",
+  "destination.cheapestTitle": "最安のチケット",
+  "destination.showAll": "すべて表示",
+  "destination.filterAll": "すべて"
 }
 

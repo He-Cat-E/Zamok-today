@@ -31,6 +31,12 @@
   "footer.download": "Скачать",
   "footer.disclaimer": "Мы не продаём билеты — мы просто помогаем найти самые дешёвые. Бесплатно.",
   "locale.countryHint": "Выберите страну, чтобы увидеть больше билетов от местных перевозчиков. Иногда они дешевле",
-  "locale.searchPlaceholder": "Поиск"
+  "locale.searchPlaceholder": "Поиск",
+  "common.from": "от",
+  "destination.backHome": "Главная",
+  "destination.citiesTitle": "Города",
+  "destination.cheapestTitle": "Самые дешёвые билеты",
+  "destination.showAll": "Показать все",
+  "destination.filterAll": "Все"
 }
 

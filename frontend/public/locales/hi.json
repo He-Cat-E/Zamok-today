@@ -41,6 +41,12 @@
   "locale.countryHint": "स्थानीय एयरलाइनों की अधिक टिकटें देखने के लिए देश चुनें। कभी‑कभी वे सस्ती होती हैं",
   "locale.searchPlaceholder": "खोजें",
   "map.viewMap": "मानचित्र देखें",
-  "map.backToList": "सूची पर वापस जाएं"
+  "map.backToList": "सूची पर वापस जाएं",
+  "common.from": "से",
+  "destination.backHome": "होम",
+  "destination.citiesTitle": "शहर",
+  "destination.cheapestTitle": "सस्ते टिकट",
+  "destination.showAll": "सभी दिखाएं",
+  "destination.filterAll": "सभी"
 }
 

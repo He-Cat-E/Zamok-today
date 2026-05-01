@@ -41,6 +41,17 @@
   "locale.countryHint": "Select a country to see more tickets from local carriers. Sometimes such tickets are cheaper",
   "locale.searchPlaceholder": "Search",
   "map.viewMap": "View map",
-  "map.backToList": "Back to list"
+  "map.backToList": "Back to list",
+  "common.from": "from",
+  "destination.backHome": "Home",
+  "destination.citiesTitle": "Cities",
+  "destination.cheapestTitle": "Cheapest tickets",
+  "destination.showAll": "Show all",
+  "destination.filterAll": "All",
+  "destination.allCitiesTitle": "All cities",
+  "destination.closeAllCities": "Close",
+  "destination.ticketsPrev": "Previous tickets",
+  "destination.ticketsNext": "Next tickets",
+  "destination.ticketDirect": "Direct"
 }
 

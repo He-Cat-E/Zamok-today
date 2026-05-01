@@ -2,25 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useT } from "@/i18n/I18nProvider";
 import { FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
+import { getPopularDestinationCards, type PopularDestinationCard } from "@/lib/siteDestinationData";
 import { recoleta } from "@/theme/fonts";
 
-type Destination = {
-  country: string;
-  fromPrice: number;
-  image: string;
-};
-
-const destinations: Destination[] = [
-  { country: "United States", fromPrice: 193, image: "/Images/usa.avif" },
-  { country: "Russia", fromPrice: 284, image: "/Images/russia.avif" },
-  { country: "Türkiye", fromPrice: 327, image: "/Images/turkiye.avif" },
-  { country: "India", fromPrice: 248, image: "/Images/india.avif" },
-  { country: "Spain", fromPrice: 311, image: "/Images/spain.avif" },
-  { country: "Uzbekistan", fromPrice: 205, image: "/Images/uzbekistan.avif" }
-];
+const destinations = getPopularDestinationCards();
 
 export function PopularDestinations() {
   const t = useT();
@@ -60,29 +49,34 @@ export function PopularDestinations() {
     };
   }, [allOpen]);
 
-  function DestinationCard({ d }: { d: Destination }) {
+  function DestinationCard({ d }: { d: PopularDestinationCard }) {
     return (
-      <article className="group overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black">
-        <div className="relative h-44">
-          <Image
-            src={d.image}
-            alt={d.country}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          />
-          <div className="absolute inset-0 opacity-0 transition group-hover:opacity-100 dark:bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.12),transparent_55%)]" />
-        </div>
-        <div className="p-4">
-          <div className="text-sm font-semibold text-slate-900 dark:text-white">{d.country}</div>
-          <div className="mt-1 text-xs text-slate-500 dark:text-white/70">
-            <span className="inline-flex items-center gap-2">
-              <BiSolidPlaneAlt className="h-4 w-4" /> from{" "}
-              <span className="font-semibold text-slate-700 dark:text-white">${d.fromPrice}</span>
-            </span>
+      <Link
+        href={`/destinations/${d.slug}`}
+        className="block h-full rounded-2xl outline-none ring-red-600/0 transition hover:ring-2 focus-visible:ring-2 focus-visible:ring-red-600"
+      >
+        <article className="group h-full overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black">
+          <div className="relative h-44">
+            <Image
+              src={d.image}
+              alt={d.country}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            />
+            <div className="absolute inset-0 opacity-0 transition group-hover:opacity-100 dark:bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.12),transparent_55%)]" />
           </div>
-        </div>
-      </article>
+          <div className="p-4">
+            <div className="text-sm font-semibold text-slate-900 dark:text-white">{d.country}</div>
+            <div className="mt-1 text-xs text-slate-500 dark:text-white/70">
+              <span className="inline-flex items-center gap-2">
+                <BiSolidPlaneAlt className="h-4 w-4" /> {t("common.from")}{" "}
+                <span className="font-semibold text-slate-700 dark:text-white">${d.fromPrice}</span>
+              </span>
+            </div>
+          </div>
+        </article>
+      </Link>
     );
   }
 

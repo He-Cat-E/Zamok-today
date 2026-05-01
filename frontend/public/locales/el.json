@@ -41,6 +41,12 @@
   "locale.countryHint": "Επιλέξτε χώρα για να δείτε περισσότερα εισιτήρια από τοπικούς μεταφορείς. Μερικές φορές είναι φθηνότερα",
   "locale.searchPlaceholder": "Αναζήτηση",
   "map.viewMap": "Προβολή χάρτη",
-  "map.backToList": "Πίσω στη λίστα"
+  "map.backToList": "Πίσω στη λίστα",
+  "common.from": "από",
+  "destination.backHome": "Αρχική",
+  "destination.citiesTitle": "Πόλεις",
+  "destination.cheapestTitle": "Φθηνότερα εισιτήρια",
+  "destination.showAll": "Εμφάνιση όλων",
+  "destination.filterAll": "Όλα"
 }
 

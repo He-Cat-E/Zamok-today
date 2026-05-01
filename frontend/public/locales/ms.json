@@ -41,6 +41,12 @@
   "locale.countryHint": "Pilih negara untuk melihat lebih banyak tiket daripada syarikat tempatan. Kadang‑kadang lebih murah",
   "locale.searchPlaceholder": "Cari",
   "map.viewMap": "Papar peta",
-  "map.backToList": "Kembali ke senarai"
+  "map.backToList": "Kembali ke senarai",
+  "common.from": "dari",
+  "destination.backHome": "Beranda",
+  "destination.citiesTitle": "Bandar",
+  "destination.cheapestTitle": "Tiket termurah",
+  "destination.showAll": "Tampilkan semua",
+  "destination.filterAll": "Semua"
 }
 

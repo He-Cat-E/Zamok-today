@@ -41,6 +41,12 @@
   "locale.countryHint": "Yerel taşıyıcılardan daha fazla bilet görmek için ülke seçin. Bazen daha ucuz olur",
   "locale.searchPlaceholder": "Ara",
   "map.viewMap": "Haritayı görüntüle",
-  "map.backToList": "Listeye dön"
+  "map.backToList": "Listeye dön",
+  "common.from": "itibaren",
+  "destination.backHome": "Ana sayfa",
+  "destination.citiesTitle": "Şehirler",
+  "destination.cheapestTitle": "En ucuz biletler",
+  "destination.showAll": "Tümünü göster",
+  "destination.filterAll": "Tümü"
 }
 

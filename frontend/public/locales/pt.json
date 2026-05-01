@@ -41,6 +41,12 @@
   "locale.countryHint": "Selecione um país para ver mais passagens de companhias locais. Às vezes são mais baratas",
   "locale.searchPlaceholder": "Pesquisar",
   "map.viewMap": "Ver mapa",
-  "map.backToList": "Voltar à lista"
+  "map.backToList": "Voltar à lista",
+  "common.from": "de",
+  "destination.backHome": "Início",
+  "destination.citiesTitle": "Cidades",
+  "destination.cheapestTitle": "Passagens mais baratas",
+  "destination.showAll": "Mostrar todos",
+  "destination.filterAll": "Todos"
 }
 

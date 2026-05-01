@@ -41,6 +41,12 @@
   "locale.countryHint": "Valitse maa nähdäksesi enemmän paikallisten yhtiöiden lippuja. Joskus ne ovat halvempia",
   "locale.searchPlaceholder": "Hae",
   "map.viewMap": "Näytä kartta",
-  "map.backToList": "Takaisin listaan"
+  "map.backToList": "Takaisin listaan",
+  "common.from": "mistä",
+  "destination.backHome": "Koti",
+  "destination.citiesTitle": "Kaupungit",
+  "destination.cheapestTitle": "Halvimmat liput",
+  "destination.showAll": "Näytä kaikki",
+  "destination.filterAll": "Kaikki"
 }
 

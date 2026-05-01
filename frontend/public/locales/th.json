@@ -41,6 +41,12 @@
   "locale.countryHint": "เลือกประเทศเพื่อดูตั๋วจากสายการบินท้องถิ่นมากขึ้น บางครั้งอาจถูกกว่า",
   "locale.searchPlaceholder": "ค้นหา",
   "map.viewMap": "ดูแผนที่",
-  "map.backToList": "กลับไปยังรายการ"
+  "map.backToList": "กลับไปยังรายการ",
+  "common.from": "จาก",
+  "destination.backHome": "หน้าหลัก",
+  "destination.citiesTitle": "เมือง",
+  "destination.cheapestTitle": "ตั๋วที่ถูกที่สุด",
+  "destination.showAll": "แสดงทั้งหมด",
+  "destination.filterAll": "ทั้งหมด"
 }
 

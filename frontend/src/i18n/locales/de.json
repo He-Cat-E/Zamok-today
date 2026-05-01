@@ -31,6 +31,12 @@
   "footer.download": "Download",
   "footer.disclaimer": "Wir verkaufen keine Tickets — wir helfen nur, die günstigsten zu finden. Kostenlos.",
   "locale.countryHint": "Wähle ein Land, um mehr Angebote lokaler Anbieter zu sehen. Manchmal günstiger",
-  "locale.searchPlaceholder": "Suchen"
+  "locale.searchPlaceholder": "Suchen",
+  "common.from": "ab",
+  "destination.backHome": "Startseite",
+  "destination.citiesTitle": "Städte",
+  "destination.cheapestTitle": "Günstigste Tickets",
+  "destination.showAll": "Alle anzeigen",
+  "destination.filterAll": "Alle"
 }
 

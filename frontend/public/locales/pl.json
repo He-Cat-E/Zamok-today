@@ -41,6 +41,12 @@
   "locale.countryHint": "Wybierz kraj, aby zobaczyć więcej biletów od lokalnych przewoźników. Czasem są tańsze",
   "locale.searchPlaceholder": "Szukaj",
   "map.viewMap": "Wyświetl mapę",
-  "map.backToList": "Powrót do listy"
+  "map.backToList": "Powrót do listy",
+  "common.from": "z",
+  "destination.backHome": "Strona główna",
+  "destination.citiesTitle": "Miasta",
+  "destination.cheapestTitle": "Najtańsze bilety",
+  "destination.showAll": "Pokaż wszystkie",
+  "destination.filterAll": "Wszystkie"
 }
 

@@ -11,6 +11,7 @@ import { FiCalendar, FiMapPin, FiSearch, FiShuffle, FiUser } from "react-icons/f
 import { TwoMonthDatePicker } from "@/components/date/TwoMonthDatePicker";
 import { MobileDateRangePicker } from "@/components/date/MobileDateRangePicker";
 import { PassengersPicker } from "@/components/PassengersPicker";
+import { SITE_DEFAULT_TO_CITY, SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
 
 const cabins = [
   { value: "economy", label: "Economy" },
@@ -385,8 +386,8 @@ export function FlightSearch({
   stickyEnabled = true,
   forceCompact = false,
   showBottomActions = true,
-  initialFrom = "NYC",
-  initialTo = "LAX"
+  initialFrom = SITE_PRIMARY_FROM_CITY,
+  initialTo = SITE_DEFAULT_TO_CITY
 }: {
   stickyEnabled?: boolean;
   forceCompact?: boolean;
@@ -486,7 +487,7 @@ export function FlightSearch({
             : "relative"
         )}
       >
-        <div className={cn(isPinnedCompact ? "mx-auto w-full max-w-[1440px]" : "")}>
+        <div className={cn(isPinnedCompact ? "mx-auto w-full max-w-[1440px] px-4" : "")}>
           <FlightSearchContent
             from={from}
             setFrom={setFrom}

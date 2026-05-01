@@ -11,75 +11,12 @@ import { Topbar } from "@/components/Topbar";
 import { useI18n } from "@/i18n/I18nProvider";
 import { recoleta } from "@/theme/fonts";
 import { useTheme } from "@/theme/ThemeProvider";
+import { SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
+import { getMapCountryGroups, type MapCountryGroup } from "@/lib/siteDestinationData";
 
 const LeafletMap = dynamic(() => import("@/components/map/LeafletMap").then((m) => m.LeafletMap), { ssr: false });
 
-type City = { name: string; fromPrice: number; lat: number; lng: number };
-type CountryGroup = {
-  country: string;
-  regionCode: string;
-  cities: City[];
-};
-
-const groups: CountryGroup[] = [
-  {
-    country: "Russia",
-    regionCode: "ru",
-    cities: [
-      { name: "Moscow", fromPrice: 391, lat: 55.7558, lng: 37.6173 },
-      { name: "Saint Petersburg", fromPrice: 430, lat: 59.9311, lng: 30.3609 },
-      { name: "Adler/Sochi", fromPrice: 499, lat: 43.4333, lng: 39.9236 },
-      { name: "Krasnodar", fromPrice: 528, lat: 45.0355, lng: 38.9753 },
-      { name: "Kazan", fromPrice: 494, lat: 55.7961, lng: 49.1064 },
-      { name: "Sochi", fromPrice: 468, lat: 43.6028, lng: 39.7342 }
-    ]
-  },
-  {
-    country: "Türkiye",
-    regionCode: "tr",
-    cities: [
-      { name: "Istanbul", fromPrice: 326, lat: 41.0082, lng: 28.9784 },
-      { name: "Antalya", fromPrice: 402, lat: 36.8969, lng: 30.7133 }
-    ]
-  },
-  {
-    country: "India",
-    regionCode: "in",
-    cities: [
-      { name: "Delhi", fromPrice: 248, lat: 28.6139, lng: 77.209 },
-      { name: "Mumbai", fromPrice: 302, lat: 19.076, lng: 72.8777 },
-      { name: "Bengaluru", fromPrice: 277, lat: 12.9716, lng: 77.5946 },
-      { name: "Goa", fromPrice: 319, lat: 15.2993, lng: 74.124 },
-      { name: "Hyderabad", fromPrice: 289, lat: 17.385, lng: 78.4867 },
-      { name: "Chennai", fromPrice: 271, lat: 13.0827, lng: 80.2707 },
-      { name: "Kolkata", fromPrice: 263, lat: 22.5726, lng: 88.3639 }
-    ]
-  },
-  {
-    country: "Spain",
-    regionCode: "es",
-    cities: [
-      { name: "Madrid", fromPrice: 393, lat: 40.4168, lng: -3.7038 }
-    ]
-  },
-  {
-    country: "United States",
-    regionCode: "us",
-    cities: [
-      { name: "New York", fromPrice: 193, lat: 40.7128, lng: -74.006 },
-      { name: "Los Angeles", fromPrice: 230, lat: 34.0522, lng: -118.2437 }
-    ]
-  },
-  {
-    country: "Uzbekistan",
-    regionCode: "uz",
-    cities: [
-      { name: "Tashkent", fromPrice: 213, lat: 41.2995, lng: 69.2401 },
-      { name: "Samarkand", fromPrice: 235, lat: 39.6542, lng: 66.9597 },
-      { name: "Bukhara", fromPrice: 241, lat: 39.767, lng: 64.4235 }
-    ]
-  }
-];
+const groups: MapCountryGroup[] = getMapCountryGroups();
 
 export default function MapPage() {
   const { lang, t } = useI18n();
@@ -94,18 +31,6 @@ export default function MapPage() {
   const [visibleCount, setVisibleCount] = useState(4);
   const [startByCountry, setStartByCountry] = useState<Record<string, number>>({});
   const sortMenuRef = useRef<HTMLDivElement | null>(null);
-  const cityImageByRegion = useMemo(
-    () =>
-      ({
-        ru: "/Images/russia.avif",
-        tr: "/Images/turkiye.avif",
-        in: "/Images/india.avif",
-        es: "/Images/spain.avif",
-        us: "/Images/usa.avif",
-        uz: "/Images/uzbekistan.avif"
-      }) as Record<string, string>,
-    []
-  );
   const focusedGroup = useMemo(
     () => (focusedCountry ? groups.find((g) => g.regionCode === focusedCountry) || null : null),
     [focusedCountry]
@@ -187,7 +112,7 @@ export default function MapPage() {
             stickyEnabled={false}
             forceCompact
             showBottomActions={false}
-            initialFrom="Tokyo"
+            initialFrom={SITE_PRIMARY_FROM_CITY}
             initialTo={tr("search.anywhere", "Anywhere")}
           />
         </div>
@@ -358,7 +283,7 @@ export default function MapPage() {
                                 <article className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
                                   <div className="relative h-44">
                                     <Image
-                                      src={cityImageByRegion[group.regionCode]}
+                                      src={city.image}
                                       alt={city.name}
                                       fill
                                       className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -386,7 +311,7 @@ export default function MapPage() {
                               <article key={city.name} className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
                                 <div className="relative h-44">
                                   <Image
-                                    src={cityImageByRegion[group.regionCode]}
+                                    src={city.image}
                                     alt={city.name}
                                     fill
                                     className="object-cover transition-transform duration-300 group-hover:scale-105"

@@ -41,6 +41,12 @@
   "locale.countryHint": "Selectează o țară pentru a vedea mai multe bilete de la companii locale. Uneori sunt mai ieftine",
   "locale.searchPlaceholder": "Caută",
   "map.viewMap": "Vezi hartă",
-  "map.backToList": "Înapoi la listă"
+  "map.backToList": "Înapoi la listă",
+  "common.from": "din",
+  "destination.backHome": "Acasă",
+  "destination.citiesTitle": "Orașe",
+  "destination.cheapestTitle": "Bilete ieftine",
+  "destination.showAll": "Afișează toate",
+  "destination.filterAll": "Toate"
 }
 

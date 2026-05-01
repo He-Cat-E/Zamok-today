@@ -41,6 +41,12 @@
   "locale.countryHint": "Kies een land om meer tickets van lokale maatschappijen te zien. Soms zijn ze goedkoper",
   "locale.searchPlaceholder": "Zoeken",
   "map.viewMap": "Kaart bekijken",
-  "map.backToList": "Terug naar lijst"
+  "map.backToList": "Terug naar lijst",
+  "common.from": "van",
+  "destination.backHome": "Startpagina",
+  "destination.citiesTitle": "Steden",
+  "destination.cheapestTitle": "Goedkoopste tickets",
+  "destination.showAll": "Toon alles",
+  "destination.filterAll": "Alle"
 }
 

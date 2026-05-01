@@ -41,6 +41,12 @@
   "locale.countryHint": "בחר מדינה כדי לראות עוד כרטיסים ממפעילים מקומיים. לפעמים הם זולים יותר",
   "locale.searchPlaceholder": "חיפוש",
   "map.viewMap": "צפה במפה",
-  "map.backToList": "חזרה לרשימה"
+  "map.backToList": "חזרה לרשימה",
+  "common.from": "מ",
+  "destination.backHome": "דף הבית",
+  "destination.citiesTitle": "ערים",
+  "destination.cheapestTitle": "כרטיסים זולים ביותר",
+  "destination.showAll": "הצג הכול",
+  "destination.filterAll": "הכול"
 }
 

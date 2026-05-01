@@ -41,6 +41,12 @@
   "locale.countryHint": "Vælg et land for at se flere billetter fra lokale selskaber. Nogle gange er de billigere",
   "locale.searchPlaceholder": "Søg",
   "map.viewMap": "Vis kort",
-  "map.backToList": "Tilbage til liste"
+  "map.backToList": "Tilbage til liste",
+  "common.from": "fra",
+  "destination.backHome": "Hjem",
+  "destination.citiesTitle": "Byer",
+  "destination.cheapestTitle": "Billigste billetter",
+  "destination.showAll": "Vis alle",
+  "destination.filterAll": "Alle"
 }
 
