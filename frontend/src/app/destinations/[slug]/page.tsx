@@ -123,7 +123,7 @@ export default function DestinationCountryPage() {
 
         <section className="mb-8 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-black dark:ring-white/10 md:p-6">
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-white md:text-xl">
+            <h2 className={`${recoleta.className} text-2xl font-semibold text-slate-900 dark:text-white`}>
               {tr("destination.citiesTitle", "Cities")}
             </h2>
             {showCitySlider ? (
@@ -237,7 +237,7 @@ export default function DestinationCountryPage() {
 
         <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-black dark:ring-white/10 md:p-6">
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-white md:text-xl">
+            <h2 className={`${recoleta.className} text-2xl font-semibold text-slate-900 dark:text-white`}>
               {tr("destination.cheapestTitle", "Cheapest tickets")}
             </h2>
             {showTicketSlider ? (
