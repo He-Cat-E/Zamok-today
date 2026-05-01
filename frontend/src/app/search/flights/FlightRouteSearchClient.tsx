@@ -51,9 +51,9 @@ export function FlightRouteSearchClient() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-black">
+    <main className="flex min-h-dvh flex-col bg-slate-50 dark:bg-black">
       <Topbar />
-      <section className="sticky top-16 z-40 bg-red-600 dark:bg-black shadow-sm">
+      <section className="sticky top-16 z-40 shrink-0 bg-red-600 dark:bg-black shadow-sm">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
           <FlightSearch
             key={`${fromCity}-${toCity}`}
@@ -66,7 +66,8 @@ export function FlightRouteSearchClient() {
         </div>
       </section>
 
-      <div className="mx-auto flex w-full max-w-[1240px] flex-col gap-6 px-4 py-8 lg:flex-row lg:items-start">
+      <div className="flex min-h-0 flex-1 flex-col">
+        <div className="mx-auto flex w-full max-w-[1240px] flex-1 flex-col gap-6 px-4 py-8 lg:flex-row lg:items-start">
         <aside className="w-full shrink-0 lg:sticky lg:top-[152px] lg:w-[260px]">
           <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-black dark:ring-white/10">
             <p className={`${recoleta.className} text-lg font-bold leading-snug text-slate-900 dark:text-white`}>
@@ -200,6 +201,7 @@ export function FlightRouteSearchClient() {
             </p>
           </section>
         </div>
+      </div>
       </div>
 
       <SiteFooter />
