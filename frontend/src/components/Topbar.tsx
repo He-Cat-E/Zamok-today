@@ -14,7 +14,7 @@ import { useTheme } from "@/theme/ThemeProvider";
 
 function topbarTabsAlwaysVisible(pathname: string | null): boolean {
   if (!pathname) return false;
-  return pathname === "/map" || pathname.startsWith("/destinations");
+  return pathname === "/map" || pathname.startsWith("/destinations") || pathname.startsWith("/search/flights");
 }
 
 export function Topbar() {

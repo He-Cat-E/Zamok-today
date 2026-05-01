@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { BiSolidPlaneAlt } from "react-icons/bi";
@@ -10,7 +11,7 @@ import { FlightSearch } from "@/components/FlightSearch";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Topbar } from "@/components/Topbar";
 import { useI18n } from "@/i18n/I18nProvider";
-import { SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
+import { buildFlightSearchResultsHref, SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
 import { getDestinationBySlug } from "@/lib/siteDestinationData";
 import { recoleta } from "@/theme/fonts";
 
@@ -156,7 +157,12 @@ export default function DestinationCountryPage() {
                 style={{ transform: `translateX(-${cityStart * (100 / visibleCities)}%)` }}
               >
                 {data.cities.map((city) => (
-                  <div key={city.name} className="shrink-0 px-2" style={{ width: `${100 / visibleCities}%` }}>
+                  <Link
+                    key={city.name}
+                    href={buildFlightSearchResultsHref(city.name)}
+                    className="block shrink-0 px-2 cursor-pointer"
+                    style={{ width: `${100 / visibleCities}%` }}
+                  >
                     <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
                       <div className="relative h-44">
                         <Image
@@ -178,36 +184,39 @@ export default function DestinationCountryPage() {
                         </div>
                       </div>
                     </article>
-                  </div>
+                  </Link>
                 ))}
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {data.cities.map((city) => (
-                  <article
+                  <Link
                     key={city.name}
-                    className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black"
+                    href={buildFlightSearchResultsHref(city.name)}
+                    className="block min-w-0 cursor-pointer"
                   >
-                    <div className="relative h-44">
-                      <Image
-                        src={city.image}
-                        alt={city.name}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        sizes="(max-width: 640px) 100vw, 25vw"
-                      />
-                    </div>
-                    <div className="p-4">
-                      <div className="text-sm font-semibold text-slate-900 dark:text-white">{city.name}</div>
-                      <div className="mt-1 text-xs text-slate-500 dark:text-white/70">
-                        <span className="inline-flex items-center gap-2">
-                          <BiSolidPlaneAlt className="h-4 w-4" />
-                          {tr("common.from", "from")}{" "}
-                          <span className="font-semibold text-slate-800 dark:text-white">${city.fromPrice}</span>
-                        </span>
+                    <article className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
+                      <div className="relative h-44">
+                        <Image
+                          src={city.image}
+                          alt={city.name}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          sizes="(max-width: 640px) 100vw, 25vw"
+                        />
                       </div>
-                    </div>
-                  </article>
+                      <div className="p-4">
+                        <div className="text-sm font-semibold text-slate-900 dark:text-white">{city.name}</div>
+                        <div className="mt-1 text-xs text-slate-500 dark:text-white/70">
+                          <span className="inline-flex items-center gap-2">
+                            <BiSolidPlaneAlt className="h-4 w-4" />
+                            {tr("common.from", "from")}{" "}
+                            <span className="font-semibold text-slate-800 dark:text-white">${city.fromPrice}</span>
+                          </span>
+                        </div>
+                      </div>
+                    </article>
+                  </Link>
                 ))}
               </div>
             )}
@@ -352,15 +361,12 @@ export default function DestinationCountryPage() {
             <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-5">
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {data.cities.map((city) => (
-                  <button
+                  <Link
                     key={city.name}
-                    type="button"
+                    href={buildFlightSearchResultsHref(city.name)}
                     aria-label={`${city.name}, ${tr("common.from", "from")} $${city.fromPrice}`}
-                    onClick={() => {
-                      setFilterCity(city.name);
-                      setAllCitiesOpen(false);
-                    }}
-                    className="text-left"
+                    onClick={() => setAllCitiesOpen(false)}
+                    className="block text-left"
                   >
                     <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:ring-2 hover:ring-red-500/30 dark:border-white/10 dark:bg-black">
                       <div className="relative h-36">
@@ -384,7 +390,7 @@ export default function DestinationCountryPage() {
                         </div>
                       </div>
                     </article>
-                  </button>
+                  </Link>
                 ))}
               </div>
             </div>

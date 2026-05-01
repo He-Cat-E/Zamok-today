@@ -176,6 +176,30 @@ function cityKeyForId(name: string): string {
   return name.replace(/\s+/g, "-").replace(/[^\w-]+/g, "").toLowerCase();
 }
 
+/** Mock tickets for arbitrary origin → destination (route results page). */
+export function getMockRouteTickets(fromCity: string, toCity: string, count = 8): DestinationTicket[] {
+  let seed = 0;
+  for (let i = 0; i < fromCity.length; i++) seed += fromCity.charCodeAt(i);
+  for (let i = 0; i < toCity.length; i++) seed += toCity.charCodeAt(i);
+  const base = 320 + (seed % 180);
+  const fk = cityKeyForId(fromCity);
+  const tk = cityKeyForId(toCity);
+  const out: DestinationTicket[] = [];
+  for (let v = 0; v < count; v++) {
+    const t = TICKET_VARIANTS[v % TICKET_VARIANTS.length]!;
+    out.push({
+      id: `route-${fk}-${tk}-${v}`,
+      toCity,
+      price: base + v * 17 + (v % 5) * 9,
+      dateLabel: t.dateLabel,
+      timeRange: t.timeRange,
+      durationMeta: t.durationMeta,
+      layoverText: t.layoverText
+    });
+  }
+  return out;
+}
+
 function baseTickets(cities: DestinationCityLite[], prefix: string): DestinationTicket[] {
   const out: DestinationTicket[] = [];
   for (const city of cities) {

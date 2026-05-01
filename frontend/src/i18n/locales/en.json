@@ -52,6 +52,10 @@
   "destination.closeAllCities": "Close",
   "destination.ticketsPrev": "Previous tickets",
   "destination.ticketsNext": "Next tickets",
-  "destination.ticketDirect": "Direct"
+  "destination.ticketDirect": "Direct",
+  "searchRoute.navAria": "Route sections",
+  "searchRoute.cheapestNav": "Cheapest tickets",
+  "searchRoute.noDirectNav": "No direct flights",
+  "searchRoute.noDirectBody": "Try searching for tickets with layovers or changing the departure airport."
 }
 

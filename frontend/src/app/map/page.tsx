@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { FiChevronLeft, FiChevronRight, FiMapPin, FiMaximize2, FiMinimize2 } from "react-icons/fi";
 import { LuArrowDownUp } from "react-icons/lu";
@@ -11,7 +13,7 @@ import { Topbar } from "@/components/Topbar";
 import { useI18n } from "@/i18n/I18nProvider";
 import { recoleta } from "@/theme/fonts";
 import { useTheme } from "@/theme/ThemeProvider";
-import { SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
+import { buildFlightSearchResultsHref, SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
 import { getMapCountryGroups, type MapCountryGroup } from "@/lib/siteDestinationData";
 
 const LeafletMap = dynamic(() => import("@/components/map/LeafletMap").then((m) => m.LeafletMap), { ssr: false });
@@ -19,6 +21,7 @@ const LeafletMap = dynamic(() => import("@/components/map/LeafletMap").then((m) 
 const groups: MapCountryGroup[] = getMapCountryGroups();
 
 export default function MapPage() {
+  const router = useRouter();
   const { lang, t } = useI18n();
   const { resolved } = useTheme();
   const isDark = resolved === "dark";
@@ -58,6 +61,13 @@ export default function MapPage() {
     const value = t(key);
     return value === key ? fallback : value;
   };
+
+  const openRouteResults = useCallback(
+    (cityName: string) => {
+      router.push(buildFlightSearchResultsHref(cityName));
+    },
+    [router]
+  );
 
   useEffect(() => {
     function syncVisibleCount() {
@@ -279,7 +289,12 @@ export default function MapPage() {
                             style={{ transform: `translateX(-${start * (100 / visibleCount)}%)` }}
                           >
                             {group.cities.map((city) => (
-                              <div key={city.name} className="shrink-0 px-2" style={{ width: `${100 / visibleCount}%` }}>
+                              <Link
+                                key={city.name}
+                                href={buildFlightSearchResultsHref(city.name)}
+                                className="block shrink-0 px-2 cursor-pointer"
+                                style={{ width: `${100 / visibleCount}%` }}
+                              >
                                 <article className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
                                   <div className="relative h-44">
                                     <Image
@@ -302,34 +317,40 @@ export default function MapPage() {
                                     </div>
                                   </div>
                                 </article>
-                              </div>
+                              </Link>
                             ))}
                           </div>
                         ) : (
                           <div className={["grid gap-4", mapExpanded ? "grid-cols-2" : "grid-cols-2 md:grid-cols-4"].join(" ")}>
                             {group.cities.map((city) => (
-                              <article key={city.name} className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
-                                <div className="relative h-44">
-                                  <Image
-                                    src={city.image}
-                                    alt={city.name}
-                                    fill
-                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                  />
-                                </div>
-                                <div className="p-4">
-                                  <div className="truncate text-base text-slate-900 dark:text-white">
-                                    {city.name}
+                              <Link
+                                key={city.name}
+                                href={buildFlightSearchResultsHref(city.name)}
+                                className="block min-w-0 cursor-pointer"
+                              >
+                                <article className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
+                                  <div className="relative h-44">
+                                    <Image
+                                      src={city.image}
+                                      alt={city.name}
+                                      fill
+                                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
                                   </div>
-                                  <div className="mt-1 text-xs text-slate-500 dark:text-white/70">
-                                    <span className="inline-flex items-center gap-2">
-                                      <BiSolidPlaneAlt className="h-4 w-4" />
-                                      {tr("common.from", "from")}{" "}
-                                      <span className="font-semibold text-slate-700 dark:text-white">${city.fromPrice}</span>
-                                    </span>
+                                  <div className="p-4">
+                                    <div className="truncate text-base text-slate-900 dark:text-white">
+                                      {city.name}
+                                    </div>
+                                    <div className="mt-1 text-xs text-slate-500 dark:text-white/70">
+                                      <span className="inline-flex items-center gap-2">
+                                        <BiSolidPlaneAlt className="h-4 w-4" />
+                                        {tr("common.from", "from")}{" "}
+                                        <span className="font-semibold text-slate-700 dark:text-white">${city.fromPrice}</span>
+                                      </span>
+                                    </div>
                                   </div>
-                                </div>
-                              </article>
+                                </article>
+                              </Link>
                             ))}
                           </div>
                         )}
@@ -387,6 +408,7 @@ export default function MapPage() {
                     points={mapPoints}
                     refreshKey={`${mapExpanded ? "expanded" : "collapsed"}-${focusedCountry ?? "all"}`}
                     fromLabel={tr("common.from", "from")}
+                    onMarkerClick={(p) => openRouteResults(p.name)}
                   />
                 </div>
               </div>
@@ -402,6 +424,7 @@ export default function MapPage() {
               points={mapPoints}
               refreshKey={`mobile-full-${focusedCountry ?? "all"}`}
               fromLabel={tr("common.from", "from")}
+              onMarkerClick={(p) => openRouteResults(p.name)}
             />
             <div className="pointer-events-none fixed inset-x-0 bottom-6 z-[1400] flex justify-center px-4">
               <button

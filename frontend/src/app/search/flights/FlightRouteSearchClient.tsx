@@ -1,0 +1,208 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { BiSolidPlaneAlt } from "react-icons/bi";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { LuCalendarOff } from "react-icons/lu";
+import { DestinationTicketCard } from "@/components/DestinationTicketCard";
+import { FlightSearch } from "@/components/FlightSearch";
+import { SiteFooter } from "@/components/SiteFooter";
+import { Topbar } from "@/components/Topbar";
+import { useI18n } from "@/i18n/I18nProvider";
+import { SITE_DEFAULT_TO_CITY, SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
+import { getMockRouteTickets } from "@/lib/siteDestinationData";
+import { recoleta } from "@/theme/fonts";
+
+const visibleTickets = 2;
+
+export function FlightRouteSearchClient() {
+  const searchParams = useSearchParams();
+  const { t } = useI18n();
+  const tr = (key: string, fallback: string) => {
+    const v = t(key);
+    return v === key ? fallback : v;
+  };
+
+  const fromCity = searchParams.get("from")?.trim() || SITE_PRIMARY_FROM_CITY;
+  const toCity = searchParams.get("to")?.trim() || SITE_DEFAULT_TO_CITY;
+
+  const tickets = useMemo(() => getMockRouteTickets(fromCity, toCity, 8), [fromCity, toCity]);
+  const [ticketStart, setTicketStart] = useState(0);
+  const [activeNav, setActiveNav] = useState<"cheapest" | "noDirect">("cheapest");
+  const cheapestRef = useRef<HTMLElement | null>(null);
+  const noDirectRef = useRef<HTMLElement | null>(null);
+
+  const maxTicketStart = Math.max(0, tickets.length - visibleTickets);
+  const showTicketSlider = tickets.length > visibleTickets;
+
+  useEffect(() => {
+    setTicketStart(0);
+  }, [fromCity, toCity]);
+
+  useEffect(() => {
+    if (ticketStart > maxTicketStart) setTicketStart(maxTicketStart);
+  }, [maxTicketStart, ticketStart]);
+
+  function scrollToSection(which: "cheapest" | "noDirect") {
+    setActiveNav(which);
+    const el = which === "cheapest" ? cheapestRef.current : noDirectRef.current;
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  return (
+    <main className="min-h-screen bg-slate-50 dark:bg-black">
+      <Topbar />
+      <section className="sticky top-16 z-40 bg-red-600 dark:bg-black shadow-sm">
+        <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
+          <FlightSearch
+            key={`${fromCity}-${toCity}`}
+            stickyEnabled={false}
+            forceCompact
+            showBottomActions={false}
+            initialFrom={fromCity}
+            initialTo={toCity}
+          />
+        </div>
+      </section>
+
+      <div className="mx-auto flex w-full max-w-[1240px] flex-col gap-6 px-4 py-8 lg:flex-row lg:items-start">
+        <aside className="w-full shrink-0 lg:sticky lg:top-[152px] lg:w-[260px]">
+          <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-black dark:ring-white/10">
+            <p className={`${recoleta.className} text-lg font-bold leading-snug text-slate-900 dark:text-white`}>
+              {fromCity} – {toCity}
+            </p>
+            <nav className="mt-5 space-y-1" aria-label={tr("searchRoute.navAria", "Route sections")}>
+              <button
+                type="button"
+                onClick={() => scrollToSection("cheapest")}
+                className={[
+                  "flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold transition",
+                  activeNav === "cheapest"
+                    ? "bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-200"
+                    : "text-slate-700 hover:bg-slate-50 dark:text-white/85 dark:hover:bg-white/10"
+                ].join(" ")}
+              >
+                <span
+                  className={[
+                    "grid h-9 w-9 shrink-0 place-items-center rounded-full text-white",
+                    activeNav === "cheapest" ? "bg-red-600" : "bg-slate-300 dark:bg-white/20"
+                  ].join(" ")}
+                >
+                  <BiSolidPlaneAlt className="h-4 w-4" />
+                </span>
+                {tr("searchRoute.cheapestNav", "Cheapest tickets")}
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection("noDirect")}
+                className={[
+                  "flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold transition",
+                  activeNav === "noDirect"
+                    ? "bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-200"
+                    : "text-slate-700 hover:bg-slate-50 dark:text-white/85 dark:hover:bg-white/10"
+                ].join(" ")}
+              >
+                <span
+                  className={[
+                    "grid h-9 w-9 shrink-0 place-items-center rounded-full text-white",
+                    activeNav === "noDirect" ? "bg-red-600" : "bg-slate-300 dark:bg-white/20"
+                  ].join(" ")}
+                >
+                  <LuCalendarOff className="h-4 w-4" />
+                </span>
+                {tr("searchRoute.noDirectNav", "No direct flights")}
+              </button>
+            </nav>
+          </div>
+        </aside>
+
+        <div className="min-w-0 flex-1 space-y-6">
+          <section
+            ref={cheapestRef}
+            id="route-cheapest"
+            className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-black dark:ring-white/10 md:p-6"
+          >
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h2 className={`${recoleta.className} text-xl font-bold text-slate-900 dark:text-white md:text-2xl`}>
+                {tr("destination.cheapestTitle", "Cheapest tickets")}
+              </h2>
+              {showTicketSlider ? (
+                <div className="flex shrink-0 items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setTicketStart((s) => Math.max(0, s - 1))}
+                    disabled={ticketStart === 0}
+                    className="grid h-9 w-9 place-items-center rounded-full border border-slate-200 text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 dark:border-white/15 dark:text-white/80 dark:hover:bg-white/10"
+                    aria-label={tr("destination.ticketsPrev", "Previous tickets")}
+                  >
+                    <FiChevronLeft className="h-5 w-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTicketStart((s) => Math.min(maxTicketStart, s + 1))}
+                    disabled={ticketStart >= maxTicketStart}
+                    className="grid h-9 w-9 place-items-center rounded-full border border-slate-200 text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 dark:border-white/15 dark:text-white/80 dark:hover:bg-white/10"
+                    aria-label={tr("destination.ticketsNext", "Next tickets")}
+                  >
+                    <FiChevronRight className="h-5 w-5" />
+                  </button>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="pb-1 pt-1">
+              {showTicketSlider ? (
+                <div className="overflow-hidden">
+                  <div
+                    className="flex transition-transform duration-500 ease-out"
+                    style={{ transform: `translateX(-${ticketStart * (100 / visibleTickets)}%)` }}
+                  >
+                    {tickets.map((ticket) => (
+                      <div key={ticket.id} className="shrink-0 px-1.5 sm:px-2" style={{ width: `${100 / visibleTickets}%` }}>
+                        <DestinationTicketCard
+                          ticket={ticket}
+                          fromCity={fromCity}
+                          directLabel={tr("destination.ticketDirect", "Direct")}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {tickets.map((ticket) => (
+                    <DestinationTicketCard
+                      key={ticket.id}
+                      ticket={ticket}
+                      fromCity={fromCity}
+                      directLabel={tr("destination.ticketDirect", "Direct")}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+
+          <section
+            ref={noDirectRef}
+            id="route-no-direct"
+            className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-black dark:ring-white/10 md:p-6"
+          >
+            <h2 className={`${recoleta.className} mb-3 text-xl font-bold text-slate-900 dark:text-white md:text-2xl`}>
+              {tr("searchRoute.noDirectNav", "No direct flights")}
+            </h2>
+            <p className="max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-white/65">
+              {tr(
+                "searchRoute.noDirectBody",
+                "Try searching for tickets with layovers or changing the departure airport."
+              )}
+            </p>
+          </section>
+        </div>
+      </div>
+
+      <SiteFooter />
+    </main>
+  );
+}

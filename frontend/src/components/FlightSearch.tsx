@@ -7,7 +7,7 @@ import { searchFlights } from "@/store/flightsSlice";
 import { useT } from "@/i18n/I18nProvider";
 import { FaBed } from "react-icons/fa6";
 import { BiSolidPlaneAlt } from "react-icons/bi";
-import { FiCalendar, FiMapPin, FiSearch, FiShuffle, FiUser } from "react-icons/fi";
+import { FiCalendar, FiMapPin, FiSearch, FiShuffle, FiUser, FiX } from "react-icons/fi";
 import { TwoMonthDatePicker } from "@/components/date/TwoMonthDatePicker";
 import { MobileDateRangePicker } from "@/components/date/MobileDateRangePicker";
 import { PassengersPicker } from "@/components/PassengersPicker";
@@ -106,7 +106,7 @@ function FlightSearchContent({
   const t = useT();
   const prettyDepart = formatPrettyDate(departDate);
   const prettyReturn = returnDate ? formatPrettyDate(returnDate) : "";
-  const mobileDateLabel = prettyReturn ? `${prettyDepart} - ${prettyReturn}` : prettyDepart;
+  const mobileDateLabel = prettyReturn ? `${prettyDepart} - ${prettyReturn}` : prettyDepart || t("search.departure");
 
   return (
     <div className={cn("w-full flex flex-col justify-center", compact ? "gap-3" : "gap-3.5 md:gap-8")}>
@@ -184,14 +184,30 @@ function FlightSearchContent({
               </div>
             </div>
             <div className="flex items-center justify-between border-t border-slate-300/90 dark:border-white/10">
-              <button
-                type="button"
-                onClick={() => setActiveDateField(activeDateField === "depart" ? null : "depart")}
-                className="flex items-center gap-3 px-3 py-3.5 text-left"
-              >
-                <FiCalendar className="h-5 w-5 text-slate-500 dark:text-white/70" />
-                <span className="truncate text-[14px]">{mobileDateLabel}</span>
-              </button>
+              <div className="flex min-w-0 items-center px-3 py-3.5">
+                <button
+                  type="button"
+                  onClick={() => setActiveDateField(activeDateField === "depart" ? null : "depart")}
+                  className="flex min-w-0 items-center gap-3 text-left"
+                >
+                  <FiCalendar className="h-5 w-5 text-slate-500 dark:text-white/70" />
+                  <span className="truncate text-[14px]">{mobileDateLabel}</span>
+                </button>
+                {departDate || returnDate ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setDepartDate("");
+                      setReturnDate("");
+                      setActiveDateField(null);
+                    }}
+                    className="ml-2 grid h-8 w-8 shrink-0 place-items-center rounded-md text-blue-600 transition hover:bg-slate-100 dark:text-blue-400 dark:hover:bg-white/10"
+                    aria-label="Clear dates"
+                  >
+                    <FiX className="h-5 w-5" />
+                  </button>
+                ) : null}
+              </div>
               <div className="border-l border-slate-300/90 py-1 w-[200px] overflow-hidden dark:border-white/10">
                 <div className="flex items-center gap-3 px-4">
                   <FiUser className="h-5 w-5 text-slate-500 dark:text-white/70" />
@@ -241,11 +257,26 @@ function FlightSearchContent({
               <button
                 type="button"
                 onClick={() => setActiveDateField(activeDateField === "depart" ? null : "depart")}
-                className="mt-1 w-full text-left bg-transparent text-sm outline-none pr-8 text-slate-900 dark:text-white"
+                className="mt-1 h-5 w-full text-left bg-transparent text-sm leading-5 outline-none pr-8 text-slate-900 dark:text-white"
               >
                 {prettyDepart}
               </button>
-              <FiCalendar className="pointer-events-none absolute right-4 top-1/2 text-slate-500" />
+              {departDate ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDepartDate("");
+                    setReturnDate("");
+                    setActiveDateField(null);
+                  }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:bg-slate-100 dark:text-white/70 dark:hover:bg-white/10"
+                  aria-label="Clear departure date"
+                >
+                  <FiX className="h-5 w-5" />
+                </button>
+              ) : (
+                <FiCalendar className="pointer-events-none absolute right-4 top-1/2 text-slate-500" />
+              )}
               {!isMobileViewport && pickersActive && activeDateField === "depart" ? (
                 <TwoMonthDatePicker
                   value={departDate}
@@ -261,10 +292,25 @@ function FlightSearchContent({
               <button
                 type="button"
                 onClick={() => setActiveDateField(activeDateField === "return" ? null : "return")}
-                className="mt-1 w-full text-left bg-transparent text-sm outline-none pr-2 text-slate-900 dark:text-white"
+                className="mt-1 h-5 w-full text-left bg-transparent text-sm leading-5 outline-none pr-8 text-slate-900 dark:text-white"
               >
-                {prettyReturn || "mm/dd/yyyy"}
+                {prettyReturn}
               </button>
+              {returnDate ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setReturnDate("");
+                    setActiveDateField(null);
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 transition hover:bg-slate-100 dark:text-white/70 dark:hover:bg-white/10"
+                  aria-label="Clear return date"
+                >
+                  <FiX className="h-5 w-5" />
+                </button>
+              ) : (
+                <FiCalendar className="pointer-events-none absolute right-4 top-1/2 text-slate-500" />
+              )}
               {!isMobileViewport && pickersActive && activeDateField === "return" ? (
                 <TwoMonthDatePicker
                   value={returnDate || undefined}

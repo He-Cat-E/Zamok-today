@@ -111,7 +111,17 @@ function flightLabelIcon(name: string, price: number, dark: boolean, active: boo
   });
 }
 
-function SmartMarkers({ points, dark, fromLabel }: { points: MapPoint[]; dark: boolean; fromLabel: string }) {
+function SmartMarkers({
+  points,
+  dark,
+  fromLabel,
+  onMarkerClick
+}: {
+  points: MapPoint[];
+  dark: boolean;
+  fromLabel: string;
+  onMarkerClick?: (point: MapPoint) => void;
+}) {
   const map = useMap();
   const [visiblePoints, setVisiblePoints] = useState<MapPoint[]>([]);
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
@@ -140,7 +150,10 @@ function SmartMarkers({ points, dark, fromLabel }: { points: MapPoint[]; dark: b
           eventHandlers={{
             mouseover: () => setHoveredKey(`${p.name}-${p.lat}-${p.lng}`),
             mouseout: () => setHoveredKey((prev) => (prev === `${p.name}-${p.lat}-${p.lng}` ? null : prev)),
-            click: () => setHoveredKey(`${p.name}-${p.lat}-${p.lng}`)
+            click: () => {
+              setHoveredKey(`${p.name}-${p.lat}-${p.lng}`);
+              onMarkerClick?.(p);
+            }
           }}
         />
       ))}
@@ -151,11 +164,13 @@ function SmartMarkers({ points, dark, fromLabel }: { points: MapPoint[]; dark: b
 export function LeafletMap({
   points,
   refreshKey,
-  fromLabel = "from"
+  fromLabel = "from",
+  onMarkerClick
 }: {
   points: MapPoint[];
   refreshKey?: string | number;
   fromLabel?: string;
+  onMarkerClick?: (point: MapPoint) => void;
 }) {
   const { resolved } = useTheme();
   const isDark = resolved === "dark";
@@ -188,7 +203,7 @@ export function LeafletMap({
         }
       />
       <FitBounds points={points} refreshKey={refreshKey} />
-      <SmartMarkers points={stablePoints} dark={isDark} fromLabel={fromLabel} />
+      <SmartMarkers points={stablePoints} dark={isDark} fromLabel={fromLabel} onMarkerClick={onMarkerClick} />
     </MapContainer>
   );
 }
