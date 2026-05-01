@@ -10,6 +10,7 @@ import { FlightSearch } from "@/components/FlightSearch";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Topbar } from "@/components/Topbar";
 import { useI18n } from "@/i18n/I18nProvider";
+import { useAppSelector } from "@/store/hooks";
 import { SITE_DEFAULT_TO_CITY, SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
 import { getMockRouteTickets } from "@/lib/siteDestinationData";
 import { recoleta } from "@/theme/fonts";
@@ -18,14 +19,24 @@ const visibleTickets = 2;
 
 export function FlightRouteSearchClient() {
   const searchParams = useSearchParams();
+  const persistedSearchForm = useAppSelector((s) => s.flights.searchForm);
+  const lastQuery = useAppSelector((s) => s.flights.lastQuery);
   const { t } = useI18n();
   const tr = (key: string, fallback: string) => {
     const v = t(key);
     return v === key ? fallback : v;
   };
 
-  const fromCity = searchParams.get("from")?.trim() || SITE_PRIMARY_FROM_CITY;
-  const toCity = searchParams.get("to")?.trim() || SITE_DEFAULT_TO_CITY;
+  const fromCity =
+    searchParams.get("from")?.trim() ||
+    lastQuery?.from?.trim() ||
+    persistedSearchForm.from.trim() ||
+    SITE_PRIMARY_FROM_CITY;
+  const toCity =
+    searchParams.get("to")?.trim() ||
+    lastQuery?.to?.trim() ||
+    persistedSearchForm.to.trim() ||
+    SITE_DEFAULT_TO_CITY;
 
   const tickets = useMemo(() => getMockRouteTickets(fromCity, toCity, 8), [fromCity, toCity]);
   const [ticketStart, setTicketStart] = useState(0);

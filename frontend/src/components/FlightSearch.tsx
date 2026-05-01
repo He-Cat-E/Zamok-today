@@ -2,8 +2,8 @@
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { useAppDispatch } from "@/store/hooks";
-import { searchFlights } from "@/store/flightsSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { searchFlights, setFlightSearchForm } from "@/store/flightsSlice";
 import { useT } from "@/i18n/I18nProvider";
 import { FaBed } from "react-icons/fa6";
 import { BiSolidPlaneAlt } from "react-icons/bi";
@@ -442,13 +442,21 @@ export function FlightSearch({
   initialTo?: string;
 }) {
   const dispatch = useAppDispatch();
+  const persistedSearchForm = useAppSelector((s) => s.flights.searchForm);
   const defaultDate = useMemo(() => todayYmd(), []);
+  const preferInitialRouteValues =
+    initialFrom !== SITE_PRIMARY_FROM_CITY || initialTo !== SITE_DEFAULT_TO_CITY;
 
-  const [from, setFrom] = useState(initialFrom);
-  const [to, setTo] = useState(initialTo);
-  const [departDate, setDepartDate] = useState(defaultDate);
-  const [returnDate, setReturnDate] = useState("");
-  const [pax, setPax] = useState<PaxState>({ adults: 1, children: 0, infants: 0, cabin: "economy" });
+  const [from, setFrom] = useState(preferInitialRouteValues ? initialFrom : persistedSearchForm.from || initialFrom);
+  const [to, setTo] = useState(preferInitialRouteValues ? initialTo : persistedSearchForm.to || initialTo);
+  const [departDate, setDepartDate] = useState(persistedSearchForm.departDate || defaultDate);
+  const [returnDate, setReturnDate] = useState(persistedSearchForm.returnDate || "");
+  const [pax, setPax] = useState<PaxState>({
+    adults: persistedSearchForm.adults,
+    children: persistedSearchForm.children,
+    infants: persistedSearchForm.infants,
+    cabin: persistedSearchForm.cabin
+  });
   const [tab, setTab] = useState<"flights" | "hotels">("flights");
   const [openBooking, setOpenBooking] = useState(true);
   const [activeDateField, setActiveDateField] = useState<null | "depart" | "return">(null);
@@ -483,6 +491,21 @@ export function FlightSearch({
     if (!returnDate) return;
     if (returnDate < departDate) setReturnDate("");
   }, [departDate, returnDate]);
+
+  useEffect(() => {
+    dispatch(
+      setFlightSearchForm({
+        from,
+        to,
+        departDate,
+        returnDate,
+        adults: pax.adults,
+        children: pax.children,
+        infants: pax.infants,
+        cabin: pax.cabin
+      })
+    );
+  }, [departDate, dispatch, from, pax.adults, pax.cabin, pax.children, pax.infants, returnDate, to]);
 
   useLayoutEffect(() => {
     const el = contentRef.current;
