@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useT } from "@/i18n/I18nProvider";
 import { useTheme } from "@/theme/ThemeProvider";
+import { recoleta } from "@/theme/fonts";
 
 export function SiteFooter() {
   const t = useT();
@@ -24,8 +25,8 @@ export function SiteFooter() {
               />
             </div>
             <div className="text-center md:text-left">
-              <div className="text-sm font-semibold text-slate-900 dark:text-white">Zamok Today</div>
-              <div className="text-xs text-slate-500 dark:text-white/70">© 2007–2026</div>
+              <div className={`${recoleta.className} text-2xl font-semibold text-slate-900 dark:text-white`}>Zamok Today</div>
+              <div className="text-2xs text-slate-500 dark:text-white/70">© 2007–2026</div>
             </div>
           </Link>
 

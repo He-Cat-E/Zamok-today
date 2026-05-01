@@ -11,6 +11,7 @@ import { FiMoon, FiSun } from "react-icons/fi";
 import { LocalePicker } from "@/components/LocalePicker";
 import { useT } from "@/i18n/I18nProvider";
 import { useTheme } from "@/theme/ThemeProvider";
+import { recoleta } from "@/theme/fonts";
 
 function topbarTabsAlwaysVisible(pathname: string | null): boolean {
   if (!pathname) return false;
@@ -49,7 +50,7 @@ export function Topbar() {
             />
           </div>
           <div className="hidden leading-tight sm:block">
-            <div className="text-lg font-semibold text-white">Zamok Today</div>
+            <div className={`${recoleta.className} text-2xl font-semibold text-white`}>Zamok Today</div>
           </div>
         </Link>
 
