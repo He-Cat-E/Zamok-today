@@ -56,6 +56,7 @@
   "searchRoute.navAria": "Route sections",
   "searchRoute.cheapestNav": "Cheapest tickets",
   "searchRoute.noDirectNav": "No direct flights",
-  "searchRoute.noDirectBody": "Try searching for tickets with layovers or changing the departure airport."
+  "searchRoute.noDirectBody": "Try searching for tickets with layovers or changing the departure airport.",
+  "footer.mepCompanyName": "Mep Future Design Mühendislik Ticaret Ltd. Şti.",
+  "footer.allRightsReserved": "All rights reserved."
 }
-

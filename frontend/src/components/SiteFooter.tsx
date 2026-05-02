@@ -6,10 +6,13 @@ import { useT } from "@/i18n/I18nProvider";
 import { useTheme } from "@/theme/ThemeProvider";
 import { recoleta } from "@/theme/fonts";
 
+const MEP_FUTURE_DESIGN_URL = "https://mepfuturedesign.com/";
+
 export function SiteFooter() {
   const t = useT();
   const { resolved } = useTheme();
   const isDark = resolved === "dark";
+  const year = new Date().getFullYear();
   return (
     <footer className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-black">
       <div className="mx-auto w-full max-w-[1440px] px-4 py-10">
@@ -55,10 +58,22 @@ export function SiteFooter() {
             </div>
           </div>
         </div>
-        <div className="mt-6 text-center md:text-left">
-          <a className="text-xs text-slate-600 dark:text-white/70 hover:text-slate-900 dark:hover:text-white" href="#">
-            {t("footer.privacy")}
-          </a>
+      </div>
+
+      <div className="border-t py-3 border-red-500/25 bg-red-600 text-[11px] leading-snug text-white sm:text-xs dark:border-red-800/40 dark:bg-red-950">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-1.5 px-4 py-2.5 sm:relative sm:flex-row sm:items-center sm:justify-end sm:gap-0 sm:py-2.5">
+          <p className="text-center text-white/95 sm:absolute sm:left-1/2 sm:top-1/2 sm:max-w-[min(100%,42rem)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:px-4">
+            <span>© {year}</span>{" "}
+            <a
+              href={MEP_FUTURE_DESIGN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-white/75 underline-offset-2 transition hover:text-red-50 hover:decoration-red-50"
+            >
+              {t("footer.mepCompanyName")}
+            </a>
+          </p>
+          <p className="shrink-0 text-center text-white/90 sm:text-right">{t("footer.allRightsReserved")}</p>
         </div>
       </div>
     </footer>

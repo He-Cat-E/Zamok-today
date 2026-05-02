@@ -1,13 +1,10 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { normalizeLanguageTag } from "@/i18n/locales";
 import { useAppSelector } from "@/store/hooks";
 
 type Dict = Record<string, string>;
-
-function normalizeLanguageTag(tag: string): string {
-  return String(tag || "tr").split(/[-_]/)[0]!.toLowerCase() || "tr";
-}
 
 type I18nContextValue = {
   lang: string;

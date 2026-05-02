@@ -1,29 +1,43 @@
-import en from "@/i18n/locales/en.json";
-import ru from "@/i18n/locales/ru.json";
-import tr from "@/i18n/locales/tr.json";
-import es from "@/i18n/locales/es.json";
-import fr from "@/i18n/locales/fr.json";
-import de from "@/i18n/locales/de.json";
+/**
+ * Locale JSON files live in `public/locales/<code>.json` and are fetched at runtime
+ * by `I18nProvider`. Keep `supportedLanguages` in sync with files on disk.
+ */
+export const supportedLanguages = [
+  "da",
+  "de",
+  "el",
+  "en",
+  "es",
+  "fi",
+  "fr",
+  "he",
+  "hi",
+  "id",
+  "it",
+  "ja",
+  "ms",
+  "nl",
+  "no",
+  "pl",
+  "pt",
+  "ro",
+  "ru",
+  "sv",
+  "th",
+  "tr",
+  "uk",
+  "vi",
+  "zh"
+] as const;
 
-export const supportedLanguages = ["en", "ru", "tr", "es", "fr", "de"] as const;
 export type SupportedLanguage = (typeof supportedLanguages)[number];
 
 export type Dict = Record<string, string>;
 
-export const dictionaries: Record<SupportedLanguage, Dict> = {
-  en: en as Dict,
-  ru: ru as Dict,
-  tr: tr as Dict,
-  es: es as Dict,
-  fr: fr as Dict,
-  de: de as Dict
-};
-
 export function normalizeLanguageTag(tag: string): SupportedLanguage {
-  const primary = String(tag || "en").split(/[-_]/)[0]!.toLowerCase();
-  if (supportedLanguages.includes(primary as SupportedLanguage)) {
-    return primary as SupportedLanguage;
+  const raw = String(tag || "tr").split(/[-_]/)[0]!.toLowerCase() || "tr";
+  if (supportedLanguages.includes(raw as SupportedLanguage)) {
+    return raw as SupportedLanguage;
   }
   return "en";
 }
-
