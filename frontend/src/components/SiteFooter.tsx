@@ -60,7 +60,7 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t py-3 border-white/25 bg-black text-[11px] leading-snug text-white sm:text-xs dark:border-white/40 dark:bg-black">
+      <div className="py-3 bg-red-600 text-[11px] leading-snug text-white sm:text-xs dark:border-white/40 dark:bg-black">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-1.5 px-4 py-2.5 sm:relative sm:flex-row sm:items-center sm:justify-end sm:gap-0 sm:py-2.5">
           <p className="text-center text-white/95 sm:absolute sm:left-1/2 sm:top-1/2 sm:max-w-[min(100%,42rem)] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:px-4">
             <span>© {year}</span>{" "}
