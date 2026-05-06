@@ -435,6 +435,7 @@ export function FlightSearch({
 }) {
   const dispatch = useAppDispatch();
   const originCityName = useAppSelector((s) => s.locale.originCityName);
+  const localeOriginIata = useAppSelector((s) => s.locale.originIata);
   const persistedSearchForm = useAppSelector((s) => s.flights.searchForm);
   const preferInitialRouteValues =
     initialFrom !== SITE_PRIMARY_FROM_CITY || initialTo !== SITE_DEFAULT_TO_CITY;
@@ -506,9 +507,16 @@ export function FlightSearch({
   }, [from, persistedSearchForm.from]);
 
   useEffect(() => {
+    const normalizedFrom = String(from || "").trim().toLowerCase();
+    const normalizedOriginCity = String(originCityName || "").trim().toLowerCase();
+    const resolvedFromIata =
+      normalizedFrom && normalizedFrom === normalizedOriginCity && /^[A-Z]{3}$/.test(String(localeOriginIata || "").toUpperCase())
+        ? String(localeOriginIata).toUpperCase()
+        : "";
     dispatch(
       setFlightSearchForm({
         from,
+        fromIata: resolvedFromIata,
         to,
         departDate,
         returnDate,
@@ -518,7 +526,7 @@ export function FlightSearch({
         cabin: pax.cabin
       })
     );
-  }, [departDate, dispatch, from, pax.adults, pax.cabin, pax.children, pax.infants, returnDate, to]);
+  }, [departDate, dispatch, from, localeOriginIata, originCityName, pax.adults, pax.cabin, pax.children, pax.infants, returnDate, to]);
 
   useLayoutEffect(() => {
     const el = contentRef.current;

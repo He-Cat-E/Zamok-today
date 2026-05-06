@@ -11,8 +11,9 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Topbar } from "@/components/Topbar";
 import { useI18n } from "@/i18n/I18nProvider";
 import { useAppSelector } from "@/store/hooks";
+import { env } from "@/lib/env";
 import { SITE_DEFAULT_TO_CITY, SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
-import { getMockRouteTickets } from "@/lib/siteDestinationData";
+import type { FlightOffer } from "@/lib/types";
 import { recoleta } from "@/theme/fonts";
 
 const visibleTickets = 2;
@@ -38,7 +39,32 @@ export function FlightRouteSearchClient() {
     persistedSearchForm.to.trim() ||
     SITE_DEFAULT_TO_CITY;
 
-  const tickets = useMemo(() => getMockRouteTickets(fromCity, toCity, 8), [fromCity, toCity]);
+  const currencyCode = useAppSelector((s) => s.locale.currency);
+  const [offers, setOffers] = useState<FlightOffer[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const tickets = useMemo(() => {
+    return offers.map((offer, idx) => {
+      const first = offer.segments[0];
+      const depart = first ? new Date(first.departAt) : new Date();
+      const arrive = first ? new Date(first.arriveAt) : new Date();
+      const dateLabel = depart.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+      const timeRange = `${depart.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} — ${arrive.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+      const totalDuration = offer.segments.reduce((sum, seg) => sum + (Number(seg.durationMinutes) || 0), 0);
+      const totalStops = offer.segments.reduce((sum, seg) => sum + (Number(seg.stops) || 0), 0);
+      const hours = Math.floor(totalDuration / 60);
+      const mins = totalDuration % 60;
+      return {
+        id: offer.id || `offer-${idx}`,
+        price: offer.price.amount,
+        toCity,
+        dateLabel,
+        timeRange,
+        durationMeta: `${hours}h ${mins}m · ${totalStops === 0 ? "direct" : `${totalStops} stop${totalStops > 1 ? "s" : ""}`}`,
+        layoverText: totalStops > 0 ? `${totalStops} stop${totalStops > 1 ? "s" : ""}` : undefined
+      };
+    });
+  }, [offers, toCity]);
   const [ticketStart, setTicketStart] = useState(0);
   const [activeNav, setActiveNav] = useState<"cheapest" | "noDirect">("cheapest");
   const cheapestRef = useRef<HTMLElement | null>(null);
@@ -50,6 +76,45 @@ export function FlightRouteSearchClient() {
   useEffect(() => {
     setTicketStart(0);
   }, [fromCity, toCity]);
+
+  useEffect(() => {
+    const from = fromCity.trim();
+    const to = toCity.trim();
+    if (!from || !to) {
+      setOffers([]);
+      return;
+    }
+    const controller = new AbortController();
+    setIsLoading(true);
+    setLoadError(null);
+    void fetch(`${env.apiBaseUrl}/api/flights/search?currency=${encodeURIComponent(String(currencyCode || "USD"))}`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      signal: controller.signal,
+      body: JSON.stringify({
+        from,
+        to,
+        passengers: 1,
+        cabin: "economy"
+      })
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`search failed (${res.status})`);
+        return (await res.json()) as { offers?: FlightOffer[] };
+      })
+      .then((payload) => {
+        setOffers(Array.isArray(payload?.offers) ? payload.offers : []);
+      })
+      .catch((err) => {
+        if (controller.signal.aborted) return;
+        setOffers([]);
+        setLoadError(err instanceof Error ? err.message : "Request failed");
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false);
+      });
+    return () => controller.abort();
+  }, [currencyCode, fromCity, toCity]);
 
   useEffect(() => {
     if (ticketStart > maxTicketStart) setTicketStart(maxTicketStart);
@@ -164,35 +229,47 @@ export function FlightRouteSearchClient() {
             </div>
 
             <div className="pb-1 pt-1">
-              {showTicketSlider ? (
-                <div className="overflow-hidden">
-                  <div
-                    className="flex transition-transform duration-500 ease-out"
-                    style={{ transform: `translateX(-${ticketStart * (100 / visibleTickets)}%)` }}
-                  >
-                    {tickets.map((ticket) => (
-                      <div key={ticket.id} className="shrink-0 px-1.5 sm:px-2" style={{ width: `${100 / visibleTickets}%` }}>
-                        <DestinationTicketCard
-                          ticket={ticket}
-                          fromCity={fromCity}
-                          directLabel={tr("destination.ticketDirect", "Direct")}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : (
+              {isLoading ? (
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  {tickets.map((ticket) => (
-                    <DestinationTicketCard
-                      key={ticket.id}
-                      ticket={ticket}
-                      fromCity={fromCity}
-                      directLabel={tr("destination.ticketDirect", "Direct")}
-                    />
+                  {Array.from({ length: visibleTickets }).map((_, idx) => (
+                    <div key={`ticket-skeleton-${idx}`} className="h-[180px] animate-pulse rounded-3xl bg-slate-200 dark:bg-white/10" />
                   ))}
                 </div>
-              )}
+              ) : null}
+              {!isLoading && loadError ? (
+                <p className="text-sm text-red-600 dark:text-red-300">{loadError}</p>
+              ) : null}
+              {!isLoading && !loadError ? (
+                showTicketSlider ? (
+                  <div className="overflow-hidden">
+                    <div
+                      className="flex transition-transform duration-500 ease-out"
+                      style={{ transform: `translateX(-${ticketStart * (100 / visibleTickets)}%)` }}
+                    >
+                      {tickets.map((ticket) => (
+                        <div key={ticket.id} className="shrink-0 px-1.5 sm:px-2" style={{ width: `${100 / visibleTickets}%` }}>
+                          <DestinationTicketCard
+                            ticket={ticket}
+                            fromCity={fromCity}
+                            directLabel={tr("destination.ticketDirect", "Direct")}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {tickets.map((ticket) => (
+                      <DestinationTicketCard
+                        key={ticket.id}
+                        ticket={ticket}
+                        fromCity={fromCity}
+                        directLabel={tr("destination.ticketDirect", "Direct")}
+                      />
+                    ))}
+                  </div>
+                )
+              ) : null}
             </div>
           </section>
 

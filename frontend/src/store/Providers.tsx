@@ -83,7 +83,8 @@ function LocationBootstrap() {
           // Keep global search state in sync on first location resolution.
           dispatch(
             setFlightSearchForm({
-              from: originCityName
+              from: originCityName,
+              fromIata: /^[A-Z]{3}$/.test(originIata) ? originIata : ""
             })
           );
         }

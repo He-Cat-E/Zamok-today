@@ -52,6 +52,7 @@ export default function MapPage() {
   const currencyCode = useAppSelector((s) => s.locale.currency);
   const originIata = useAppSelector((s) => s.locale.originIata);
   const originCity = useAppSelector((s) => s.flights.searchForm.from);
+  const searchFromIata = useAppSelector((s) => s.flights.searchForm.fromIata);
   const searchFrom = useAppSelector((s) => s.flights.searchForm.from);
   const isDark = resolved === "dark";
   const [groups, setGroups] = useState<RealMapCountryGroup[]>([]);
@@ -301,6 +302,12 @@ export default function MapPage() {
 
   useEffect(() => {
     const url = new URL(`${env.apiBaseUrl}/api/flights/map-data`);
+    const origin = String(searchFromIata || originIata || "")
+      .trim()
+      .toUpperCase();
+    if (/^[A-Z]{3}$/.test(origin)) {
+      url.searchParams.set("origin", origin);
+    }
     if (currencyCode) {
       url.searchParams.set("currency", String(currencyCode).toLowerCase());
     }
@@ -323,7 +330,7 @@ export default function MapPage() {
       .finally(() => {
         setIsDataLoaded(true);
       });
-  }, [currencyCode]);
+  }, [currencyCode, originIata, searchFromIata]);
 
   useEffect(() => {
     const url = new URL(`${env.apiBaseUrl}/api/locale/whereami`);
@@ -572,7 +579,7 @@ export default function MapPage() {
                         <div className={["mt-4 grid gap-4", mapExpanded ? "grid-cols-2" : "grid-cols-2 md:grid-cols-4"].join(" ")}>
                           {group.cities.map((city) => (
                             <MapCityCard
-                              key={city.name}
+                              key={`${city.destinationIata || city.name}-${city.lat}-${city.lng}`}
                               city={city}
                               className="block min-w-0 cursor-pointer"
                               sizes={mapExpanded ? "(max-width: 640px) 100vw, 50vw" : "(max-width: 640px) 100vw, 25vw"}
@@ -587,7 +594,7 @@ export default function MapPage() {
                           >
                             {group.cities.map((city) => (
                               <MapCityCard
-                                key={city.name}
+                                key={`${city.destinationIata || city.name}-${city.lat}-${city.lng}`}
                                 city={city}
                                 className="block shrink-0 px-2 cursor-pointer"
                                 sizes={mapExpanded ? "(max-width: 640px) 100vw, 50vw" : "(max-width: 640px) 100vw, 25vw"}

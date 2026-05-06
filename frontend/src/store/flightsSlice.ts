@@ -5,6 +5,7 @@ import { SITE_DEFAULT_TO_CITY, SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults
 
 type FlightSearchForm = {
   from: string;
+  fromIata: string;
   to: string;
   departDate: string;
   returnDate: string;
@@ -27,6 +28,7 @@ const initialState: FlightsState = {
   offers: [],
   searchForm: {
     from: SITE_PRIMARY_FROM_CITY,
+    fromIata: "",
     to: SITE_DEFAULT_TO_CITY,
     departDate: "",
     returnDate: "",
