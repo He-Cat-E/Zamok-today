@@ -4,6 +4,7 @@ const AIRPORTS_DATA_URL = "https://api.travelpayouts.com/data/en/airports.json";
 const CITIES_DATA_URL = "https://api.travelpayouts.com/data/en/cities.json";
 const CITY_DIRECTIONS_URL = "https://api.travelpayouts.com/v1/city-directions";
 const PRICES_LATEST_URL = "https://api.travelpayouts.com/v2/prices/latest";
+const PRICES_CALENDAR_URL = "https://api.travelpayouts.com/v1/prices/calendar";
 const AIRPORTS_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
 let airportsCache = {
@@ -452,100 +453,105 @@ export async function getDestinationCountryData(req, res) {
   }
 
   try {
-    const mapData = await loadCitiesByIata();
-    const { airportData, tpRes, tpPayload, resolvedOrigin } = await resolveCityDirections({
-      originCountry,
-      originIata,
-      currency
+    const effectiveOrigin = /^[A-Z]{3}$/.test(originIata)
+      ? originIata
+      : ((await resolveCityDirections({ originCountry, originIata: "", currency })).resolvedOrigin || "");
+    const mapDataRes = await getMapDataCore({
+      origin: effectiveOrigin,
+      currency,
+      limit: 1000,
+      maxPages: 10
     });
-    if (!tpRes || !tpRes.ok) {
-      return res.status(502).json({
-        error: "Travelpayouts city-directions request failed",
-        originCountry
-      });
-    }
-    const payload = tpPayload || (await tpRes.json());
-    const entries = Object.values(payload?.data || {});
-
-    const byCountry = new Map();
-    for (const row of entries) {
-      const destinationIata = String(row?.destination || "")
-        .trim()
-        .toUpperCase();
-      if (!destinationIata) continue;
-      const airport = airportData.byIata.get(destinationIata);
-      const cityDirect = mapData.get(destinationIata);
-      const cityFromAirport = airport?.cityCode ? mapData.get(airport.cityCode) : null;
-      const place = airport || cityDirect;
-      if (!place) continue;
-      const countryCode = String(place.countryCode || "").toUpperCase();
-      if (!/^[A-Z]{2}$/.test(countryCode)) continue;
-      const countryName = new Intl.DisplayNames(["en"], { type: "region" }).of(countryCode) || countryCode;
-      const countrySlug = slugifyCountryName(countryName);
-      let bucket = byCountry.get(countryCode);
-      if (!bucket) {
-        bucket = {
-          countryCode,
-          country: countryName,
-          slug: countrySlug,
-          cities: new Map(),
-          tickets: []
-        };
-        byCountry.set(countryCode, bucket);
-      }
-
-      const price = Number(row?.price);
-      if (!Number.isFinite(price) || price <= 0) continue;
-      const cityName = cityDirect?.cityName || cityFromAirport?.cityName || place.cityName || destinationIata;
-      const cityPrev = bucket.cities.get(destinationIata);
-      if (!cityPrev || price < cityPrev.fromPrice) {
-        bucket.cities.set(destinationIata, {
-          name: cityName,
-          destinationIata,
-          fromPrice: Math.round(price),
-          image: `https://img.avs.io/explore/cities/${destinationIata}`
-        });
-      }
-
-      const transferCount = parseNumber(row?.transfers) ?? parseNumber(row?.number_of_changes) ?? 0;
-      const isDirect = transferCount === 0;
-      const hasBaggage =
-        parseBooleanLike(row?.has_baggage) ||
-        parseBooleanLike(row?.baggage_included) ||
-        parseBooleanLike(row?.with_baggage) ||
-        parseBooleanLike(row?.baggage);
-      const dateText = String(row?.departure_at || row?.depart_date || row?.return_date || "").trim();
-      const dateObj = dateText ? new Date(dateText) : null;
-      const dateLabel = dateObj && !Number.isNaN(dateObj.getTime()) ? dateObj.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) : "Best fare";
-      bucket.tickets.push({
-        id: `${destinationIata}-${Math.round(price)}-${bucket.tickets.length}`,
-        price: Math.round(price),
-        toCity: cityName,
-        destinationIata,
-        dateLabel,
-        timeRange: String(row?.airline || "").trim() || "Travelpayouts",
-        durationMeta: isDirect ? "Direct" : `${transferCount || 1} stop${(transferCount || 1) > 1 ? "s" : ""}`,
-        layoverText: hasBaggage ? "Baggage included" : undefined
-      });
-    }
-
     const selected =
-      (regionCodeHint && byCountry.get(regionCodeHint)) ||
-      Array.from(byCountry.values()).find((c) => c.slug === slug || c.countryCode.toLowerCase() === slug);
+      (regionCodeHint &&
+        mapDataRes.countries.find((c) => String(c.regionCode || "").toLowerCase() === regionCodeHint.toLowerCase())) ||
+      mapDataRes.countries.find((c) => slugifyCountryName(c.country) === slug || c.regionCode === slug);
     if (!selected) {
       return res.status(404).json({ error: "Destination country not found", slug });
     }
 
+    const detailedTickets = [];
+    const headers = buildTpHeaders();
+    const effectiveCurrency = String(mapDataRes.currency || currency)
+      .trim()
+      .toLowerCase();
+    const seenTicketKeys = new Set();
+    const normalizedOrigin = String(mapDataRes.origin || "")
+      .trim()
+      .toUpperCase();
+    if (/^[A-Z]{3}$/.test(normalizedOrigin)) {
+      for (const city of selected.cities) {
+        const destinationIata = String(city?.destinationIata || "")
+          .trim()
+          .toUpperCase();
+        if (!/^[A-Z]{3}$/.test(destinationIata)) continue;
+
+        const calendarUrl = new URL(PRICES_CALENDAR_URL);
+        calendarUrl.searchParams.set("origin", normalizedOrigin);
+        calendarUrl.searchParams.set("destination", destinationIata);
+        calendarUrl.searchParams.set("currency", effectiveCurrency);
+        calendarUrl.searchParams.set("one_way", "true");
+
+        const calendarRes = await fetch(calendarUrl.toString(), { headers });
+        if (!calendarRes.ok) continue;
+        const calendarPayload = await calendarRes.json();
+        const calendarRows = Object.values(calendarPayload?.data || {});
+        for (const row of calendarRows) {
+          const price = Number(row?.price);
+          if (!Number.isFinite(price) || price <= 0) continue;
+          const dateText = String(row?.depart_date || row?.departure_at || "").trim();
+          const parsedDate = dateText ? new Date(dateText) : null;
+          const dateLabel =
+            parsedDate && !Number.isNaN(parsedDate.getTime())
+              ? parsedDate.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })
+              : "Best fare";
+          const dedupeKey = `${destinationIata}|${Math.round(price)}|${dateText}`;
+          if (seenTicketKeys.has(dedupeKey)) continue;
+          seenTicketKeys.add(dedupeKey);
+
+          detailedTickets.push({
+            id: `${destinationIata}-${detailedTickets.length}`,
+            price: Math.round(price),
+            currencyCode: String(effectiveCurrency || mapDataRes.currency || "USD").toUpperCase(),
+            toCity: city.name,
+            destinationIata,
+            dateLabel,
+            timeRange: "Travelpayouts",
+            durationMeta: city.isDirect ? "Direct" : "Cheapest",
+            layoverText: city.hasBaggage ? "Baggage included" : undefined
+          });
+        }
+      }
+    }
+
+    const tickets = detailedTickets
+      .sort((a, b) => a.price - b.price)
+      .slice(0, 400);
+
     return res.json({
-      slug: selected.slug,
-      regionCode: selected.countryCode.toLowerCase(),
+      slug: slugifyCountryName(selected.country),
+      regionCode: String(selected.regionCode || "").toLowerCase(),
       country: selected.country,
-      origin: resolvedOrigin,
-      currency: String(payload?.currency || currency).toUpperCase(),
-      cities: Array.from(selected.cities.values())
-        .sort((a, b) => a.fromPrice - b.fromPrice)
-        .slice(0, 60),
-      tickets: selected.tickets.sort((a, b) => a.price - b.price).slice(0, 30)
+      origin: mapDataRes.origin,
+      currency: mapDataRes.currency,
+      cities: [...selected.cities].sort((a, b) => a.fromPrice - b.fromPrice),
+      tickets:
+        tickets.length > 0
+          ? tickets
+          : selected.cities
+              .map((city, idx) => ({
+                id: `${city.destinationIata || city.name}-${idx}`,
+                price: Math.round(Number(city.fromPrice) || 0),
+                currencyCode: String(mapDataRes.currency || "USD").toUpperCase(),
+                toCity: city.name,
+                destinationIata: city.destinationIata,
+                dateLabel: "Best fare",
+                timeRange: "Travelpayouts",
+                durationMeta: city.isDirect ? "Direct" : "Cheapest",
+                layoverText: city.hasBaggage ? "Baggage included" : undefined
+              }))
+              .filter((t) => Number.isFinite(t.price) && t.price > 0)
+              .sort((a, b) => a.price - b.price)
     });
   } catch (err) {
     return res.status(502).json({
@@ -556,94 +562,159 @@ export async function getDestinationCountryData(req, res) {
   }
 }
 
-export async function getMapData(req, res) {
-  const origin = String(req.query.origin || "")
-    .trim()
-    .toUpperCase();
-  const currency = String(req.query.currency || "USD")
-    .trim()
-    .toLowerCase();
-  const limit = Math.min(Math.max(Number(req.query.limit || 1000), 200), 1000);
-  const maxPages = Math.min(Math.max(Number(req.query.maxPages || 5), 1), 10);
+async function getMapDataCore({ origin, currency, limit, maxPages }) {
+  const airportData = await loadAirportsByIata();
+  const cityData = await loadCitiesByIata();
+  const headers = buildTpHeaders();
+  const queryAttempts = [];
+  queryAttempts.push({ currency, showToAffiliates: true });
+  queryAttempts.push({ currency, showToAffiliates: false });
+  if (currency !== "usd") {
+    queryAttempts.push({ currency: "usd", showToAffiliates: true });
+    queryAttempts.push({ currency: "usd", showToAffiliates: false });
+  }
 
-  try {
-    const airportData = await loadAirportsByIata();
-    const cityData = await loadCitiesByIata();
-    const headers = buildTpHeaders();
-    const queryAttempts = [];
-    queryAttempts.push({ currency, showToAffiliates: true });
-    queryAttempts.push({ currency, showToAffiliates: false });
-    if (currency !== "usd") {
-      queryAttempts.push({ currency: "usd", showToAffiliates: true });
-      queryAttempts.push({ currency: "usd", showToAffiliates: false });
-    }
+  let countries = new Map();
+  let usedQuery = null;
+  for (const attempt of queryAttempts) {
+    countries = new Map();
+    for (let page = 1; page <= maxPages; page += 1) {
+      const url = new URL(PRICES_LATEST_URL);
+      url.searchParams.set("currency", attempt.currency);
+      url.searchParams.set("period_type", "year");
+      url.searchParams.set("page", String(page));
+      url.searchParams.set("limit", String(limit));
+      url.searchParams.set("show_to_affiliates", attempt.showToAffiliates ? "true" : "false");
+      url.searchParams.set("sorting", "price");
+      url.searchParams.set("trip_class", "0");
+      url.searchParams.set("one_way", "true");
+      if (/^[A-Z]{3}$/.test(origin)) {
+        url.searchParams.set("origin", origin);
+      }
 
-    let countries = new Map();
-    let usedQuery = null;
-    for (const attempt of queryAttempts) {
-      countries = new Map();
-      for (let page = 1; page <= maxPages; page += 1) {
-        const url = new URL(PRICES_LATEST_URL);
-        url.searchParams.set("currency", attempt.currency);
-        url.searchParams.set("period_type", "year");
-        url.searchParams.set("page", String(page));
-        url.searchParams.set("limit", String(limit));
-        url.searchParams.set("show_to_affiliates", attempt.showToAffiliates ? "true" : "false");
-        url.searchParams.set("sorting", "price");
-        url.searchParams.set("trip_class", "0");
-        url.searchParams.set("one_way", "true");
-        if (/^[A-Z]{3}$/.test(origin)) {
-          url.searchParams.set("origin", origin);
+      const tpRes = await fetch(url.toString(), { headers });
+      if (!tpRes.ok) {
+        let body = "";
+        try {
+          body = await tpRes.text();
+        } catch {
+          body = "";
+        }
+        throw new Error(`Travelpayouts prices-latest request failed (${tpRes.status}) ${body}`);
+      }
+
+      const payload = await tpRes.json();
+      const rows = Array.isArray(payload?.data) ? payload.data : [];
+      if (!rows.length) break;
+
+      for (const row of rows) {
+        const destinationIata = String(row?.destination || "")
+          .trim()
+          .toUpperCase();
+        if (!destinationIata) continue;
+        const airportPlace = airportData.byIata.get(destinationIata);
+        const cityPlaceDirect = cityData.get(destinationIata);
+        const cityPlaceFromAirport = airportPlace?.cityCode ? cityData.get(airportPlace.cityCode) : null;
+        const place = airportPlace || cityPlaceDirect;
+        if (!place) continue;
+        if (!Number.isFinite(place.lat) || !Number.isFinite(place.lng)) continue;
+        const countryCode = String(place.countryCode || "")
+          .trim()
+          .toUpperCase();
+        if (!countryCode) continue;
+        const price = Number(row?.value ?? row?.price);
+        if (!Number.isFinite(price) || price <= 0) continue;
+        const transferCount =
+          parseNumber(row?.transfers) ??
+          parseNumber(row?.number_of_changes) ??
+          parseNumber(row?.stops) ??
+          parseNumber(row?.stopovers);
+        const isDirectRow = Boolean(row?.is_direct || row?.direct) || transferCount === 0;
+        const hasBaggageRow =
+          parseBooleanLike(row?.has_baggage) ||
+          parseBooleanLike(row?.baggage_included) ||
+          parseBooleanLike(row?.with_baggage) ||
+          parseBooleanLike(row?.baggage);
+        const cityKey = String(cityPlaceDirect ? destinationIata : airportPlace?.cityCode || destinationIata)
+          .trim()
+          .toUpperCase();
+        if (!cityKey) continue;
+
+        let group = countries.get(countryCode);
+        if (!group) {
+          let countryName = countryCode;
+          try {
+            countryName = new Intl.DisplayNames(["en"], { type: "region" }).of(countryCode) || countryCode;
+          } catch {
+            countryName = countryCode;
+          }
+          group = {
+            country: countryName,
+            regionCode: countryCode.toLowerCase(),
+            cities: new Map()
+          };
+          countries.set(countryCode, group);
         }
 
-        const tpRes = await fetch(url.toString(), { headers });
-        if (!tpRes.ok) {
-          let body = "";
-          try {
-            body = await tpRes.text();
-          } catch {
-            body = "";
-          }
-          return res.status(502).json({
-            error: "Travelpayouts prices-latest request failed",
-            status: tpRes.status,
-            upstreamBody: body || null
+        const prev = group.cities.get(cityKey);
+        if (!prev || price < prev.fromPrice) {
+          group.cities.set(cityKey, {
+            name: cityPlaceDirect?.cityName || cityPlaceFromAirport?.cityName || place.cityName || destinationIata,
+            destinationIata: cityKey,
+            fromPrice: Math.round(price),
+            popularity: (prev?.popularity || 0) + 1,
+            isDirect: Boolean(prev?.isDirect) || isDirectRow,
+            hasBaggage: Boolean(prev?.hasBaggage) || hasBaggageRow,
+            lat: place.lat,
+            lng: place.lng,
+            image: `https://img.avs.io/explore/cities/${cityKey}`
+          });
+        } else {
+          group.cities.set(cityKey, {
+            ...prev,
+            popularity: (prev.popularity || 0) + 1,
+            isDirect: Boolean(prev.isDirect) || isDirectRow,
+            hasBaggage: Boolean(prev.hasBaggage) || hasBaggageRow
           });
         }
+      }
 
-        const payload = await tpRes.json();
-        const rows = Array.isArray(payload?.data) ? payload.data : [];
-        if (!rows.length) break;
+      if (rows.length < limit) break;
+    }
+    if (countries.size > 0) {
+      usedQuery = attempt;
+      break;
+    }
+  }
 
-        for (const row of rows) {
+  if (/^[A-Z]{3}$/.test(origin)) {
+    try {
+      const cityDirectionsUrl = new URL(CITY_DIRECTIONS_URL);
+      cityDirectionsUrl.searchParams.set("origin", origin);
+      cityDirectionsUrl.searchParams.set("currency", String(usedQuery?.currency || currency));
+      const cityDirectionsRes = await fetch(cityDirectionsUrl.toString(), { headers });
+      if (cityDirectionsRes.ok) {
+        const cityDirectionsPayload = await cityDirectionsRes.json();
+        const routeRows = Object.values(cityDirectionsPayload?.data || {});
+        for (const row of routeRows) {
           const destinationIata = String(row?.destination || "")
             .trim()
             .toUpperCase();
           if (!destinationIata) continue;
+          const price = Number(row?.price);
+          if (!Number.isFinite(price) || price <= 0) continue;
+
           const airportPlace = airportData.byIata.get(destinationIata);
           const cityPlaceDirect = cityData.get(destinationIata);
           const cityPlaceFromAirport = airportPlace?.cityCode ? cityData.get(airportPlace.cityCode) : null;
           const place = airportPlace || cityPlaceDirect;
           if (!place) continue;
           if (!Number.isFinite(place.lat) || !Number.isFinite(place.lng)) continue;
+
           const countryCode = String(place.countryCode || "")
             .trim()
             .toUpperCase();
           if (!countryCode) continue;
-          const price = Number(row?.value ?? row?.price);
-          if (!Number.isFinite(price) || price <= 0) continue;
-          const transferCount =
-            parseNumber(row?.transfers) ??
-            parseNumber(row?.number_of_changes) ??
-            parseNumber(row?.stops) ??
-            parseNumber(row?.stopovers);
-          const isDirectRow = Boolean(row?.is_direct || row?.direct) || transferCount === 0;
-          const hasBaggageRow =
-            parseBooleanLike(row?.has_baggage) ||
-            parseBooleanLike(row?.baggage_included) ||
-            parseBooleanLike(row?.with_baggage) ||
-            parseBooleanLike(row?.baggage);
-          // Aggregate by city (not airport) so each city shows its true cheapest fare.
           const cityKey = String(cityPlaceDirect ? destinationIata : airportPlace?.cityCode || destinationIata)
             .trim()
             .toUpperCase();
@@ -672,118 +743,51 @@ export async function getMapData(req, res) {
               destinationIata: cityKey,
               fromPrice: Math.round(price),
               popularity: (prev?.popularity || 0) + 1,
-              isDirect: Boolean(prev?.isDirect) || isDirectRow,
-              hasBaggage: Boolean(prev?.hasBaggage) || hasBaggageRow,
+              isDirect: true,
+              hasBaggage: Boolean(prev?.hasBaggage),
               lat: place.lat,
               lng: place.lng,
               image: `https://img.avs.io/explore/cities/${cityKey}`
             });
-          } else {
-            group.cities.set(cityKey, {
-              ...prev,
-              popularity: (prev.popularity || 0) + 1,
-              isDirect: Boolean(prev.isDirect) || isDirectRow,
-              hasBaggage: Boolean(prev.hasBaggage) || hasBaggageRow
-            });
           }
         }
-
-        if (rows.length < limit) break;
       }
-      if (countries.size > 0) {
-        usedQuery = attempt;
-        break;
-      }
+    } catch {
+      // Keep map-data response from prices/latest when city-directions merge fails.
     }
+  }
 
-    // Align map prices with route-detail cheapest prices by merging city-level minima
-    // from city-directions for the same origin/currency.
-    if (/^[A-Z]{3}$/.test(origin)) {
-      try {
-        const cityDirectionsUrl = new URL(CITY_DIRECTIONS_URL);
-        cityDirectionsUrl.searchParams.set("origin", origin);
-        cityDirectionsUrl.searchParams.set("currency", String(usedQuery?.currency || currency));
-        const cityDirectionsRes = await fetch(cityDirectionsUrl.toString(), { headers });
-        if (cityDirectionsRes.ok) {
-          const cityDirectionsPayload = await cityDirectionsRes.json();
-          const routeRows = Object.values(cityDirectionsPayload?.data || {});
-          for (const row of routeRows) {
-            const destinationIata = String(row?.destination || "")
-              .trim()
-              .toUpperCase();
-            if (!destinationIata) continue;
-            const price = Number(row?.price);
-            if (!Number.isFinite(price) || price <= 0) continue;
+  const out = Array.from(countries.values())
+    .map((group) => ({
+      country: group.country,
+      regionCode: group.regionCode,
+      cities: Array.from(group.cities.values()).sort((a, b) => a.fromPrice - b.fromPrice)
+    }))
+    .filter((g) => g.cities.length > 0)
+    .sort((a, b) => a.country.localeCompare(b.country));
 
-            const airportPlace = airportData.byIata.get(destinationIata);
-            const cityPlaceDirect = cityData.get(destinationIata);
-            const cityPlaceFromAirport = airportPlace?.cityCode ? cityData.get(airportPlace.cityCode) : null;
-            const place = airportPlace || cityPlaceDirect;
-            if (!place) continue;
-            if (!Number.isFinite(place.lat) || !Number.isFinite(place.lng)) continue;
+  return {
+    source: "travelpayouts",
+    origin: /^[A-Z]{3}$/.test(origin) ? origin : null,
+    currency: (usedQuery?.currency || currency).toUpperCase(),
+    countries: out,
+    query: usedQuery || { currency, showToAffiliates: true }
+  };
+}
 
-            const countryCode = String(place.countryCode || "")
-              .trim()
-              .toUpperCase();
-            if (!countryCode) continue;
-            const cityKey = String(cityPlaceDirect ? destinationIata : airportPlace?.cityCode || destinationIata)
-              .trim()
-              .toUpperCase();
-            if (!cityKey) continue;
+export async function getMapData(req, res) {
+  const origin = String(req.query.origin || "")
+    .trim()
+    .toUpperCase();
+  const currency = String(req.query.currency || "USD")
+    .trim()
+    .toLowerCase();
+  const limit = Math.min(Math.max(Number(req.query.limit || 1000), 200), 1000);
+  const maxPages = Math.min(Math.max(Number(req.query.maxPages || 5), 1), 10);
 
-            let group = countries.get(countryCode);
-            if (!group) {
-              let countryName = countryCode;
-              try {
-                countryName = new Intl.DisplayNames(["en"], { type: "region" }).of(countryCode) || countryCode;
-              } catch {
-                countryName = countryCode;
-              }
-              group = {
-                country: countryName,
-                regionCode: countryCode.toLowerCase(),
-                cities: new Map()
-              };
-              countries.set(countryCode, group);
-            }
-
-            const prev = group.cities.get(cityKey);
-            if (!prev || price < prev.fromPrice) {
-              group.cities.set(cityKey, {
-                name: cityPlaceDirect?.cityName || cityPlaceFromAirport?.cityName || place.cityName || destinationIata,
-                destinationIata: cityKey,
-                fromPrice: Math.round(price),
-                popularity: (prev?.popularity || 0) + 1,
-                isDirect: true,
-                hasBaggage: Boolean(prev?.hasBaggage),
-                lat: place.lat,
-                lng: place.lng,
-                image: `https://img.avs.io/explore/cities/${cityKey}`
-              });
-            }
-          }
-        }
-      } catch {
-        // Keep map-data response from prices/latest when city-directions merge fails.
-      }
-    }
-
-    const out = Array.from(countries.values())
-      .map((group) => ({
-        country: group.country,
-        regionCode: group.regionCode,
-        cities: Array.from(group.cities.values()).sort((a, b) => a.fromPrice - b.fromPrice)
-      }))
-      .filter((g) => g.cities.length > 0)
-      .sort((a, b) => a.country.localeCompare(b.country));
-
-    return res.json({
-      source: "travelpayouts",
-      origin: /^[A-Z]{3}$/.test(origin) ? origin : null,
-      currency: (usedQuery?.currency || currency).toUpperCase(),
-      countries: out,
-      query: usedQuery || { currency, showToAffiliates: true }
-    });
+  try {
+    const result = await getMapDataCore({ origin, currency, limit, maxPages });
+    return res.json(result);
   } catch (err) {
     return res.status(502).json({
       error: "Failed to load map data",
