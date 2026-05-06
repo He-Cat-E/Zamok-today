@@ -186,3 +186,49 @@ b {
   color: #334155;
 }
 
+.map-origin-point-icon {
+  background: transparent;
+  border: 0;
+}
+
+.map-origin-point-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 220px;
+  border-radius: 999px;
+  border: 1px solid #93c5fd;
+  background: rgb(239 246 255 / 96%);
+  color: #1e3a8a;
+  padding: 6px 10px;
+  box-shadow: 0 3px 10px rgb(37 99 235 / 22%);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.map-origin-point-pin {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 28%);
+  flex-shrink: 0;
+}
+
+.map-origin-point-icon-dark .map-origin-point-label {
+  border-color: rgb(147 197 253 / 60%);
+  background: rgb(30 41 59 / 88%);
+  color: #dbeafe;
+  box-shadow: 0 6px 14px rgb(15 23 42 / 48%);
+}
+
+.map-origin-point-icon-dark .map-origin-point-pin {
+  background: #60a5fa;
+  box-shadow: 0 0 0 3px rgb(96 165 250 / 25%);
+}
+

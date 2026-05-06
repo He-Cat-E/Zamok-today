@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { notFound, useParams } from "next/navigation";
+import { notFound, useParams, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
@@ -11,15 +11,55 @@ import { FlightSearch } from "@/components/FlightSearch";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Topbar } from "@/components/Topbar";
 import { useI18n } from "@/i18n/I18nProvider";
-import { buildFlightSearchResultsHref, SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
-import { getDestinationBySlug } from "@/lib/siteDestinationData";
+import { buildFlightSearchResultsHref } from "@/lib/siteDefaults";
+import type { DestinationTicket } from "@/lib/siteDestinationData";
+import { env } from "@/lib/env";
+import { useAppSelector } from "@/store/hooks";
 import { recoleta } from "@/theme/fonts";
+
+const BLANK_CITY_IMAGE = "/Images/blank.webp";
+
+type DestinationCountryPayload = {
+  slug: string;
+  country: string;
+  regionCode: string;
+  currency: string;
+  cities: Array<{
+    name: string;
+    fromPrice: number;
+    destinationIata?: string;
+    image?: string;
+  }>;
+  tickets: DestinationTicket[];
+};
+
+function formatPriceByCurrency(amount: number, currencyCode: string): string {
+  const normalized = String(currencyCode || "USD")
+    .trim()
+    .toUpperCase();
+  try {
+    return new Intl.NumberFormat(undefined, {
+      style: "currency",
+      currency: normalized,
+      currencyDisplay: "narrowSymbol",
+      maximumFractionDigits: 0
+    }).format(amount);
+  } catch {
+    return `${normalized} ${Math.round(amount)}`;
+  }
+}
 
 export default function DestinationCountryPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const slug = typeof params?.slug === "string" ? params.slug : Array.isArray(params?.slug) ? params.slug[0]! : "";
-  const data = useMemo(() => getDestinationBySlug(slug), [slug]);
   const { t } = useI18n();
+  const localeCountry = useAppSelector((s) => s.locale.country);
+  const currencyCode = useAppSelector((s) => s.locale.currency);
+  const originIata = useAppSelector((s) => s.locale.originIata);
+  const fromCity = useAppSelector((s) => s.flights.searchForm.from);
+  const [data, setData] = useState<DestinationCountryPayload | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const tr = (key: string, fallback: string) => {
     const v = t(key);
@@ -32,6 +72,7 @@ export default function DestinationCountryPage() {
   const [allCitiesOpen, setAllCitiesOpen] = useState(false);
   const [ticketStart, setTicketStart] = useState(0);
   const visibleTickets = 2;
+  const effectiveCurrency = data?.currency || currencyCode;
 
   useEffect(() => {
     function sync() {
@@ -91,7 +132,75 @@ export default function DestinationCountryPage() {
     return () => window.removeEventListener("keydown", onKey);
   }, [allCitiesOpen]);
 
+  useEffect(() => {
+    if (!slug) return;
+    const url = new URL(`${env.apiBaseUrl}/api/flights/destination-country`);
+    url.searchParams.set("slug", slug.toLowerCase());
+    const regionCode = String(searchParams.get("rc") || "")
+      .trim()
+      .toUpperCase();
+    if (/^[A-Z]{2}$/.test(regionCode)) {
+      url.searchParams.set("regionCode", regionCode);
+    }
+    const originCountry = String(localeCountry || "TR")
+      .trim()
+      .toUpperCase();
+    if (/^[A-Z]{2}$/.test(originCountry)) {
+      url.searchParams.set("originCountry", originCountry);
+    }
+    const oi = String(originIata || "")
+      .trim()
+      .toUpperCase();
+    if (/^[A-Z]{3}$/.test(oi)) {
+      url.searchParams.set("originIata", oi);
+    }
+    if (currencyCode) {
+      url.searchParams.set("currency", String(currencyCode).toLowerCase());
+    }
+
+    setIsLoaded(false);
+    void fetch(url.toString(), { cache: "no-store" })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`destination-country failed (${res.status})`);
+        return (await res.json()) as DestinationCountryPayload;
+      })
+      .then((payload) => {
+        setData(payload);
+        setFilterCity("all");
+        setCityStart(0);
+        setTicketStart(0);
+      })
+      .catch(() => {
+        setData(null);
+      })
+      .finally(() => {
+        setIsLoaded(true);
+      });
+  }, [slug, searchParams, localeCountry, originIata, currencyCode]);
+
   if (!data) {
+    if (!isLoaded) {
+      return (
+        <main className="min-h-screen bg-slate-50 dark:bg-black">
+          <Topbar />
+          <section className="sticky top-16 z-40 bg-red-600 dark:bg-black shadow-sm">
+            <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
+              <FlightSearch stickyEnabled={false} forceCompact showBottomActions={false} />
+            </div>
+          </section>
+          <div className="mx-auto w-full max-w-[1240px] px-4 py-8">
+            <section className="rounded-3xl bg-white p-6 ring-1 ring-slate-200 dark:bg-black dark:ring-white/10">
+              <div className="h-8 w-52 animate-pulse rounded bg-slate-200 dark:bg-white/10" />
+              <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {Array.from({ length: 4 }).map((_, idx) => (
+                  <div key={`city-skeleton-${idx}`} className="h-64 animate-pulse rounded-2xl bg-slate-200 dark:bg-white/10" />
+                ))}
+              </div>
+            </section>
+          </div>
+        </main>
+      );
+    }
     notFound();
   }
 
@@ -107,8 +216,6 @@ export default function DestinationCountryPage() {
             stickyEnabled={false}
             forceCompact
             showBottomActions={false}
-            initialFrom={SITE_PRIMARY_FROM_CITY}
-            initialTo={data.country}
           />
         </div>
       </section>
@@ -166,7 +273,7 @@ export default function DestinationCountryPage() {
                     <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
                       <div className="relative h-44">
                         <Image
-                          src={city.image}
+                          src={city.image || BLANK_CITY_IMAGE}
                           alt={city.name}
                           fill
                           className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -179,7 +286,7 @@ export default function DestinationCountryPage() {
                           <span className="inline-flex items-center gap-2">
                             <BiSolidPlaneAlt className="h-4 w-4" />
                             {tr("common.from", "from")}{" "}
-                            <span className="font-semibold text-slate-800 dark:text-white">${city.fromPrice}</span>
+                            <span className="font-semibold text-slate-800 dark:text-white">{formatPriceByCurrency(city.fromPrice, effectiveCurrency)}</span>
                           </span>
                         </div>
                       </div>
@@ -198,7 +305,7 @@ export default function DestinationCountryPage() {
                     <article className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
                       <div className="relative h-44">
                         <Image
-                          src={city.image}
+                          src={city.image || BLANK_CITY_IMAGE}
                           alt={city.name}
                           fill
                           className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -211,7 +318,7 @@ export default function DestinationCountryPage() {
                           <span className="inline-flex items-center gap-2">
                             <BiSolidPlaneAlt className="h-4 w-4" />
                             {tr("common.from", "from")}{" "}
-                            <span className="font-semibold text-slate-800 dark:text-white">${city.fromPrice}</span>
+                            <span className="font-semibold text-slate-800 dark:text-white">{formatPriceByCurrency(city.fromPrice, effectiveCurrency)}</span>
                           </span>
                         </div>
                       </div>
@@ -305,7 +412,7 @@ export default function DestinationCountryPage() {
                     <div key={ticket.id} className="shrink-0 px-1.5 sm:px-2" style={{ width: `${100 / visibleTickets}%` }}>
                       <DestinationTicketCard
                         ticket={ticket}
-                        fromCity={SITE_PRIMARY_FROM_CITY}
+                        fromCity={fromCity}
                         directLabel={tr("destination.ticketDirect", "Direct")}
                       />
                     </div>
@@ -318,7 +425,7 @@ export default function DestinationCountryPage() {
                   <DestinationTicketCard
                     key={ticket.id}
                     ticket={ticket}
-                    fromCity={SITE_PRIMARY_FROM_CITY}
+                    fromCity={fromCity}
                     directLabel={tr("destination.ticketDirect", "Direct")}
                   />
                 ))}
@@ -364,14 +471,14 @@ export default function DestinationCountryPage() {
                   <Link
                     key={city.name}
                     href={buildFlightSearchResultsHref(city.name)}
-                    aria-label={`${city.name}, ${tr("common.from", "from")} $${city.fromPrice}`}
+                    aria-label={`${city.name}, ${tr("common.from", "from")} ${formatPriceByCurrency(city.fromPrice, effectiveCurrency)}`}
                     onClick={() => setAllCitiesOpen(false)}
                     className="block text-left"
                   >
                     <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:ring-2 hover:ring-red-500/30 dark:border-white/10 dark:bg-black">
                       <div className="relative h-36">
                         <Image
-                          src={city.image}
+                          src={city.image || BLANK_CITY_IMAGE}
                           alt=""
                           fill
                           aria-hidden
@@ -385,7 +492,7 @@ export default function DestinationCountryPage() {
                           <span className="inline-flex items-center gap-2">
                             <BiSolidPlaneAlt className="h-4 w-4" />
                             {tr("common.from", "from")}{" "}
-                            <span className="font-semibold text-slate-800 dark:text-white">${city.fromPrice}</span>
+                            <span className="font-semibold text-slate-800 dark:text-white">{formatPriceByCurrency(city.fromPrice, effectiveCurrency)}</span>
                           </span>
                         </div>
                       </div>

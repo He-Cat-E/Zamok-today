@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { searchFlights, setFlightSearchForm } from "@/store/flightsSlice";
@@ -19,14 +19,6 @@ const cabins = [
   { value: "business", label: "Business" },
   { value: "first", label: "First" }
 ] as const;
-
-function todayYmd() {
-  const d = new Date();
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
-}
 
 function parseYmd(ymd: string) {
   const [y, m, d] = ymd.split("-").map(Number);
@@ -442,14 +434,14 @@ export function FlightSearch({
   initialTo?: string;
 }) {
   const dispatch = useAppDispatch();
+  const originCityName = useAppSelector((s) => s.locale.originCityName);
   const persistedSearchForm = useAppSelector((s) => s.flights.searchForm);
-  const defaultDate = useMemo(() => todayYmd(), []);
   const preferInitialRouteValues =
     initialFrom !== SITE_PRIMARY_FROM_CITY || initialTo !== SITE_DEFAULT_TO_CITY;
 
   const [from, setFrom] = useState(preferInitialRouteValues ? initialFrom : persistedSearchForm.from || initialFrom);
   const [to, setTo] = useState(preferInitialRouteValues ? initialTo : persistedSearchForm.to || initialTo);
-  const [departDate, setDepartDate] = useState(persistedSearchForm.departDate || defaultDate);
+  const [departDate, setDepartDate] = useState(persistedSearchForm.departDate || "");
   const [returnDate, setReturnDate] = useState(persistedSearchForm.returnDate || "");
   const [pax, setPax] = useState<PaxState>({
     adults: persistedSearchForm.adults,
@@ -491,6 +483,27 @@ export function FlightSearch({
     if (!returnDate) return;
     if (returnDate < departDate) setReturnDate("");
   }, [departDate, returnDate]);
+
+  useEffect(() => {
+    const city = String(originCityName || "").trim();
+    if (!city) return;
+    const shouldAutofillFromLocation =
+      !preferInitialRouteValues && from.trim().toLowerCase() === SITE_PRIMARY_FROM_CITY.toLowerCase();
+    if (!shouldAutofillFromLocation) return;
+    setFrom(city);
+  }, [from, originCityName, preferInitialRouteValues]);
+
+  useEffect(() => {
+    const reduxFrom = String(persistedSearchForm.from || "").trim();
+    if (!reduxFrom) return;
+    const localFrom = String(from || "").trim();
+    const isLocalDefault = localFrom.toLowerCase() === SITE_PRIMARY_FROM_CITY.toLowerCase();
+    // Sync async Redux updates (e.g. location bootstrap) into visible input,
+    // but avoid overriding user-entered values.
+    if (!localFrom || isLocalDefault) {
+      setFrom(reduxFrom);
+    }
+  }, [from, persistedSearchForm.from]);
 
   useEffect(() => {
     dispatch(

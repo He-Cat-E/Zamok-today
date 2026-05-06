@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import type { CSSProperties } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BiSolidPlaneAlt } from "react-icons/bi";
@@ -13,43 +14,135 @@ import { Topbar } from "@/components/Topbar";
 import { useI18n } from "@/i18n/I18nProvider";
 import { recoleta } from "@/theme/fonts";
 import { useTheme } from "@/theme/ThemeProvider";
-import { buildFlightSearchResultsHref, SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
-import { getMapCountryGroups, type MapCountryGroup } from "@/lib/siteDestinationData";
+import { useAppSelector } from "@/store/hooks";
+import { env } from "@/lib/env";
+import { buildFlightSearchResultsHref } from "@/lib/siteDefaults";
 
 const LeafletMap = dynamic(() => import("@/components/map/LeafletMap").then((m) => m.LeafletMap), { ssr: false });
+const BLANK_CITY_IMAGE = "/Images/blank.webp";
 
-const groups: MapCountryGroup[] = getMapCountryGroups();
+type MapCity = {
+  name: string;
+  fromPrice: number;
+  popularity?: number;
+  isDirect?: boolean;
+  hasBaggage?: boolean;
+  lat: number;
+  lng: number;
+  image: string;
+  destinationIata?: string;
+};
+
+type RealMapCountryGroup = {
+  country: string;
+  regionCode: string;
+  cities: MapCity[];
+};
+
+type OriginPoint = {
+  name: string;
+  lat: number;
+  lng: number;
+};
 
 export default function MapPage() {
   const router = useRouter();
   const { lang, t } = useI18n();
   const { resolved } = useTheme();
+  const currencyCode = useAppSelector((s) => s.locale.currency);
+  const originIata = useAppSelector((s) => s.locale.originIata);
+  const originCity = useAppSelector((s) => s.flights.searchForm.from);
+  const searchFrom = useAppSelector((s) => s.flights.searchForm.from);
   const isDark = resolved === "dark";
+  const [groups, setGroups] = useState<RealMapCountryGroup[]>([]);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [mapExpanded, setMapExpanded] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [mobileFullMapOpen, setMobileFullMapOpen] = useState(false);
   const [focusedCountry, setFocusedCountry] = useState<string | null>(null);
   const [sortMenuOpen, setSortMenuOpen] = useState(false);
   const [sortBy, setSortBy] = useState<"popularity" | "price">("popularity");
+  const [directOnly, setDirectOnly] = useState(false);
+  const [baggageOnly, setBaggageOnly] = useState(false);
   const [visibleCount, setVisibleCount] = useState(4);
+  const [visibleGroupCount, setVisibleGroupCount] = useState(10);
   const [startByCountry, setStartByCountry] = useState<Record<string, number>>({});
+  const [originPoint, setOriginPoint] = useState<OriginPoint | null>(null);
   const sortMenuRef = useRef<HTMLDivElement | null>(null);
-  const focusedGroup = useMemo(
-    () => (focusedCountry ? groups.find((g) => g.regionCode === focusedCountry) || null : null),
-    [focusedCountry]
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const formatPriceByCurrency = useCallback(
+    (amount: number) => {
+      const normalized = String(currencyCode || "USD")
+        .trim()
+        .toUpperCase();
+      try {
+        return new Intl.NumberFormat(undefined, {
+          style: "currency",
+          currency: normalized,
+          currencyDisplay: "narrowSymbol",
+          maximumFractionDigits: 0
+        }).format(amount);
+      } catch {
+        return `${normalized} ${Math.round(amount)}`;
+      }
+    },
+    [currencyCode]
   );
-  const groupsToRender = focusedGroup ? [focusedGroup] : groups;
+  const sortedGroups = useMemo(() => {
+    return groups
+      .map((group) => {
+        const cities = [...group.cities].sort((a, b) => {
+          if (sortBy === "price") return a.fromPrice - b.fromPrice;
+          const pa = a.popularity ?? 0;
+          const pb = b.popularity ?? 0;
+          if (pb !== pa) return pb - pa;
+          return a.fromPrice - b.fromPrice;
+        });
+        return {
+          ...group,
+          cities,
+          _popularity: cities.reduce((sum, c) => sum + (c.popularity ?? 0), 0),
+          _minPrice: cities[0]?.fromPrice ?? Number.POSITIVE_INFINITY
+        };
+      })
+      .sort((a, b) => {
+        if (sortBy === "price") return a._minPrice - b._minPrice;
+        if (b._popularity !== a._popularity) return b._popularity - a._popularity;
+        return a.country.localeCompare(b.country);
+      });
+  }, [groups, sortBy]);
+  const filteredGroups = useMemo(() => {
+    return sortedGroups
+      .map((group) => {
+        const cities = group.cities.filter((city) => {
+          if (directOnly && !city.isDirect) return false;
+          if (baggageOnly && !city.hasBaggage) return false;
+          return true;
+        });
+        return {
+          ...group,
+          cities
+        };
+      })
+      .filter((group) => group.cities.length > 0);
+  }, [sortedGroups, directOnly, baggageOnly]);
+  const focusedGroup = useMemo(
+    () => (focusedCountry ? filteredGroups.find((g) => g.regionCode === focusedCountry) || null : null),
+    [focusedCountry, filteredGroups]
+  );
+  const listGroups = focusedGroup ? [focusedGroup] : filteredGroups.slice(0, visibleGroupCount);
   const mapPoints = useMemo(() => {
-    const source = focusedGroup ? [focusedGroup] : groups;
+    const source = focusedGroup ? [focusedGroup] : filteredGroups.slice(0, visibleGroupCount);
     return source.flatMap((g) =>
       g.cities.map((c) => ({
         name: c.name,
         price: c.fromPrice,
+        popularity: c.popularity ?? 0,
         lat: c.lat,
         lng: c.lng
       }))
     );
-  }, [focusedGroup]);
+  }, [focusedGroup, filteredGroups, visibleGroupCount]);
   const regionNames = useMemo(() => {
     try {
       return new Intl.DisplayNames([String(lang || "en")], { type: "region" });
@@ -61,13 +154,82 @@ export default function MapPage() {
     const value = t(key);
     return value === key ? fallback : value;
   };
+  const originCityLabel = useMemo(() => {
+    const city = String(originCity || "").trim();
+    if (city) return city;
+    const iata = String(originIata || "").trim().toUpperCase();
+    return /^[A-Z]{3}$/.test(iata) ? iata : "";
+  }, [originCity, originIata]);
+  const parseWhereAmICoordinates = useCallback((raw: unknown) => {
+    const text = String(raw || "").trim();
+    if (!text.includes(":")) return null;
+    const [lonRaw, latRaw] = text.split(":");
+    const lat = Number(latRaw);
+    const lng = Number(lonRaw);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+    return { lat, lng };
+  }, []);
 
   const openRouteResults = useCallback(
     (cityName: string) => {
-      router.push(buildFlightSearchResultsHref(cityName));
+      router.push(buildFlightSearchResultsHref(cityName, searchFrom));
     },
-    [router]
+    [router, searchFrom]
   );
+
+  function MapCityCard({
+    city,
+    className = "block min-w-0 cursor-pointer",
+    sizes = "(max-width: 640px) 100vw, 25vw",
+    style
+  }: {
+    city: MapCity;
+    className?: string;
+    sizes?: string;
+    style?: CSSProperties;
+  }) {
+    const [imageSrc, setImageSrc] = useState<string>(city.image || BLANK_CITY_IMAGE);
+    const [imageLoaded, setImageLoaded] = useState(false);
+
+    useEffect(() => {
+      setImageSrc(city.image || BLANK_CITY_IMAGE);
+      setImageLoaded(false);
+    }, [city.image]);
+
+    return (
+      <Link href={buildFlightSearchResultsHref(city.name, searchFrom)} className={className} style={style}>
+        <article className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
+          <div className="relative h-44">
+            {!imageLoaded ? <div className="absolute inset-0 z-[1] animate-pulse bg-slate-200 dark:bg-white/10" /> : null}
+            <Image
+              src={imageSrc}
+              alt={city.name}
+              fill
+              className={[
+                "object-cover transition duration-300 group-hover:scale-105",
+                imageLoaded ? "opacity-100" : "opacity-0"
+              ].join(" ")}
+              sizes={sizes}
+              onLoad={() => setImageLoaded(true)}
+              onError={() => {
+                if (imageSrc !== BLANK_CITY_IMAGE) setImageSrc(BLANK_CITY_IMAGE);
+              }}
+            />
+          </div>
+          <div className="p-4">
+            <div className="truncate text-base text-slate-900 dark:text-white">{city.name}</div>
+            <div className="mt-1 text-xs text-slate-500 dark:text-white/70">
+              <span className="inline-flex items-center gap-2">
+                <BiSolidPlaneAlt className="h-4 w-4" />
+                {tr("common.from", "from")}{" "}
+                <span className="font-semibold text-slate-700 dark:text-white">{formatPriceByCurrency(city.fromPrice)}</span>
+              </span>
+            </div>
+          </div>
+        </article>
+      </Link>
+    );
+  }
 
   useEffect(() => {
     function syncVisibleCount() {
@@ -113,6 +275,87 @@ export default function MapPage() {
     };
   }, [mobileFullMapOpen]);
 
+  useEffect(() => {
+    if (focusedGroup) return;
+    if (!isDataLoaded) return;
+    const target = loadMoreRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.some((entry) => entry.isIntersecting);
+        if (!hit) return;
+        setVisibleGroupCount((prev) => Math.min(filteredGroups.length, prev + 10));
+      },
+      { root: null, rootMargin: "300px 0px", threshold: 0.01 }
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [focusedGroup, isDataLoaded, filteredGroups.length]);
+
+  useEffect(() => {
+    if (!focusedCountry) return;
+    const exists = filteredGroups.some((group) => group.regionCode === focusedCountry);
+    if (!exists) setFocusedCountry(null);
+  }, [focusedCountry, filteredGroups]);
+
+  useEffect(() => {
+    const url = new URL(`${env.apiBaseUrl}/api/flights/map-data`);
+    if (currencyCode) {
+      url.searchParams.set("currency", String(currencyCode).toLowerCase());
+    }
+    setIsDataLoaded(false);
+    void fetch(url.toString(), { cache: "no-store" })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`map data failed (${res.status})`);
+        return (await res.json()) as { countries?: RealMapCountryGroup[] };
+      })
+      .then((payload) => {
+        const apiGroups = Array.isArray(payload?.countries) ? payload.countries : [];
+        setGroups(apiGroups);
+        setVisibleGroupCount(10);
+        setStartByCountry({});
+        setFocusedCountry(null);
+      })
+      .catch(() => {
+        setGroups([]);
+      })
+      .finally(() => {
+        setIsDataLoaded(true);
+      });
+  }, [currencyCode]);
+
+  useEffect(() => {
+    const url = new URL(`${env.apiBaseUrl}/api/locale/whereami`);
+    url.searchParams.set("locale", String(lang || "en"));
+    void fetch(url.toString(), { cache: "no-store" })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`whereami failed (${res.status})`);
+        return (await res.json()) as {
+          cityName?: string | null;
+          cityIata?: string | null;
+          coordinates?: string | null;
+        };
+      })
+      .then((payload) => {
+        const coords = parseWhereAmICoordinates(payload?.coordinates);
+        if (!coords) return;
+        const name =
+          String(payload?.cityName || "").trim() ||
+          String(originCityLabel || "").trim() ||
+          String(payload?.cityIata || "").trim().toUpperCase() ||
+          "Origin";
+        setOriginPoint({
+          name,
+          lat: coords.lat,
+          lng: coords.lng
+        });
+      })
+      .catch(() => {
+        setOriginPoint(null);
+      });
+  }, [lang, originCityLabel, parseWhereAmICoordinates]);
+
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-black">
       <Topbar />
@@ -122,7 +365,6 @@ export default function MapPage() {
             stickyEnabled={false}
             forceCompact
             showBottomActions={false}
-            initialFrom={SITE_PRIMARY_FROM_CITY}
             initialTo={tr("search.anywhere", "Anywhere")}
           />
         </div>
@@ -199,10 +441,28 @@ export default function MapPage() {
                     </div>
                   ) : null}
                 </div>
-                <button className="rounded-2xl bg-white px-5 py-1.5 text-slate-700 ring-1 ring-slate-200 dark:bg-white/10 dark:text-white dark:ring-white/15">
+                <button
+                  type="button"
+                  onClick={() => setDirectOnly((v) => !v)}
+                  className={[
+                    "rounded-2xl px-5 py-1.5 ring-1 transition",
+                    directOnly
+                      ? "bg-red-600 text-white ring-red-600 dark:bg-red-600 dark:text-white dark:ring-red-500"
+                      : "bg-white text-slate-700 ring-slate-200 dark:bg-white/10 dark:text-white dark:ring-white/15"
+                  ].join(" ")}
+                >
                   {tr("map.filter.directFlights", "Direct flights")}
                 </button>
-                <button className="rounded-2xl bg-white px-5 py-1.5 ring-1 ring-slate-200 dark:bg-white/10 dark:text-white dark:ring-white/15">
+                <button
+                  type="button"
+                  onClick={() => setBaggageOnly((v) => !v)}
+                  className={[
+                    "rounded-2xl px-5 py-1.5 ring-1 transition",
+                    baggageOnly
+                      ? "bg-red-600 text-white ring-red-600 dark:bg-red-600 dark:text-white dark:ring-red-500"
+                      : "bg-white text-slate-700 ring-slate-200 dark:bg-white/10 dark:text-white dark:ring-white/15"
+                  ].join(" ")}
+                >
                   {tr("map.filter.baggageIncluded", "Baggage included")}
                 </button>
               </div>
@@ -229,7 +489,33 @@ export default function MapPage() {
             </div>
 
             <div className="space-y-4">
-              {groupsToRender.map((group) => (
+              {!isDataLoaded ? (
+                Array.from({ length: 3 }).map((_, i) => (
+                  <section
+                    key={`map-skeleton-${i}`}
+                    className="rounded-3xl bg-white p-4 ring-1 ring-slate-200 dark:bg-black dark:ring-white/10"
+                  >
+                    <div className="h-7 w-40 animate-pulse rounded bg-slate-200 dark:bg-white/10" />
+                    <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+                      {Array.from({ length: 4 }).map((__, j) => (
+                        <article key={`map-skeleton-card-${i}-${j}`} className="overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10">
+                          <div className="h-44 animate-pulse bg-slate-200 dark:bg-white/10" />
+                          <div className="space-y-2 p-4">
+                            <div className="h-4 w-2/3 animate-pulse rounded bg-slate-200 dark:bg-white/10" />
+                            <div className="h-3 w-1/2 animate-pulse rounded bg-slate-200 dark:bg-white/10" />
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
+                ))
+              ) : null}
+              {isDataLoaded && listGroups.length === 0 ? (
+                <section className="rounded-3xl bg-white p-6 text-sm text-slate-600 ring-1 ring-slate-200 dark:bg-black dark:text-white/70 dark:ring-white/10">
+                  {tr("results.none", "No offers found.")}
+                </section>
+              ) : null}
+              {isDataLoaded && listGroups.map((group) => (
                 (() => {
                   const start = startByCountry[group.country] ?? 0;
                   const showSlider = group.cities.length > visibleCount;
@@ -282,79 +568,35 @@ export default function MapPage() {
                         </div>
                       ) : null}
 
-                      <div className="mt-4 overflow-hidden">
-                        {!focusedGroup && showSlider ? (
+                      {focusedGroup ? (
+                        <div className={["mt-4 grid gap-4", mapExpanded ? "grid-cols-2" : "grid-cols-2 md:grid-cols-4"].join(" ")}>
+                          {group.cities.map((city) => (
+                            <MapCityCard
+                              key={city.name}
+                              city={city}
+                              className="block min-w-0 cursor-pointer"
+                              sizes={mapExpanded ? "(max-width: 640px) 100vw, 50vw" : "(max-width: 640px) 100vw, 25vw"}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="mt-4 overflow-hidden">
                           <div
                             className="flex transition-transform duration-500 ease-out"
                             style={{ transform: `translateX(-${start * (100 / visibleCount)}%)` }}
                           >
                             {group.cities.map((city) => (
-                              <Link
+                              <MapCityCard
                                 key={city.name}
-                                href={buildFlightSearchResultsHref(city.name)}
+                                city={city}
                                 className="block shrink-0 px-2 cursor-pointer"
+                                sizes={mapExpanded ? "(max-width: 640px) 100vw, 50vw" : "(max-width: 640px) 100vw, 25vw"}
                                 style={{ width: `${100 / visibleCount}%` }}
-                              >
-                                <article className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
-                                  <div className="relative h-44">
-                                    <Image
-                                      src={city.image}
-                                      alt={city.name}
-                                      fill
-                                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                    />
-                                  </div>
-                                  <div className="p-4">
-                                    <div className="truncate text-base text-slate-900 dark:text-white">
-                                      {city.name}
-                                    </div>
-                                    <div className="mt-1 text-xs text-slate-500 dark:text-white/70">
-                                      <span className="inline-flex items-center gap-2">
-                                        <BiSolidPlaneAlt className="h-4 w-4" />
-                                        {tr("common.from", "from")}{" "}
-                                        <span className="font-semibold text-slate-700 dark:text-white">${city.fromPrice}</span>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </article>
-                              </Link>
+                              />
                             ))}
                           </div>
-                        ) : (
-                          <div className={["grid gap-4", mapExpanded ? "grid-cols-2" : "grid-cols-2 md:grid-cols-4"].join(" ")}>
-                            {group.cities.map((city) => (
-                              <Link
-                                key={city.name}
-                                href={buildFlightSearchResultsHref(city.name)}
-                                className="block min-w-0 cursor-pointer"
-                              >
-                                <article className="group min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-black">
-                                  <div className="relative h-44">
-                                    <Image
-                                      src={city.image}
-                                      alt={city.name}
-                                      fill
-                                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                    />
-                                  </div>
-                                  <div className="p-4">
-                                    <div className="truncate text-base text-slate-900 dark:text-white">
-                                      {city.name}
-                                    </div>
-                                    <div className="mt-1 text-xs text-slate-500 dark:text-white/70">
-                                      <span className="inline-flex items-center gap-2">
-                                        <BiSolidPlaneAlt className="h-4 w-4" />
-                                        {tr("common.from", "from")}{" "}
-                                        <span className="font-semibold text-slate-700 dark:text-white">${city.fromPrice}</span>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </article>
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                        </div>
+                      )}
 
                       {!focusedGroup && showSlider ? (
                         <div className="mt-4 flex justify-center">
@@ -374,6 +616,11 @@ export default function MapPage() {
                   );
                 })()
               ))}
+              {isDataLoaded && !focusedGroup && visibleGroupCount < filteredGroups.length ? (
+                <div ref={loadMoreRef} className="h-16">
+                  <div className="mx-auto mt-2 h-8 w-32 animate-pulse rounded-full bg-slate-200 dark:bg-white/10" />
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -408,6 +655,9 @@ export default function MapPage() {
                     points={mapPoints}
                     refreshKey={`${mapExpanded ? "expanded" : "collapsed"}-${focusedCountry ?? "all"}`}
                     fromLabel={tr("common.from", "from")}
+                    currencyCode={currencyCode}
+                    originPoint={originPoint}
+                    includeOriginInBounds={!focusedGroup}
                     onMarkerClick={(p) => openRouteResults(p.name)}
                   />
                 </div>
@@ -424,6 +674,9 @@ export default function MapPage() {
               points={mapPoints}
               refreshKey={`mobile-full-${focusedCountry ?? "all"}`}
               fromLabel={tr("common.from", "from")}
+              currencyCode={currencyCode}
+              originPoint={originPoint}
+              includeOriginInBounds={!focusedGroup}
               onMarkerClick={(p) => openRouteResults(p.name)}
             />
             <div className="pointer-events-none fixed inset-x-0 bottom-6 z-[1400] flex justify-center px-4">

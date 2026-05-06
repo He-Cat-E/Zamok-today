@@ -8,16 +8,34 @@ import { useTheme } from "@/theme/ThemeProvider";
 export type MapPoint = {
   name: string;
   price: number;
+  popularity?: number;
   lat: number;
   lng: number;
 };
 
-function FitBounds({ points, refreshKey }: { points: MapPoint[]; refreshKey?: string | number }) {
+type OriginPoint = {
+  name: string;
+  lat: number;
+  lng: number;
+};
+
+function FitBounds({
+  points,
+  originPoint,
+  includeOriginInBounds = true,
+  refreshKey
+}: {
+  points: MapPoint[];
+  originPoint?: OriginPoint | null;
+  includeOriginInBounds?: boolean;
+  refreshKey?: string | number;
+}) {
   const map = useMap();
 
   useEffect(() => {
-    if (points.length === 0) return;
-    const bounds = new LatLngBounds(points.map((p) => [p.lat, p.lng]));
+    const allPoints = includeOriginInBounds && originPoint ? [...points, originPoint] : points;
+    if (allPoints.length === 0) return;
+    const bounds = new LatLngBounds(allPoints.map((p) => [p.lat, p.lng]));
 
     // Recalculate several times through panel width animation to avoid blank tiles.
     const runFit = () => {
@@ -35,9 +53,18 @@ function FitBounds({ points, refreshKey }: { points: MapPoint[]; refreshKey?: st
       window.clearTimeout(t2);
       window.clearTimeout(t3);
     };
-  }, [map, points, refreshKey]);
+  }, [map, points, originPoint, includeOriginInBounds, refreshKey]);
 
   return null;
+}
+
+function originLabelIcon(name: string, dark: boolean, fromLabel: string) {
+  return divIcon({
+    className: ["map-origin-point-icon", dark ? "map-origin-point-icon-dark" : ""].join(" ").trim(),
+    html: `<div class="map-origin-point-label"><span class="map-origin-point-pin"></span>${escapeHtml(fromLabel)} ${escapeHtml(name)}</div>`,
+    iconSize: [164, 36],
+    iconAnchor: [20, 34]
+  });
 }
 
 function getMaxLabelsForZoom(zoom: number) {
@@ -71,6 +98,27 @@ function selectVisiblePoints(map: LeafletMapType, points: MapPoint[]) {
 
   const usedCells = new Set<string>();
   const selected: MapPoint[] = [];
+  const occupiedRects: Array<{ left: number; right: number; top: number; bottom: number }> = [];
+
+  const estimateLabelRect = (point: MapPoint) => {
+    const px = map.project([point.lat, point.lng], zoom);
+    const titleLen = point.name.length;
+    const estimatedWidth = Math.max(96, Math.min(164, 74 + titleLen * 6.5));
+    const estimatedHeight = 50;
+    const markerBottomOffset = 10;
+    const centerX = px.x;
+    const labelBottom = px.y - markerBottomOffset;
+    const labelTop = labelBottom - estimatedHeight;
+    return {
+      left: centerX - estimatedWidth / 2,
+      right: centerX + estimatedWidth / 2,
+      top: labelTop,
+      bottom: labelBottom
+    };
+  };
+
+  const intersects = (a: { left: number; right: number; top: number; bottom: number }, b: { left: number; right: number; top: number; bottom: number }) =>
+    !(a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom);
 
   for (const p of prioritized) {
     const px = map.project([p.lat, p.lng], zoom);
@@ -78,8 +126,12 @@ function selectVisiblePoints(map: LeafletMapType, points: MapPoint[]) {
     const cellY = Math.floor(px.y / gridSize);
     const key = `${cellX}:${cellY}`;
     if (usedCells.has(key)) continue;
+    const rect = estimateLabelRect(p);
+    const overlapsExisting = occupiedRects.some((occupied) => intersects(rect, occupied));
+    if (overlapsExisting) continue;
 
     usedCells.add(key);
+    occupiedRects.push(rect);
     selected.push(p);
     if (selected.length >= maxLabels) break;
   }
@@ -96,7 +148,31 @@ function escapeHtml(value: string) {
     .replaceAll("'", "&#039;");
 }
 
-function flightLabelIcon(name: string, price: number, dark: boolean, active: boolean, fromLabel: string) {
+function formatPriceByCurrency(amount: number, currencyCode: string): string {
+  const normalized = String(currencyCode || "USD")
+    .trim()
+    .toUpperCase();
+  try {
+    return new Intl.NumberFormat(undefined, {
+      style: "currency",
+      currency: normalized,
+      currencyDisplay: "narrowSymbol",
+      maximumFractionDigits: 0
+    }).format(amount);
+  } catch {
+    return `${normalized} ${Math.round(amount)}`;
+  }
+}
+
+function flightLabelIcon(
+  name: string,
+  price: number,
+  dark: boolean,
+  active: boolean,
+  fromLabel: string,
+  currencyCode: string
+) {
+  const formattedPrice = formatPriceByCurrency(price, currencyCode);
   return divIcon({
     className: [
       "map-flight-label-icon",
@@ -105,7 +181,7 @@ function flightLabelIcon(name: string, price: number, dark: boolean, active: boo
     ]
       .join(" ")
       .trim(),
-    html: `<div class="map-flight-label"><div class="map-flight-label-title">${escapeHtml(name)}</div><div class="map-flight-label-price">${escapeHtml(fromLabel)} $${price}</div></div>`,
+    html: `<div class="map-flight-label"><div class="map-flight-label-title">${escapeHtml(name)}</div><div class="map-flight-label-price">${escapeHtml(fromLabel)} ${escapeHtml(formattedPrice)}</div></div>`,
     iconSize: [114, 52],
     iconAnchor: [57, 62]
   });
@@ -115,11 +191,13 @@ function SmartMarkers({
   points,
   dark,
   fromLabel,
+  currencyCode,
   onMarkerClick
 }: {
   points: MapPoint[];
   dark: boolean;
   fromLabel: string;
+  currencyCode: string;
   onMarkerClick?: (point: MapPoint) => void;
 }) {
   const map = useMap();
@@ -145,7 +223,7 @@ function SmartMarkers({
         <Marker
           key={`${p.name}-${p.lat}-${p.lng}`}
           position={[p.lat, p.lng]}
-          icon={flightLabelIcon(p.name, p.price, dark, hoveredKey === `${p.name}-${p.lat}-${p.lng}`, fromLabel)}
+          icon={flightLabelIcon(p.name, p.price, dark, hoveredKey === `${p.name}-${p.lat}-${p.lng}`, fromLabel, currencyCode)}
           zIndexOffset={hoveredKey === `${p.name}-${p.lat}-${p.lng}` ? 10000 : 0}
           eventHandlers={{
             mouseover: () => setHoveredKey(`${p.name}-${p.lat}-${p.lng}`),
@@ -165,11 +243,17 @@ export function LeafletMap({
   points,
   refreshKey,
   fromLabel = "from",
+  currencyCode = "USD",
+  originPoint,
+  includeOriginInBounds = true,
   onMarkerClick
 }: {
   points: MapPoint[];
   refreshKey?: string | number;
   fromLabel?: string;
+  currencyCode?: string;
+  originPoint?: OriginPoint | null;
+  includeOriginInBounds?: boolean;
   onMarkerClick?: (point: MapPoint) => void;
 }) {
   const { resolved } = useTheme();
@@ -178,33 +262,42 @@ export function LeafletMap({
   const themeKey = isDark ? "dark" : "light";
 
   return (
-    <MapContainer
-      key={`leaflet-${themeKey}`}
-      center={[41.0, 28.0]}
-      zoom={4}
-      className={["h-full w-full map-leaflet", isDark ? "map-leaflet-dark" : ""].join(" ")}
-      zoomControl
-      scrollWheelZoom
-      attributionControl
-      minZoom={2}
-      maxBounds={[
-        [-85, -180],
-        [85, 180]
-      ]}
-      maxBoundsViscosity={1}
-      worldCopyJump
-    >
-      <TileLayer
-        key={`tiles-${themeKey}`}
-        url={
-          isDark
-            ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-        }
-      />
-      <FitBounds points={points} refreshKey={refreshKey} />
-      <SmartMarkers points={stablePoints} dark={isDark} fromLabel={fromLabel} onMarkerClick={onMarkerClick} />
-    </MapContainer>
+    <div className="relative h-full w-full">
+      <MapContainer
+        key={`leaflet-${themeKey}`}
+        center={[41.0, 28.0]}
+        zoom={4}
+        className={["h-full w-full map-leaflet", isDark ? "map-leaflet-dark" : ""].join(" ")}
+        zoomControl
+        scrollWheelZoom
+        attributionControl
+        minZoom={2}
+        maxBounds={[
+          [-85, -180],
+          [85, 180]
+        ]}
+        maxBoundsViscosity={1}
+        worldCopyJump
+      >
+        <TileLayer
+          key={`tiles-${themeKey}`}
+          url={
+            isDark
+              ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+              : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          }
+        />
+        <FitBounds points={points} originPoint={originPoint} includeOriginInBounds={includeOriginInBounds} refreshKey={refreshKey} />
+        <SmartMarkers points={stablePoints} dark={isDark} fromLabel={fromLabel} currencyCode={currencyCode} onMarkerClick={onMarkerClick} />
+        {originPoint ? (
+          <Marker
+            position={[originPoint.lat, originPoint.lng]}
+            icon={originLabelIcon(originPoint.name, isDark, fromLabel)}
+            zIndexOffset={20000}
+          />
+        ) : null}
+      </MapContainer>
+    </div>
   );
 }
 
