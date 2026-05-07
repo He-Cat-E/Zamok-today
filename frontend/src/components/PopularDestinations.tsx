@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useT } from "@/i18n/I18nProvider";
 import { FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
 import { BiSolidPlaneAlt } from "react-icons/bi";
@@ -71,9 +72,11 @@ function cityImageFromIata(iata?: string): string | undefined {
 export function PopularDestinations() {
   const t = useT();
   const dispatch = useAppDispatch();
+  const pathname = usePathname();
   const countryCode = useAppSelector((s) => s.locale.country);
   const currencyCode = useAppSelector((s) => s.locale.currency);
   const originIata = useAppSelector((s) => s.locale.originIata);
+  const selectedFromIata = useAppSelector((s) => s.flights.searchForm.fromIata);
   const [destinations, setDestinations] = useState<DestinationCardView[]>([]);
   const [start, setStart] = useState(0);
   const [visibleCount, setVisibleCount] = useState(4);
@@ -114,6 +117,7 @@ export function PopularDestinations() {
   }, [allOpen]);
 
   useEffect(() => {
+    if (pathname !== "/") return;
     const originCountry = String(countryCode || "TR")
       .trim()
       .toUpperCase();
@@ -121,11 +125,11 @@ export function PopularDestinations() {
 
     const url = new URL(`${env.apiBaseUrl}/api/flights/popular-destinations`);
     url.searchParams.set("originCountry", originCountry);
-    const iata = String(originIata || "")
+    const effectiveFromIata = String(selectedFromIata || originIata || "")
       .trim()
       .toUpperCase();
-    if (/^[A-Z]{3}$/.test(iata)) {
-      url.searchParams.set("originIata", iata);
+    if (/^[A-Z]{3}$/.test(effectiveFromIata)) {
+      url.searchParams.set("originIata", effectiveFromIata);
     }
     if (currencyCode) {
       url.searchParams.set("currency", String(currencyCode).toLowerCase());
@@ -187,7 +191,7 @@ export function PopularDestinations() {
     return () => {
       controller.abort();
     };
-  }, [countryCode, currencyCode, originIata]);
+  }, [countryCode, currencyCode, originIata, pathname, selectedFromIata]);
 
   function DestinationCard({ d }: { d: DestinationCardView }) {
     const [imageSrc, setImageSrc] = useState<string | undefined>(d.image);

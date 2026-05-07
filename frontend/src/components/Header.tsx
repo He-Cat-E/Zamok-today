@@ -26,7 +26,7 @@ export function Header() {
           <div className="mt-3 mb-4 text-center text-white md:mt-12 md:mb-8">
             <HeroTitle />
           </div>
-          <FlightSearch />
+          <FlightSearch usePersistedSearchForm={false} />
         </div>
       </section>
       <section

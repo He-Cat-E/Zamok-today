@@ -2,6 +2,7 @@ import { flightSearchSchema } from "../validators/flight.validator.js";
 
 const AIRPORTS_DATA_URL = "https://api.travelpayouts.com/data/en/airports.json";
 const CITIES_DATA_URL = "https://api.travelpayouts.com/data/en/cities.json";
+const AIRLINES_DATA_URL = "https://api.travelpayouts.com/data/en/airlines.json";
 const CITY_DIRECTIONS_URL = "https://api.travelpayouts.com/v1/city-directions";
 const PRICES_LATEST_URL = "https://api.travelpayouts.com/v2/prices/latest";
 const PRICES_CALENDAR_URL = "https://api.travelpayouts.com/v1/prices/calendar";
@@ -17,6 +18,11 @@ let airportsCache = {
 let citiesCache = {
   expiresAt: 0,
   byIata: new Map()
+};
+
+let airlinesCache = {
+  expiresAt: 0,
+  list: []
 };
 
 function parseNumber(value) {
@@ -181,6 +187,35 @@ async function loadCitiesByIata() {
   return byIata;
 }
 
+async function loadAirlines() {
+  const now = Date.now();
+  if (airlinesCache.list.length && airlinesCache.expiresAt > now) {
+    return airlinesCache.list;
+  }
+
+  const res = await fetch(AIRLINES_DATA_URL, {
+    headers: { accept: "application/json" }
+  });
+  if (!res.ok) throw new Error(`airlines fetch failed (${res.status})`);
+  const raw = await res.json();
+  const list = Array.isArray(raw) ? raw : [];
+  const out = list
+    .map((item) => ({
+      iata: String(item?.iata || "").trim().toUpperCase(),
+      icao: String(item?.icao || "").trim().toUpperCase(),
+      name: String(item?.name || "").trim(),
+      countryCode: String(item?.country_code || "").trim().toUpperCase(),
+      countryName: String(item?.country || "").trim()
+    }))
+    .filter((row) => row.name);
+
+  airlinesCache = {
+    list: out,
+    expiresAt: now + AIRPORTS_CACHE_TTL_MS
+  };
+  return out;
+}
+
 function slugifyCountryName(value) {
   return String(value || "")
     .normalize("NFKD")
@@ -188,6 +223,30 @@ function slugifyCountryName(value) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+function scoreMatch(queryNormalized, ...candidates) {
+  let best = 0;
+  for (const candidate of candidates) {
+    const normalized = normalizeText(candidate);
+    if (!normalized) continue;
+    if (normalized === queryNormalized) return 100;
+    if (normalized.startsWith(queryNormalized)) best = Math.max(best, 80);
+    else if (normalized.includes(queryNormalized)) best = Math.max(best, 60);
+  }
+  return best;
+}
+
+function displayRegionName(countryCode) {
+  const code = String(countryCode || "")
+    .trim()
+    .toUpperCase();
+  if (!/^[A-Z]{2}$/.test(code)) return code || "";
+  try {
+    return new Intl.DisplayNames(["en"], { type: "region" }).of(code) || code;
+  } catch {
+    return code;
+  }
 }
 
 async function resolveCityDirections({ originCountry, originIata, currency }) {
@@ -279,8 +338,6 @@ export async function searchFlights(req, res) {
     url.searchParams.set("trip_class", payload.cabin === "economy" ? "0" : "1");
     url.searchParams.set("one_way", payload.returnDate ? "false" : "true");
 
-    console.log(url.toString());
-
     const tpRes = await fetch(url.toString(), { headers });
     if (!tpRes.ok) {
       const body = await tpRes.text().catch(() => "");
@@ -346,6 +403,246 @@ export async function searchFlights(req, res) {
   }
 }
 
+export async function searchLocations(req, res) {
+  const query = String(req.query.query || "")
+    .trim();
+  const normalizedQuery = normalizeText(query);
+  const limit = Math.min(Math.max(Number(req.query.limit || 12), 3), 30);
+  if (normalizedQuery.length < 2) {
+    return res.json({ query, locations: [] });
+  }
+
+  try {
+    const airportData = await loadAirportsByIata();
+    const cityData = await loadCitiesByIata();
+    const airlines = await loadAirlines();
+    const locations = [];
+    const countries = new Map();
+    const matchedCountryCodes = new Set();
+    const typePriority = {
+      country: 0,
+      city: 1,
+      airport: 2,
+      airline: 3
+    };
+
+    for (const city of cityData.values()) {
+      const countryCode = String(city?.countryCode || "").trim().toUpperCase();
+      if (!/^[A-Z]{2}$/.test(countryCode)) continue;
+      let bucket = countries.get(countryCode);
+      if (!bucket) {
+        bucket = {
+          countryCode,
+          countryName: displayRegionName(countryCode),
+          cityCount: 0
+        };
+        countries.set(countryCode, bucket);
+      }
+      bucket.cityCount += 1;
+    }
+
+    for (const country of countries.values()) {
+      const score = scoreMatch(normalizedQuery, country.countryName, country.countryCode);
+      if (!score) continue;
+      matchedCountryCodes.add(country.countryCode);
+      locations.push({
+        id: `country:${country.countryCode}`,
+        type: "country",
+        name: country.countryName,
+        iata: country.countryCode,
+        countryCode: country.countryCode,
+        countryName: country.countryName,
+        cityCount: country.cityCount,
+        relatedCountry: true,
+        score: score + 10
+      });
+    }
+
+    for (const [iata, city] of cityData.entries()) {
+      const cityName = String(city?.cityName || "").trim();
+      const countryCode = String(city?.countryCode || "").trim().toUpperCase();
+      const countryName = displayRegionName(countryCode);
+      const baseScore = scoreMatch(normalizedQuery, cityName, iata, countryName);
+      const countryBoost = matchedCountryCodes.has(countryCode) ? 30 : 0;
+      const score = baseScore + countryBoost;
+      if (!score) continue;
+      locations.push({
+        id: `city:${iata}`,
+        type: "city",
+        name: cityName || iata,
+        iata,
+        countryCode,
+        countryName,
+        relatedCountry: matchedCountryCodes.has(countryCode),
+        score
+      });
+    }
+
+    for (const [iata, airport] of airportData.byIata.entries()) {
+      const airportName = String(airport?.cityName || "").trim();
+      const cityCode = String(airport?.cityCode || "").trim().toUpperCase();
+      const cityName = cityCode ? String(cityData.get(cityCode)?.cityName || "").trim() : "";
+      const countryCode = String(airport?.countryCode || "").trim().toUpperCase();
+      const countryName = displayRegionName(countryCode);
+      const baseScore = scoreMatch(normalizedQuery, airportName, cityName, iata, countryName);
+      const countryBoost = matchedCountryCodes.has(countryCode) ? 20 : 0;
+      const score = baseScore + countryBoost;
+      if (!score) continue;
+      locations.push({
+        id: `airport:${iata}`,
+        type: "airport",
+        name: airportName || iata,
+        iata,
+        cityIata: cityCode,
+        cityName,
+        countryCode,
+        countryName,
+        relatedCountry: matchedCountryCodes.has(countryCode),
+        score
+      });
+    }
+
+    for (const airline of airlines) {
+      const countryName = airline.countryName || displayRegionName(airline.countryCode);
+      const baseScore = scoreMatch(normalizedQuery, airline.name, airline.iata, airline.icao, countryName);
+      const countryBoost = matchedCountryCodes.has(airline.countryCode) ? 15 : 0;
+      const score = baseScore + countryBoost;
+      if (!score) continue;
+      locations.push({
+        id: `airline:${airline.iata || airline.icao || airline.name}`,
+        type: "airline",
+        name: airline.name,
+        iata: airline.iata || airline.icao || "--",
+        countryCode: airline.countryCode,
+        countryName,
+        relatedCountry: matchedCountryCodes.has(airline.countryCode),
+        score
+      });
+    }
+
+    const deduped = [];
+    const seen = new Set();
+    const effectiveLimit = matchedCountryCodes.size > 0 ? Math.max(limit, 120) : limit;
+    const sorted = [...locations].sort((a, b) => {
+      const aRelated = Boolean(a.relatedCountry);
+      const bRelated = Boolean(b.relatedCountry);
+      if (aRelated !== bRelated) return aRelated ? -1 : 1;
+      const aTypeRank = typePriority[a.type] ?? 99;
+      const bTypeRank = typePriority[b.type] ?? 99;
+      if (aTypeRank !== bTypeRank) return aTypeRank - bTypeRank;
+      if (b.score !== a.score) return b.score - a.score;
+      return String(a.name || "").localeCompare(String(b.name || ""));
+    });
+    for (const row of sorted) {
+      if (seen.has(row.id)) continue;
+      seen.add(row.id);
+      const { score, relatedCountry, ...item } = row;
+      deduped.push(item);
+      if (deduped.length >= effectiveLimit) break;
+    }
+
+    return res.json({ query, locations: deduped });
+  } catch (err) {
+    return res.status(502).json({
+      error: "Failed to search locations",
+      detail: err instanceof Error ? err.message : "unknown_error"
+    });
+  }
+}
+
+function resolveDestinationPlace(destinationIata, airportData, cityData) {
+  const code = String(destinationIata || "")
+    .trim()
+    .toUpperCase();
+  if (!code) return null;
+  const airport = airportData.byIata.get(code);
+  const directCity = cityData.get(code);
+  const airportCity = airport?.cityCode ? cityData.get(airport.cityCode) : null;
+  const place = directCity || airportCity || airport;
+  if (!place) return null;
+  return {
+    countryCode: String(place.countryCode || "").trim().toUpperCase(),
+    cityName: String(directCity?.cityName || airportCity?.cityName || airport?.cityName || code).trim() || code
+  };
+}
+
+function addPopularDestinationCandidate(map, { countryCode, originCountry, price, destinationIata, destinationCity, source }) {
+  const destCountry = String(countryCode || "").trim().toUpperCase();
+  const amount = Number(price);
+  if (!/^[A-Z]{2}$/.test(destCountry) || destCountry === originCountry) return;
+  if (!Number.isFinite(amount) || amount <= 0) return;
+
+  const prev = map.get(destCountry);
+  if (!prev) {
+    map.set(destCountry, {
+      countryCode: destCountry,
+      fromPrice: Math.round(amount),
+      destinationIata,
+      destinationCity,
+      popularity: 1,
+      sources: new Set([source])
+    });
+    return;
+  }
+
+  prev.popularity = (prev.popularity || 0) + 1;
+  prev.sources.add(source);
+  if (amount < prev.fromPrice) {
+    prev.fromPrice = Math.round(amount);
+    prev.destinationIata = destinationIata;
+    prev.destinationCity = destinationCity;
+  }
+}
+
+async function mergePopularDestinationsFromPricesLatest({
+  map,
+  origin,
+  originCountry,
+  currency,
+  airportData,
+  cityData,
+  headers
+}) {
+  if (!/^[A-Z]{3}$/.test(origin)) return;
+
+  for (let page = 1; page <= 3; page += 1) {
+    const url = new URL(PRICES_LATEST_URL);
+    url.searchParams.set("origin", origin);
+    url.searchParams.set("currency", currency);
+    url.searchParams.set("period_type", "year");
+    url.searchParams.set("page", String(page));
+    url.searchParams.set("limit", "1000");
+    url.searchParams.set("sorting", "price");
+    url.searchParams.set("trip_class", "0");
+    url.searchParams.set("one_way", "true");
+    url.searchParams.set("show_to_affiliates", "true");
+
+    const response = await fetch(url.toString(), { headers });
+    if (!response.ok) break;
+    const payload = await response.json();
+    const rows = Array.isArray(payload?.data) ? payload.data : [];
+    if (!rows.length) break;
+
+    for (const row of rows) {
+      const destinationIata = String(row?.destination || "")
+        .trim()
+        .toUpperCase();
+      const place = resolveDestinationPlace(destinationIata, airportData, cityData);
+      if (!place) continue;
+      addPopularDestinationCandidate(map, {
+        countryCode: place.countryCode,
+        originCountry,
+        price: row?.value ?? row?.price,
+        destinationIata,
+        destinationCity: place.cityName,
+        source: "prices-latest"
+      });
+    }
+
+    if (rows.length < 1000) break;
+  }
+}
+
 export async function getPopularDestinations(req, res) {
   const originCountry = String(req.query.originCountry || "TR")
     .trim()
@@ -365,6 +662,7 @@ export async function getPopularDestinations(req, res) {
       originIata,
       currency
     });
+    const cityData = await loadCitiesByIata();
     if (!tpRes) {
       return res.status(502).json({
         error: "Travelpayouts city-directions request failed",
@@ -385,32 +683,45 @@ export async function getPopularDestinations(req, res) {
 
     const payload = tpPayload || (await tpRes.json());
     const entries = Object.values(payload?.data || {});
-    const minPriceByCountry = new Map();
+    const destinationsByCountry = new Map();
 
     for (const row of entries) {
       const destinationIata = String(row?.destination || "")
         .trim()
         .toUpperCase();
       if (!destinationIata) continue;
-      const airport = airportData.byIata.get(destinationIata);
-      const destCountry = String(airport?.countryCode || "").toUpperCase();
-      if (!destCountry || destCountry === originCountry) continue;
-      const price = Number(row?.price);
-      if (!Number.isFinite(price) || price <= 0) continue;
-      const prev = minPriceByCountry.get(destCountry);
-      if (!prev || price < prev.price) {
-        minPriceByCountry.set(destCountry, {
-          countryCode: destCountry,
-          fromPrice: price,
-          destinationIata,
-          destinationCity: String(airport?.cityName || "").trim() || destinationIata
-        });
-      }
+      const place = resolveDestinationPlace(destinationIata, airportData, cityData);
+      if (!place) continue;
+      addPopularDestinationCandidate(destinationsByCountry, {
+        countryCode: place.countryCode,
+        originCountry,
+        price: row?.price,
+        destinationIata,
+        destinationCity: place.cityName,
+        source: "city-directions"
+      });
     }
 
-    const destinations = Array.from(minPriceByCountry.values())
-      .sort((a, b) => a.fromPrice - b.fromPrice)
-      .slice(0, 18);
+    await mergePopularDestinationsFromPricesLatest({
+      map: destinationsByCountry,
+      origin: resolvedOrigin,
+      originCountry,
+      currency,
+      airportData,
+      cityData,
+      headers: buildTpHeaders()
+    });
+
+    const destinations = Array.from(destinationsByCountry.values())
+      .map((item) => ({
+        countryCode: item.countryCode,
+        fromPrice: item.fromPrice,
+        destinationIata: item.destinationIata,
+        destinationCity: item.destinationCity,
+        popularity: item.popularity || 0
+      }))
+      .sort((a, b) => b.popularity - a.popularity || a.fromPrice - b.fromPrice)
+      .slice(0, 24);
 
     return res.json({
       originCountry,

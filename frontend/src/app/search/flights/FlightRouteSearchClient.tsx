@@ -245,7 +245,11 @@ export function FlightRouteSearchClient() {
                 <p className="text-sm text-red-600 dark:text-red-300">{loadError}</p>
               ) : null}
               {!isLoading && !loadError ? (
-                showTicketSlider ? (
+                tickets.length === 0 ? (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-6 text-sm text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-white/70">
+                    {tr("searchRoute.noCheapestTickets", "No cheapest tickets found for this route right now.")}
+                  </div>
+                ) : showTicketSlider ? (
                   <div className="overflow-hidden">
                     <div
                       className="flex transition-transform duration-500 ease-out"

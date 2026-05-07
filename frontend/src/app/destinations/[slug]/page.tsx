@@ -136,7 +136,7 @@ export default function DestinationCountryPage() {
     return data.tickets.filter((x) => x.toCity === filterCity);
   }, [data, filterCity]);
   const filteredTickets = useMemo(() => {
-    if (filterCity && cityRouteTickets) return cityRouteTickets;
+    if (filterCity && cityRouteTickets && cityRouteTickets.length > 0) return cityRouteTickets;
     return baseFilteredTickets;
   }, [baseFilteredTickets, cityRouteTickets, filterCity]);
   const availableCityNames = useMemo(() => {
