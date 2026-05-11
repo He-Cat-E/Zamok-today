@@ -289,7 +289,7 @@ export function TravelInsuranceClient() {
                   key={s.n}
                   className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-zinc-50/90 p-6 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40"
                 >
-                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-red-600 text-xl font-bold tabular-nums leading-none text-white shadow-md shadow-red-900/25 dark:bg-zinc-950 dark:text-white dark:shadow-black/50 dark:ring-1 dark:ring-white/15 md:h-14 md:w-14 md:text-2xl">
+                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-zinc-400 bg-white text-xl font-bold tabular-nums text-zinc-900 shadow-sm dark:border-zinc-500 dark:bg-zinc-950 dark:text-white md:h-14 md:w-14 md:text-2xl">
                     {s.n}
                   </div>
                   <h3 className={`${recoleta.className} mt-5 text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-white md:text-2xl`}>

@@ -9,7 +9,11 @@
     "start": "next start -p 3000",
     "lint": "next lint",
     "i18n:travel": "node scripts/write-travel-overlays-de-fr-es.mjs && node scripts/build-travel-overlays-all.mjs && node scripts/sync-insurance-travel-i18n.mjs && node scripts/verify-travel-i18n.mjs",
-    "i18n:life": "node scripts/sync-insurance-life-i18n.mjs && node scripts/verify-life-i18n.mjs"
+    "i18n:life": "node scripts/sync-insurance-life-i18n.mjs && node scripts/verify-life-i18n.mjs",
+    "i18n:motorbike": "node scripts/copy-motorbike-lang-to-overlays.mjs && node scripts/sync-insurance-motorbike-i18n.mjs && node scripts/verify-motorbike-i18n.mjs",
+    "i18n:health-edu": "node scripts/apply-health-education-from-lib.mjs && node scripts/verify-health-education-i18n.mjs",
+    "i18n:home-need": "node scripts/apply-home-need-guide-from-lib.mjs && node scripts/verify-home-need-guide-i18n.mjs",
+    "i18n:life-types": "node scripts/apply-life-types-from-lib.mjs && node scripts/verify-life-types-i18n.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",

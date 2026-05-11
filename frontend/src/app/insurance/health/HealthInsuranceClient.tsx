@@ -39,6 +39,8 @@ const BUY_BLOCKS: ReadonlyArray<{ titleKey: string; bodyKey: string }> = [
 ];
 
 const HERO_IMAGE = "/Images/health-insurance.jpg";
+const EDU_IMAGE_WELLNESS = "/Images/health-insurance-1.webp";
+const EDU_IMAGE_OUTDOOR = "/Images/halth-insurance-2.webp";
 
 const EXPERT_SLIDE_INTERVAL_MS = 6500;
 
@@ -245,6 +247,78 @@ export function HealthInsuranceClient() {
           </div>
         </section>
 
+        {/* Educational — What is health insurance? (image left, copy right) */}
+        <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
+          <div className="mx-auto max-w-[1440px] px-4">
+            <h2
+              className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}
+            >
+              {tr(t, "insurance.health.eduWhatTitle", "What is health insurance?")}
+            </h2>
+            <div className="mt-10 grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
+              <div className="relative mx-auto aspect-square w-full max-w-lg overflow-hidden rounded-3xl bg-zinc-100 shadow-xl shadow-zinc-900/10 ring-1 ring-zinc-200/90 dark:bg-zinc-900 dark:shadow-black/40 dark:ring-white/10 lg:mx-0">
+                <Image
+                  src={EDU_IMAGE_WELLNESS}
+                  alt=""
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <p className="text-base leading-relaxed text-zinc-700 dark:text-zinc-300 md:text-lg">
+                  {tr(
+                    t,
+                    "insurance.health.eduWhatIntro",
+                    "Health insurance in the UK is an insurance policy that provides healthcare cover in addition to the healthcare that everyone is entitled to on the National Health Service (NHS)."
+                  )}
+                </p>
+                <ul className="mt-8 flex flex-col gap-6">
+                  {[
+                    {
+                      titleKey: "insurance.health.eduWhatBullet1Title",
+                      descKey: "insurance.health.eduWhatBullet1Desc",
+                      fbTitle: "Quicker access",
+                      fbDesc:
+                        "Reduces your waiting time by allowing you to access private healthcare for you and your family."
+                    },
+                    {
+                      titleKey: "insurance.health.eduWhatBullet2Title",
+                      descKey: "insurance.health.eduWhatBullet2Desc",
+                      fbTitle: "Different levels of cover",
+                      fbDesc: "The greater your cover, the higher the premiums are likely to be."
+                    },
+                    {
+                      titleKey: "insurance.health.eduWhatBullet3Title",
+                      descKey: "insurance.health.eduWhatBullet3Desc",
+                      fbTitle: "Choose when and where you're treated",
+                      fbDesc:
+                        "If you want to be treated at a private hospital, or you need specialist treatment, then private healthcare insurance could be an option for you."
+                    }
+                  ].map((b) => (
+                    <li key={b.titleKey}>
+                      <p className="text-base leading-relaxed text-zinc-800 dark:text-zinc-100 md:text-[17px]">
+                        <span className="font-semibold text-zinc-900 dark:text-white">
+                          {tr(t, b.titleKey, b.fbTitle)}
+                        </span>{" "}
+                        <span className="text-zinc-600 dark:text-zinc-400">—</span>{" "}
+                        {tr(t, b.descKey, b.fbDesc)}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-8 text-base leading-relaxed text-zinc-700 dark:text-zinc-300 md:text-lg">
+                  {tr(
+                    t,
+                    "insurance.health.eduWhatClosing",
+                    "You'll receive help for acute (immediate) conditions, and may also receive treatment for ongoing issues, depending on your policy."
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* 1 — Compare / how it works (mirrors home “compare” block) */}
         <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
           <div className="mx-auto max-w-[1440px] px-4">
@@ -264,7 +338,7 @@ export function HealthInsuranceClient() {
                   key={s.n}
                   className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-zinc-50/90 p-6 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40"
                 >
-                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-red-600 text-xl font-bold tabular-nums leading-none text-white shadow-md shadow-red-900/25 dark:bg-zinc-950 dark:text-white dark:shadow-black/50 dark:ring-1 dark:ring-white/15 md:h-14 md:w-14 md:text-2xl">
+                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-zinc-400 bg-white text-xl font-bold tabular-nums text-zinc-900 shadow-sm dark:border-zinc-500 dark:bg-zinc-950 dark:text-white md:h-14 md:w-14 md:text-2xl">
                     {s.n}
                   </div>
                   <h3 className={`${recoleta.className} mt-5 text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-white md:text-2xl`}>
@@ -349,7 +423,84 @@ export function HealthInsuranceClient() {
           </div>
         </section>
 
-        {/* 5 — Buying / what to weigh (mirrors home premium-drivers placement) */}
+        {/* 5 — Do I need private health insurance? (copy left, image right) */}
+        <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
+          <div className="mx-auto max-w-[1440px] px-4">
+            <h2
+              className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}
+            >
+              {tr(t, "insurance.health.eduNeedTitle", "Do I need private health insurance?")}
+            </h2>
+            <div className="mt-10 grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+              <div className="order-2 flex flex-col justify-center lg:order-1">
+                <p className="text-base leading-relaxed text-zinc-700 dark:text-zinc-300 md:text-lg">
+                  {tr(
+                    t,
+                    "insurance.health.eduNeedIntro",
+                    "Health insurance, otherwise known as private health care or private medical insurance, allows you to receive private medical treatment for a fee."
+                  )}
+                </p>
+                <ul className="mt-8 flex flex-col gap-6">
+                  {[
+                    {
+                      titleKey: "insurance.health.eduNeedBullet1Title",
+                      descKey: "insurance.health.eduNeedBullet1Desc",
+                      fbTitle: "Workplace benefits",
+                      fbDesc:
+                        "Some workplace benefit and pension schemes include private healthcare as part of their packages for staff. In that case, you may find that private healthcare is included for you and your family."
+                    },
+                    {
+                      titleKey: "insurance.health.eduNeedBullet2Title",
+                      descKey: "insurance.health.eduNeedBullet2Desc",
+                      fbTitle: "Avoiding waiting lists",
+                      fbDesc:
+                        "However, if your workplace doesn't offer private health insurance as a benefit, or you work for yourself, then private health insurance can be useful if you need to be treated quickly at a hospital close to your home, and not have to join an NHS waiting list."
+                    }
+                  ].map((b) => (
+                    <li key={b.titleKey}>
+                      <p className="text-base leading-relaxed text-zinc-800 dark:text-zinc-100 md:text-[17px]">
+                        <span className="font-semibold text-zinc-900 dark:text-white">
+                          {tr(t, b.titleKey, b.fbTitle)}
+                        </span>{" "}
+                        <span className="text-zinc-600 dark:text-zinc-400">—</span>{" "}
+                        {tr(t, b.descKey, b.fbDesc)}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-8">
+                  <a
+                    href="#contact-quote"
+                    className="text-base font-medium text-red-700 underline decoration-red-700/40 underline-offset-4 transition hover:text-red-800 hover:decoration-red-800 dark:text-red-400 dark:decoration-red-400/50 dark:hover:text-red-300"
+                  >
+                    {tr(
+                      t,
+                      "insurance.health.eduNeedLearnMore",
+                      "Learn more about finding the right health cover for you."
+                    )}
+                  </a>
+                </p>
+              </div>
+              <div className="relative order-1 flex justify-center lg:order-2 lg:justify-end">
+                <div
+                  className="pointer-events-none absolute -right-2 -top-3 hidden h-[108%] w-[92%] rounded-3xl bg-orange-100/90 dark:bg-orange-950/35 md:block"
+                  aria-hidden
+                />
+                <div className="relative aspect-square w-full max-w-lg overflow-hidden rounded-3xl bg-zinc-100 shadow-xl shadow-zinc-900/10 ring-1 ring-zinc-200/90 dark:bg-zinc-900 dark:shadow-black/40 dark:ring-white/10">
+                  <Image
+                    src={EDU_IMAGE_OUTDOOR}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 6 — Buying / what to weigh (mirrors home premium-drivers placement) */}
         <section className="border-b border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
           <div className="mx-auto max-w-[800px] px-4">
             <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
@@ -373,7 +524,7 @@ export function HealthInsuranceClient() {
           </div>
         </section>
 
-        {/* 6 — Choose / understand cover levels (mirrors home “choose type”) */}
+        {/* 7 — Choose / understand cover levels (mirrors home “choose type”) */}
         <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
           <div className="mx-auto max-w-[1440px] px-4">
             <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
@@ -400,7 +551,7 @@ export function HealthInsuranceClient() {
           </div>
         </section>
 
-        {/* 7 — Why İlsa Insurance? */}
+        {/* 8 — Why İlsa Insurance? */}
         <section className="border-b border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
           <div className="mx-auto max-w-[1440px] px-4">
             <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>

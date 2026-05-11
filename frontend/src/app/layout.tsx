@@ -7,14 +7,15 @@ import { Providers } from "@/store/Providers";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import { ThemeProvider } from "@/theme/ThemeProvider";
 import { inter, recoleta } from "@/theme/fonts";
+import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 
 export const metadata: Metadata = {
   title: "Zamok Today — Flights",
   description: "Aviasales-style flight search starter",
   icons: {
-    icon: "/icon.jfif",
-    shortcut: "/icon.jfif",
-    apple: "/icon.jfif"
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png"
   }
 };
 
@@ -42,7 +43,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.variable} ${recoleta.variable}`}>
         <Providers>
           <ThemeProvider>
-            <I18nProvider>{children}</I18nProvider>
+            <I18nProvider>
+              {children}
+              <ScrollToTopButton />
+            </I18nProvider>
           </ThemeProvider>
         </Providers>
       </body>

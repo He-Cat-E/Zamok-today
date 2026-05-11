@@ -35,6 +35,7 @@ const WHY_KEYS = [
 ] as const;
 
 const HERO_IMAGE = "/Images/home-insurance.jpg";
+const NEED_GUIDE_IMAGE = "/Images/home-insurance-1.webp";
 
 /** Cards on light banded backgrounds — matches health / comprehensive car */
 const CARD_BAND =
@@ -247,6 +248,56 @@ export function HomeInsuranceClient() {
           </div>
         </section>
 
+        {/* Do I need home insurance? — image left, copy right */}
+        <section className="border-b border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
+          <div className="mx-auto max-w-[1440px] px-4">
+            <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+              {tr(t, "insurance.home.needGuideTitle", "Do I need home insurance?")}
+            </h2>
+            <div className="mt-10 grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
+              <div className="relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-3xl bg-zinc-200 shadow-xl shadow-zinc-900/10 ring-1 ring-zinc-300/80 dark:bg-zinc-900 dark:shadow-black/40 dark:ring-white/10 lg:mx-0">
+                <Image
+                  src={NEED_GUIDE_IMAGE}
+                  alt=""
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+              <div className="flex flex-col gap-4 text-base leading-relaxed text-zinc-700 dark:text-zinc-300 md:gap-5 md:text-[17px]">
+                <p>
+                  {tr(
+                    t,
+                    "insurance.home.needGuideP1",
+                    "Home insurance isn't a legal requirement but it's definitely worth considering. In some cases you are required to buy a policy as a condition of your mortgage when buying a property."
+                  )}
+                </p>
+                <p>
+                  {tr(
+                    t,
+                    "insurance.home.needGuideP2",
+                    "A buildings insurance policy is designed to help with the cost of rebuilding your home if it is damaged by fire or flooding. Or it can help to pay for the cost of a damaged roof, for example. It varies by policy but buildings insurance also covers general repairs such as roof repair, or any damage to internal pipes."
+                  )}
+                </p>
+                <p>
+                  {tr(
+                    t,
+                    "insurance.home.needGuideP3",
+                    "Contents insurance is designed to provide cover to help you protect your belongings if they are stolen or damaged."
+                  )}
+                </p>
+                <p>
+                  {tr(
+                    t,
+                    "insurance.home.needGuideP4",
+                    "Shopping around for the best house insurance quote is vital, but bear in mind that the cheapest policy isn't always the most suitable."
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* 1 — Compare home insurance with İlsa Insurance */}
         <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
           <div className="mx-auto max-w-[1440px] px-4">
@@ -264,7 +315,7 @@ export function HomeInsuranceClient() {
               ].map((s) => (
                 <div key={s.n} className={CARD_BAND}>
                   <div className="flex flex-col items-center text-center">
-                    <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-red-600 text-xl font-bold tabular-nums leading-none text-white shadow-md shadow-red-900/25 dark:bg-zinc-950 dark:text-white dark:shadow-black/50 dark:ring-1 dark:ring-white/15 md:h-14 md:w-14 md:text-2xl">
+                    <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-zinc-400 bg-white text-xl font-bold tabular-nums text-zinc-900 shadow-sm dark:border-zinc-500 dark:bg-zinc-950 dark:text-white md:h-14 md:w-14 md:text-2xl">
                       {s.n}
                     </div>
                     <h3 className={`${recoleta.className} mt-5 text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-white md:text-2xl`}>
