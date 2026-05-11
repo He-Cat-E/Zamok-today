@@ -46,6 +46,12 @@
       "static/chunks/main-app.js",
       "static/css/app/destinations/[slug]/page.css",
       "static/chunks/app/destinations/[slug]/page.js"
+    ],
+    "/insurance/travel/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/insurance/travel/page.css",
+      "static/chunks/app/insurance/travel/page.js"
     ]
   }
 }
