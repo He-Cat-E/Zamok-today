@@ -402,55 +402,6 @@ function FlightSearchContent({
 
   return (
     <div className={cn("w-full flex flex-col justify-center", compact ? "gap-3" : "gap-3.5 md:gap-8")}>
-      {showTabs ? (
-      <div className={cn("w-[250px] md:w-full flex items-center justify-center mx-auto")}>
-        <div
-          className={[
-            compact
-              ? "inline-flex w-[250px] rounded-2xl p-1.5 ring-1"
-              : "inline-flex w-full max-w-[320px] rounded-2xl p-1 ring-1",
-            "bg-red-700/35 ring-white/20 backdrop-blur",
-            "dark:bg-white/10 dark:ring-white/15"
-          ].join(" ")}
-        >
-          <button
-            type="button"
-            onClick={() => setTab("flights")}
-            className={[
-              compact
-                ? "w-[116px] rounded-xl px-2.5 py-2 text-xs font-semibold transition"
-                : "flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition",
-              tab === "flights"
-                ? "bg-white text-slate-900 shadow-sm"
-                : "text-white/85 hover:text-white"
-            ].join(" ")}
-          >
-            <span className={cn("items-center justify-center", compact ? "flex gap-1.5" : "flex flex-col gap-1")}>
-              <BiSolidPlaneAlt className={cn(compact ? "h-5 w-5" : "hidden md:block h-5 w-5")} />
-              <span>{t("tabs.flights")}</span>
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setTab("hotels")}
-            className={[
-              compact
-                ? "w-[116px] rounded-xl px-2.5 py-2 text-xs font-semibold transition ml-2"
-                : "ml-2 flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition",
-              tab === "hotels"
-                ? "bg-white text-slate-900 shadow-sm"
-                : "text-white/85 hover:text-white"
-            ].join(" ")}
-          >
-            <span className={cn("items-center justify-center", compact ? "flex gap-1.5" : "flex flex-col gap-1")}>
-              <FaBed className={cn(compact ? "h-5 w-5" : "hidden md:block h-5 w-5")} />
-              <span>{t("tabs.hotels")}</span>
-            </span>
-          </button>
-        </div>
-      </div>
-      ) : null}
-
       <div>
         {showMobileSuggestPanel ? (
           <div className="fixed inset-0 z-[90] flex flex-col bg-slate-100 dark:bg-black">

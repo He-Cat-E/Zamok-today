@@ -37,7 +37,9 @@ const INSURANCE_MENU_ITEM_KEYS = [
 ] as const;
 
 const INSURANCE_ITEM_HREF: Partial<Record<(typeof INSURANCE_MENU_ITEM_KEYS)[number], string>> = {
-  "nav.insurance.item.comprehensiveCar": "/insurance/comprehensive-car"
+  "nav.insurance.item.comprehensiveCar": "/insurance/comprehensive-car",
+  "nav.insurance.item.health": "/insurance/health",
+  "nav.insurance.item.home": "/insurance/home"
 };
 
 function InsuranceMegaMenuContent({

@@ -325,7 +325,32 @@ export function ComprehensiveCarInsuranceClient() {
         {/* Why İlsa */}
         <section className="bg-zinc-100 py-14 transition-colors duration-300 dark:bg-zinc-950">
 
-          <div className="mx-auto grid max-w-[1440px] gap-10 px-4 lg:grid-cols-2 lg:items-start">
+          <div className="mx-auto max-w-[1440px] px-4">
+            <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+              {tr(t, "insurance.comprehensive.whyTitle", "Why choose İlsa Insurance?")}
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-center text-zinc-600 dark:text-zinc-300">
+              {tr(t, "insurance.comprehensive.whyLead", "Reliable protection with human support in Ankara.")}
+            </p>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+              {WHY_KEYS.map((key) => (
+                <div
+                  key={key}
+                  className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200/90 bg-white p-4 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/50"
+                >
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm shadow-red-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
+                    <FiCheck className="h-5 w-5" />
+                  </span>
+                  <p className="text-sm font-medium leading-snug text-zinc-800 dark:text-zinc-100">{tr(t, key, "")}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Pricing explainer + mock table */}
+        <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
+        <div className="mx-auto grid max-w-[1440px] gap-10 px-4 lg:grid-cols-2 lg:items-start">
             <div>
               <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
                 {tr(t, "insurance.comprehensive.pricingTitle", "How are car insurance prices determined?")}
@@ -365,31 +390,6 @@ export function ComprehensiveCarInsuranceClient() {
               <p className="border-t border-zinc-100 bg-zinc-50/50 px-4 py-3 text-xs text-zinc-500 dark:border-white/10 dark:bg-zinc-900/50 dark:text-zinc-400">
                 {tr(t, "insurance.comprehensive.tableFootnote", "")}
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing explainer + mock table */}
-        <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
-        <div className="mx-auto max-w-[1440px] px-4">
-            <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
-              {tr(t, "insurance.comprehensive.whyTitle", "Why choose İlsa Insurance?")}
-            </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-center text-zinc-600 dark:text-zinc-300">
-              {tr(t, "insurance.comprehensive.whyLead", "Reliable protection with human support in Ankara.")}
-            </p>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-              {WHY_KEYS.map((key) => (
-                <div
-                  key={key}
-                  className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200/90 bg-white p-4 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/50"
-                >
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm shadow-red-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
-                    <FiCheck className="h-5 w-5" />
-                  </span>
-                  <p className="text-sm font-medium leading-snug text-zinc-800 dark:text-zinc-100">{tr(t, key, "")}</p>
-                </div>
-              ))}
             </div>
           </div>
         </section>
