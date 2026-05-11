@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FiArrowRight, FiCheck } from "react-icons/fi";
 import { Topbar } from "@/components/Topbar";
+import { InsuranceScrollMain } from "@/components/insurance/InsuranceScrollMain";
 import { SiteFooter } from "@/components/SiteFooter";
 import { useT } from "@/i18n/I18nProvider";
 import { recoleta } from "@/theme/fonts";
@@ -213,7 +214,7 @@ export function ComprehensiveCarInsuranceClient() {
     <div className="flex min-h-dvh flex-col bg-zinc-50 text-zinc-900 transition-colors duration-300 selection:bg-red-200 selection:text-red-950 dark:bg-black dark:text-zinc-50 dark:selection:bg-zinc-700 dark:selection:text-zinc-100">
       <Topbar />
 
-      <main className="flex-1">
+      <InsuranceScrollMain>
         {/* Hero — brand red in light; solid black in dark */}
         <section className="relative overflow-hidden bg-red-600 dark:bg-black">
           <div className="relative mx-auto grid max-w-[1440px] gap-10 px-4 py-12 lg:grid-cols-2 lg:items-center lg:py-16">
@@ -493,7 +494,10 @@ export function ComprehensiveCarInsuranceClient() {
         </section>
 
         {/* CTA — flat brand red */}
-        <section id="contact-quote" className="bg-red-600 py-14 transition-colors duration-300 dark:bg-black">
+        <section
+          id="contact-quote"
+          className="scroll-mt-14 bg-red-600 py-14 transition-colors duration-300 dark:bg-black lg:scroll-mt-16"
+        >
           <div className="mx-auto max-w-[1440px] px-4 text-center">
             <h2 className={`${recoleta.className} text-2xl font-bold text-white md:text-3xl`}>
               {tr(t, "insurance.comprehensive.bottomCtaTitle", "Ready for a tailored quote?")}
@@ -508,7 +512,7 @@ export function ComprehensiveCarInsuranceClient() {
             </a>
           </div>
         </section>
-      </main>
+      </InsuranceScrollMain>
 
       <SiteFooter />
     </div>

@@ -15,6 +15,38 @@ body {
   font-weight: 500;
 }
 
+/* In-page anchors (e.g. insurance CTAs → #contact-quote) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Insurance landings: sections after hero fade/slide in once (see InsuranceScrollMain + .insurance-section-preveal) */
+@media (prefers-reduced-motion: no-preference) {
+  .insurance-landing-scroll > section:not(:first-child).insurance-section-preveal {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    transition:
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .insurance-landing-scroll > section:not(:first-child).insurance-section-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    will-change: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .insurance-landing-scroll > section:not(:first-child).insurance-section-preveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Keep emphasis without changing weight */
 strong,
 b {

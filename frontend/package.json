@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "next lint",
-    "i18n:travel": "node scripts/write-travel-overlays-de-fr-es.mjs && node scripts/build-travel-overlays-all.mjs && node scripts/sync-insurance-travel-i18n.mjs && node scripts/verify-travel-i18n.mjs"
+    "i18n:travel": "node scripts/write-travel-overlays-de-fr-es.mjs && node scripts/build-travel-overlays-all.mjs && node scripts/sync-insurance-travel-i18n.mjs && node scripts/verify-travel-i18n.mjs",
+    "i18n:life": "node scripts/sync-insurance-life-i18n.mjs && node scripts/verify-life-i18n.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",

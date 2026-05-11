@@ -20,7 +20,7 @@ export function SiteFooter() {
           <Link href="/" className="flex items-center justify-center gap-3 md:justify-start">
             <div className="relative h-18 w-18 overflow-hidden rounded-xl">
               <Image
-                src={isDark ? "/logo.png" : "/icon.jfif"}
+                src={isDark ? "/logo.png" : "/icon.png"}
                 alt="Zamok Today"
                 width={72}
                 height={72}
