@@ -886,7 +886,7 @@ export function FlightSearch({
   const [tab, setTab] = useState<"flights" | "hotels">("flights");
   const [openBooking, setOpenBooking] = useState(true);
   const [activeDateField, setActiveDateField] = useState<null | "depart" | "return">(null);
-  const [stickyVisible, setStickyVisible] = useState(false);
+  const stickyVisible = false;
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [reservedHeight, setReservedHeight] = useState(0);
   const [activeSuggestField, setActiveSuggestField] = useState<null | "from" | "to">(null);
@@ -915,19 +915,6 @@ export function FlightSearch({
       if (toBlurTimerRef.current) clearTimeout(toBlurTimerRef.current);
     };
   }, []);
-
-  useEffect(() => {
-    if (!stickyEnabled) {
-      setStickyVisible(false);
-      return;
-    }
-    function onScroll() {
-      setStickyVisible(window.scrollY > 200);
-    }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [stickyEnabled]);
 
   useEffect(() => {
     function syncViewport() {

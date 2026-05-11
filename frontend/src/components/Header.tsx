@@ -1,22 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { FlightSearch } from "@/components/FlightSearch";
 import { Topbar } from "@/components/Topbar";
 import { HeroTitle } from "@/components/hero/HeroTitle";
 
 export function Header() {
-  const [expandedSpacer, setExpandedSpacer] = useState(false);
-
-  useEffect(() => {
-    function onScroll() {
-      setExpandedSpacer(window.scrollY > 200);
-    }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <>
       <Topbar />
@@ -29,13 +17,7 @@ export function Header() {
           <FlightSearch usePersistedSearchForm={false} />
         </div>
       </section>
-      <section
-        className={[
-          "bg-red-600 dark:bg-black transition-[height] duration-300",
-          expandedSpacer ? "h-[200px] md:h-[80px]" : "h-3 md:h-[80px]"
-        ].join(" ")}
-      >
-      </section>
+      <section className="h-3 bg-red-600 dark:bg-black md:h-[80px]" />
     </>
   );
 }

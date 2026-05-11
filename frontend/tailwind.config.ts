@@ -19,6 +19,15 @@ const config: Config = {
         sm: ["1rem", { lineHeight: "1.5rem" }], // 16px
         base: ["1.125rem", { lineHeight: "1.75rem" }], // 18px
         lg: ["1.25rem", { lineHeight: "1.875rem" }] // 20px
+      },
+      keyframes: {
+        expertFadeIn: {
+          from: { opacity: "0" },
+          to: { opacity: "1" }
+        }
+      },
+      animation: {
+        expertFadeIn: "expertFadeIn 0.35s ease-out forwards"
       }
     }
   },
