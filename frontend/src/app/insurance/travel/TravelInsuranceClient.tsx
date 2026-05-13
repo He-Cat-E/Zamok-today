@@ -6,6 +6,7 @@ import Image from "next/image";
 import { FiArrowRight, FiCheck, FiX } from "react-icons/fi";
 import { Topbar } from "@/components/Topbar";
 import { InsuranceScrollMain } from "@/components/insurance/InsuranceScrollMain";
+import { InsurancePartnerCompaniesSection } from "@/components/insurance/InsurancePartnerCompaniesSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { useT } from "@/i18n/I18nProvider";
 import { recoleta } from "@/theme/fonts";
@@ -491,6 +492,8 @@ export function TravelInsuranceClient() {
             </div>
           </div>
         </section>
+
+        <InsurancePartnerCompaniesSection />
 
         <ExpertReviewsCarousel />
 
