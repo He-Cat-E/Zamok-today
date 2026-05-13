@@ -287,7 +287,7 @@ export function TravelInsuranceClient() {
               ].map((s) => (
                 <div
                   key={s.n}
-                  className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-zinc-50/90 p-6 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40"
+                  className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-zinc-50/90 p-6 text-center shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40"
                 >
                   <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-zinc-400 bg-white text-xl font-bold tabular-nums text-zinc-900 shadow-sm dark:border-zinc-500 dark:bg-zinc-950 dark:text-white md:h-14 md:w-14 md:text-2xl">
                     {s.n}
@@ -340,7 +340,7 @@ export function TravelInsuranceClient() {
               {COVER_IDS.map((id) => (
                 <div
                   key={id}
-                  className="box-border flex w-full max-w-md shrink-0 flex-col rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-sm shadow-zinc-900/5 transition-colors duration-300 sm:max-w-none sm:w-[min(100%,20rem)] lg:w-[17.25rem] dark:border-white/10 dark:bg-zinc-900/80 dark:shadow-black/40"
+                  className="box-border flex w-full max-w-md shrink-0 flex-col rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 sm:max-w-none sm:w-[min(100%,20rem)] lg:w-[17.25rem] dark:border-white/10 dark:bg-zinc-900/80 dark:shadow-black/40"
                 >
                   <div className="flex gap-3">
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
@@ -383,7 +383,7 @@ export function TravelInsuranceClient() {
               {EXCLUSION_BLOCKS.map((block, idx) => (
                 <div
                   key={idx}
-                  className="flex flex-col rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-zinc-950"
+                  className="flex flex-col rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-sm insurance-hover-card dark:border-white/10 dark:bg-zinc-950"
                 >
                   <div className="flex gap-3">
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-zinc-900 text-white dark:bg-red-700">
@@ -427,7 +427,7 @@ export function TravelInsuranceClient() {
               {EXTRA_IDS.map((id) => (
                 <div
                   key={id}
-                  className="flex flex-col rounded-2xl border border-zinc-200/90 bg-zinc-50/90 p-5 shadow-sm dark:border-white/10 dark:bg-zinc-900/70"
+                  className="flex flex-col rounded-2xl border border-zinc-200/90 bg-zinc-50/90 p-5 shadow-sm insurance-hover-card dark:border-white/10 dark:bg-zinc-900/70"
                 >
                   <h3 className={`${recoleta.className} text-base font-semibold text-zinc-900 dark:text-white md:text-lg`}>
                     {tr(t, `insurance.travel.extra${id}Title`, "")}
@@ -457,7 +457,7 @@ export function TravelInsuranceClient() {
                 </li>
               ))}
             </ul>
-            <p className="mt-8 rounded-2xl border border-zinc-200/90 bg-white p-5 text-sm leading-relaxed text-zinc-700 shadow-sm dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200 md:text-base">
+            <p className="mt-8 rounded-2xl border border-zinc-200/90 bg-white p-5 text-sm leading-relaxed text-zinc-700 shadow-sm insurance-hover-card dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200 md:text-base">
               {tr(
                 t,
                 "insurance.travel.schengenNote",
@@ -480,7 +480,7 @@ export function TravelInsuranceClient() {
               {WHY_KEYS.map((key, i) => (
                 <div
                   key={key}
-                  className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200/90 bg-zinc-50/90 p-5 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/50"
+                  className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200/90 bg-zinc-50/90 p-5 text-center shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/50"
                 >
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-red-600 text-sm font-bold text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
                     {i + 1}

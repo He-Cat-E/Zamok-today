@@ -336,7 +336,7 @@ export function HealthInsuranceClient() {
               ].map((s) => (
                 <div
                   key={s.n}
-                  className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-zinc-50/90 p-6 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40"
+                  className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-zinc-50/90 p-6 text-center shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40"
                 >
                   <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-zinc-400 bg-white text-xl font-bold tabular-nums text-zinc-900 shadow-sm dark:border-zinc-500 dark:bg-zinc-950 dark:text-white md:h-14 md:w-14 md:text-2xl">
                     {s.n}
@@ -386,7 +386,7 @@ export function HealthInsuranceClient() {
               {COVER_KEYS.map((key) => (
                 <li
                   key={key}
-                  className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-zinc-50/90 p-4 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/70"
+                  className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-zinc-50/90 p-4 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/70"
                 >
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm shadow-red-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
                     <FiCheck className="h-5 w-5" />
@@ -531,7 +531,7 @@ export function HealthInsuranceClient() {
               {tr(t, "insurance.health.understandTitle", "Understanding health insurance?")}
             </h2>
             <div className="mt-8 grid gap-6 md:grid-cols-2">
-              <div className="rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-md shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/40">
+              <div className="rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-md shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/40">
                 <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
                   {tr(t, "insurance.health.basicCoverTitle", "Basic health insurance cover")}
                 </h3>
@@ -539,7 +539,7 @@ export function HealthInsuranceClient() {
                   {tr(t, "insurance.health.basicCoverDesc", "")}
                 </p>
               </div>
-              <div className="rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-md shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/40">
+              <div className="rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-md shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/40">
                 <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
                   {tr(t, "insurance.health.mediumCoverTitle", "Medium health insurance cover")}
                 </h3>
@@ -564,7 +564,7 @@ export function HealthInsuranceClient() {
               {WHY_KEYS.map((key, i) => (
                 <div
                   key={key}
-                  className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200/90 bg-white p-5 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/50"
+                  className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200/90 bg-white p-5 text-center shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/50"
                 >
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-red-600 text-sm font-bold text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
                     {i + 1}

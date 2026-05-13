@@ -1,6 +1,6 @@
 "use client";
 
-import { JetBrains_Mono, Manrope } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import { usePathname } from "next/navigation";
 import {
   useCallback,
@@ -9,18 +9,13 @@ import {
   useRef,
   useState
 } from "react";
+import { manrope } from "@/theme/fonts";
 import styles from "./HomeInitialLoader.module.css";
 
 /** Loader (and bar 1→100%) stays for at least this long before fade-out. */
 const MIN_LOAD_MS = 3000;
 /** Allow opacity transition to finish before unmounting (see `.shell` CSS). */
 const FADE_OUT_MS = 480;
-
-const display = Manrope({
-  subsets: ["latin"],
-  weight: ["300", "500", "700", "800"],
-  variable: "--font-hloader-display"
-});
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
@@ -279,7 +274,7 @@ export function HomeInitialLoader() {
 
   return (
     <div
-      className={`${display.variable} ${mono.variable} ${styles.shell} ${fadeOut ? styles.shellFadeOut : ""}`}
+      className={`${manrope.variable} ${mono.variable} ${styles.shell} ${fadeOut ? styles.shellFadeOut : ""}`}
       role="progressbar"
       aria-valuemin={1}
       aria-valuemax={100}

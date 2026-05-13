@@ -39,9 +39,9 @@ const NEED_GUIDE_IMAGE = "/Images/home-insurance-1.webp";
 
 /** Cards on light banded backgrounds — matches health / comprehensive car */
 const CARD_BAND =
-  "rounded-3xl border border-zinc-200/90 bg-zinc-50/90 p-6 text-center shadow-sm shadow-zinc-900/5 dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40";
+  "rounded-3xl border border-zinc-200/90 bg-zinc-50/90 p-6 text-center shadow-sm shadow-zinc-900/5 insurance-hover-card dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40";
 const CARD_WHITE =
-  "rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-sm shadow-zinc-900/5 dark:border-white/10 dark:bg-black dark:shadow-black/40";
+  "rounded-2xl border border-zinc-200/90 bg-white p-6 shadow-sm shadow-zinc-900/5 insurance-hover-card dark:border-white/10 dark:bg-black dark:shadow-black/40";
 
 const EXPERT_SLIDE_INTERVAL_MS = 6500;
 
@@ -364,7 +364,7 @@ export function HomeInsuranceClient() {
               {COVER_KEYS.map((key) => (
                 <li
                   key={key}
-                  className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-zinc-50/90 p-4 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/70"
+                  className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-zinc-50/90 p-4 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/70"
                 >
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm shadow-red-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
                     <FiCheck className="h-5 w-5" />
@@ -415,7 +415,7 @@ export function HomeInsuranceClient() {
               <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300 md:text-base">
                 {tr(t, "insurance.home.costsTableLead", "")}
               </p>
-              <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/90 bg-white shadow-sm dark:border-white/10 dark:bg-zinc-950">
+              <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200/90 bg-white shadow-sm insurance-hover-card dark:border-white/10 dark:bg-zinc-950">
                 <table className="w-full text-left text-sm">
                   <thead>
                     <tr className="border-b border-zinc-200/80 bg-zinc-100 dark:border-white/10 dark:bg-zinc-900">
@@ -555,7 +555,7 @@ export function HomeInsuranceClient() {
               {WHY_KEYS.map((key, i) => (
                 <div
                   key={key}
-                  className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-white p-5 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/50"
+                  className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-white p-5 text-center shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/50"
                 >
                   <div className="flex w-full flex-col items-center gap-3">
                     <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-red-600 text-sm font-bold text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">

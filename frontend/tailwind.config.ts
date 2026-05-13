@@ -7,8 +7,9 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: [
-          "var(--font-inter)",
-          "Inter",
+          "var(--font-manrope)",
+          "Manrope",
+          "Helvetica Neue",
           "system-ui",
           "sans-serif"
         ]

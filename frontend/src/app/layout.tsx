@@ -6,7 +6,7 @@ import Script from "next/script";
 import { Providers } from "@/store/Providers";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import { ThemeProvider } from "@/theme/ThemeProvider";
-import { inter, recoleta } from "@/theme/fonts";
+import { manrope, recoleta } from "@/theme/fonts";
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 import { HomeInitialLoader } from "@/components/home/HomeInitialLoader";
 
@@ -41,7 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   })();`}
         </Script>
       </head>
-      <body className={`${inter.variable} ${recoleta.variable}`}>
+      <body className={`${manrope.variable} ${recoleta.variable}`}>
         <Providers>
           <ThemeProvider>
             <I18nProvider>

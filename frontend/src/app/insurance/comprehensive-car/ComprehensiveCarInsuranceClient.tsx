@@ -304,7 +304,7 @@ export function ComprehensiveCarInsuranceClient() {
               ].map((s) => (
                 <div
                   key={s.n}
-                  className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-zinc-50/90 p-6 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40"
+                  className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-zinc-50/90 p-6 text-center shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40"
                 >
                   <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-zinc-400 bg-white text-xl font-bold tabular-nums text-zinc-900 shadow-sm dark:border-zinc-500 dark:bg-zinc-950 dark:text-white md:h-14 md:w-14 md:text-2xl">
                     {s.n}
@@ -337,7 +337,7 @@ export function ComprehensiveCarInsuranceClient() {
               {WHY_KEYS.map((key) => (
                 <div
                   key={key}
-                  className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200/90 bg-white p-4 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/50"
+                  className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200/90 bg-white p-4 text-center shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/50"
                 >
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm shadow-red-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
                     <FiCheck className="h-5 w-5" />
@@ -358,7 +358,7 @@ export function ComprehensiveCarInsuranceClient() {
               </h2>
               <p className="mt-4 text-zinc-600 dark:text-zinc-300">{tr(t, "insurance.comprehensive.pricingBody", "")}</p>
             </div>
-            <div className="overflow-hidden rounded-2xl border border-zinc-200/90 bg-white shadow-sm transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
+            <div className="overflow-hidden rounded-2xl border border-zinc-200/90 bg-white shadow-sm insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
               <p className="border-b border-zinc-200/80 bg-zinc-100 px-4 py-3 text-sm font-bold text-zinc-900 dark:border-white/10 dark:bg-zinc-900 dark:text-white">
                 {tr(t, "insurance.comprehensive.tableAvgTitle", "Illustrative average premiums")}
               </p>
@@ -413,7 +413,7 @@ export function ComprehensiveCarInsuranceClient() {
               ].map((card) => (
                 <div
                   key={card.title}
-                  className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-white p-6 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900 dark:shadow-black/40"
+                  className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-white p-6 text-center shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900 dark:shadow-black/40"
                 >
                   <h3 className={`${recoleta.className} text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-white md:text-2xl`}>
                     {tr(t, card.title, "")}
@@ -438,7 +438,7 @@ export function ComprehensiveCarInsuranceClient() {
               {COVER_ITEMS.map((key) => (
                 <li
                   key={key}
-                  className="flex items-center gap-2 rounded-2xl border border-zinc-200/90 bg-zinc-50/90 px-4 py-4 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/70"
+                  className="flex items-center gap-2 rounded-2xl border border-zinc-200/90 bg-zinc-50/90 px-4 py-4 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/70"
                 >
                   <FiCheck className="h-5 w-5 shrink-0 text-red-600 dark:text-zinc-300" />
                   <span className="text-sm font-medium leading-snug text-zinc-800 dark:text-zinc-100">{tr(t, key, "")}</span>
@@ -457,7 +457,7 @@ export function ComprehensiveCarInsuranceClient() {
             <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-zinc-600 dark:text-zinc-300">
               {tr(t, "insurance.comprehensive.compareLead", "Illustrative comparison — always check your policy wording.")}
             </p>
-            <div className="mt-10 overflow-x-auto rounded-2xl border border-zinc-200/90 bg-white shadow-sm transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900 dark:shadow-black/40">
+            <div className="mt-10 overflow-x-auto rounded-2xl border border-zinc-200/90 bg-white shadow-sm insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900 dark:shadow-black/40">
               <table className="w-full min-w-[640px] text-left text-sm">
                 <thead>
                   <tr className="border-b border-zinc-200 bg-zinc-100 dark:border-white/10 dark:bg-zinc-800/70">

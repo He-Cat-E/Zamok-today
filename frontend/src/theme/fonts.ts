@@ -1,9 +1,10 @@
 import localFont from "next/font/local";
-import { Inter } from "next/font/google";
+import { Manrope } from "next/font/google";
 
-export const inter = Inter({
+export const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-manrope",
   display: "swap"
 });
 
@@ -20,4 +21,3 @@ export const recoleta = localFont({
     { path: "../../public/fonts/Recoleta/Recoleta-Black.woff2", weight: "900", style: "normal" }
   ]
 });
-

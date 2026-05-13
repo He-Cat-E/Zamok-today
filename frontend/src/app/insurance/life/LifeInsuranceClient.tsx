@@ -320,7 +320,7 @@ export function LifeInsuranceClient() {
               ].map((s) => (
                 <div
                   key={s.n}
-                  className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-white/90 p-6 text-center shadow-sm shadow-zinc-900/5 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40"
+                  className="flex flex-col items-center rounded-3xl border border-zinc-200/90 bg-white/90 p-6 text-center shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/60 dark:shadow-black/40"
                 >
                   <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-zinc-400 bg-white text-xl font-bold tabular-nums text-zinc-900 shadow-sm dark:border-zinc-500 dark:bg-zinc-950 dark:text-white md:h-14 md:w-14 md:text-2xl">
                     {s.n}
@@ -350,7 +350,7 @@ export function LifeInsuranceClient() {
               {COVER_KEYS.map((key) => (
                 <li
                   key={key}
-                  className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-zinc-50/90 p-4 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/70"
+                  className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-zinc-50/90 p-4 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/70"
                 >
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm shadow-red-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
                     <FiCheck className="h-5 w-5" />
@@ -397,7 +397,7 @@ export function LifeInsuranceClient() {
               {WHO_KEYS.map((key) => (
                 <li
                   key={key}
-                  className="rounded-2xl border border-zinc-200/90 bg-zinc-50/90 px-5 py-4 text-zinc-800 dark:border-white/10 dark:bg-zinc-900/70 dark:text-zinc-100"
+                  className="rounded-2xl border border-zinc-200/90 bg-zinc-50/90 px-5 py-4 text-zinc-800 insurance-hover-card dark:border-white/10 dark:bg-zinc-900/70 dark:text-zinc-100"
                 >
                   {tr(t, key, "")}
                 </li>
@@ -478,7 +478,7 @@ export function LifeInsuranceClient() {
               {IMPORTANT_KEYS.map((key) => (
                 <li
                   key={key}
-                  className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-white/90 p-5 dark:border-white/10 dark:bg-zinc-900/60"
+                  className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-white/90 p-5 insurance-hover-card dark:border-white/10 dark:bg-zinc-900/60"
                 >
                   <FiCheck className="mt-0.5 h-6 w-6 shrink-0 text-red-600 dark:text-red-400" />
                   <span className="text-zinc-800 dark:text-zinc-100">{tr(t, key, "")}</span>
@@ -491,7 +491,7 @@ export function LifeInsuranceClient() {
         {/* How much — grey panel */}
         <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
           <div className="mx-auto max-w-[800px] px-4">
-            <div className="rounded-3xl border border-zinc-200/90 bg-zinc-100/90 p-8 shadow-sm dark:border-white/10 dark:bg-zinc-900/60">
+            <div className="rounded-3xl border border-zinc-200/90 bg-zinc-100/90 p-8 shadow-sm insurance-hover-card dark:border-white/10 dark:bg-zinc-900/60">
               <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
                 {tr(t, "insurance.life.needAmountTitle", "How much life insurance do I need?")}
               </h2>
@@ -549,7 +549,7 @@ export function LifeInsuranceClient() {
         {/* When */}
         <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
           <div className="mx-auto max-w-[800px] px-4">
-            <div className="rounded-3xl border border-zinc-200/90 bg-zinc-100/90 p-8 shadow-sm dark:border-white/10 dark:bg-zinc-900/60">
+            <div className="rounded-3xl border border-zinc-200/90 bg-zinc-100/90 p-8 shadow-sm insurance-hover-card dark:border-white/10 dark:bg-zinc-900/60">
               <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
                 {tr(t, "insurance.life.whenTitle", "")}
               </h2>
