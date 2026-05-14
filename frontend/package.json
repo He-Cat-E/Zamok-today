@@ -13,7 +13,13 @@
     "i18n:motorbike": "node scripts/copy-motorbike-lang-to-overlays.mjs && node scripts/sync-insurance-motorbike-i18n.mjs && node scripts/verify-motorbike-i18n.mjs",
     "i18n:health-edu": "node scripts/apply-health-education-from-lib.mjs && node scripts/verify-health-education-i18n.mjs",
     "i18n:home-need": "node scripts/apply-home-need-guide-from-lib.mjs && node scripts/verify-home-need-guide-i18n.mjs",
-    "i18n:life-types": "node scripts/apply-life-types-from-lib.mjs && node scripts/verify-life-types-i18n.mjs"
+    "i18n:life-types": "node scripts/apply-life-types-from-lib.mjs && node scripts/verify-life-types-i18n.mjs",
+    "i18n:personal-accident": "node scripts/translate-personal-accident-i18n.mjs",
+    "i18n:dask": "node tools/seed-dask-i18n.mjs && node tools/sync-dask-locales.mjs",
+    "i18n:translate-dask": "node scripts/translate-dask-i18n.mjs",
+    "i18n:translate-insurance": "node scripts/translate-dask-i18n.mjs && node scripts/translate-personal-accident-i18n.mjs",
+    "i18n:supplementary-health": "node tools/seed-supplementary-health-i18n.mjs && node tools/sync-supplementary-health-locales.mjs",
+    "i18n:translate-supplementary-health": "node scripts/translate-supplementary-health-i18n.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
@@ -34,6 +40,7 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^9.20.0",
     "eslint-config-next": "^15.2.3",
+    "google-translate-api-x": "^10.7.2",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3"

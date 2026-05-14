@@ -30,7 +30,10 @@ export const INSURANCE_ITEM_HREF: Partial<Record<InsuranceMenuKey, string>> = {
   "nav.insurance.item.health": "/insurance/health",
   "nav.insurance.item.home": "/insurance/home",
   "nav.insurance.item.travel": "/insurance/travel",
-  "nav.insurance.item.life": "/insurance/life"
+  "nav.insurance.item.life": "/insurance/life",
+  "nav.insurance.item.personalAccident": "/insurance/personal-accident",
+  "nav.insurance.item.dask": "/insurance/dask",
+  "nav.insurance.item.supplementaryHealth": "/insurance/supplementary-health"
 };
 
 /** Primary row in the header center (before Insurance). */

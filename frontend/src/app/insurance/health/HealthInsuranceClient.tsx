@@ -367,6 +367,14 @@ export function HealthInsuranceClient() {
                 "Supplementary health insurance allows you to receive services at private hospitals contracted with the Social Security Institution (SGK) without paying any difference in fees. You can benefit from a wide range of health services with more affordable premiums."
               )}
             </p>
+            <p className="mt-6">
+              <Link
+                href="/insurance/supplementary-health"
+                className="text-sm font-semibold text-red-600 underline-offset-2 transition hover:text-red-700 hover:underline dark:text-red-400 dark:hover:text-red-300"
+              >
+                {tr(t, "insurance.health.supplementaryPageLink", "View supplementary health insurance (TSS) details")}
+              </Link>
+            </p>
           </div>
         </section>
 
