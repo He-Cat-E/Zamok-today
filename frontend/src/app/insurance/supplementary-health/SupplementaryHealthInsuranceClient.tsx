@@ -37,7 +37,7 @@ function supplementaryHeroTitle(t: (k: string) => string) {
   return "Supplementary Health Insurance (TSS)";
 }
 
-const HERO_IMAGE = "/Images/health-insurance.jpg";
+const HERO_IMAGE = "/Images/supplementary-health-insurance.jpg";
 
 const COVER_KEYS = [
   "insurance.supplementaryHealth.coverItem1",

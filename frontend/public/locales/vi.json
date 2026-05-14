@@ -769,7 +769,7 @@
   "insurance.supplementaryHealth.breadcrumbCurrent": "Bảo hiểm Y tế Bổ sung (TSS)",
   "insurance.supplementaryHealth.heroTitle": "Bảo hiểm Y tế Bổ sung (TSS)",
   "insurance.supplementaryHealth.heroSubtitle": "Bảo hiểm y tế bổ sung dành cho những người đã được SGK (Tổ chức An sinh Xã hội) chi trả.",
-  "insurance.supplementaryHealth.introP1": "Supplementary health insurance (TSS) is a type of insurance that allows you to receive healthcare services in private hospitals contracted with the Social Security Institution (SGK) without paying the usual fee differences on top of SGK tariffs. It offers faster, more comfortable access alongside state hospitals, within the limits of your chosen product.",
+  "insurance.supplementaryHealth.introP1": "Bảo hiểm y tế bổ sung (TSS) là một loại bảo hiểm cho phép bạn nhận các dịch vụ chăm sóc sức khỏe tại các bệnh viện tư nhân có hợp đồng với Tổ chức An sinh Xã hội (SGK) mà không phải trả khoản chênh lệch phí thông thường ngoài biểu phí SGK. Nó mang lại khả năng tiếp cận nhanh hơn, thoải mái hơn bên cạnh các bệnh viện tiểu bang, trong giới hạn của sản phẩm bạn đã chọn.",
   "insurance.supplementaryHealth.introP2": "Tại Bảo hiểm İlsa, chúng tôi so sánh các lựa chọn bảo hiểm y tế bổ sung để phù hợp với ngân sách của bạn và giúp bạn chọn chính sách phù hợp nhất từ ​​các công ty bảo hiểm đối tác của chúng tôi.",
   "insurance.supplementaryHealth.ctaPrimary": "Nhận báo giá",
   "insurance.supplementaryHealth.ctaSecondary": "Nói chuyện với một cố vấn",
@@ -837,11 +837,11 @@
   "insurance.supplementaryHealth.faq3Q": "Sự khác biệt giữa bảo hiểm y tế bổ sung và bảo hiểm y tế tư nhân là gì?",
   "insurance.supplementaryHealth.faq3A": "Các sản phẩm bảo hiểm y tế tư nhân có thể rất khác nhau về mạng lưới và thiết kế phúc lợi. Bảo hiểm y tế bổ sung thường được cấu trúc xoay quanh khả năng tiếp cận các nhà cung cấp tư nhân có hợp đồng do SGK điều phối và có thể cung cấp lộ trình hợp lý hơn khi ưu tiên của bạn là chi trả chênh lệch phí thay vì gói hoàn toàn riêng tư theo phong cách quốc tế.",
   "insurance.supplementaryHealth.faq4Q": "Bảo hiểm y tế bổ sung của tôi có chi trả cho các tình trạng hiện tại của tôi không?",
-  "insurance.supplementaryHealth.faq4A": "Các chi phí liên quan đến bệnh tật hoặc tình trạng tồn tại trước khi bắt đầu hợp đồng thường được loại trừ hoặc phải tuân theo thời gian chờ đợi — đọc lịch trình cá nhân của bạn và yêu cầu Bảo hiểm İlsa giải thích cách tiết lộ của bạn liên quan đến bảo lãnh phát hành.",
+  "insurance.supplementaryHealth.faq4A": "Các chi phí liên quan đến bệnh tật hoặc tình trạng tồn tại trước khi bắt đầu hợp đồng thường được loại trừ hoặc phải chờ đợi trong thời gian chờ đợi — đọc lịch trình cá nhân của bạn và yêu cầu Bảo hiểm İlsa giải thích cách tiết lộ của bạn liên quan đến bảo lãnh phát hành.",
   "insurance.supplementaryHealth.faq5Q": "Hợp đồng bảo hiểm y tế bổ sung của tôi có hiệu lực ở nước ngoài không?",
   "insurance.supplementaryHealth.faq5A": "Các sản phẩm bổ sung điển hình được sắp xếp để điều phối SGK ở Türkiye không được thiết kế để điều trị ở nước ngoài. Nếu bạn cần bảo hiểm ở nước ngoài, hãy hỏi Bảo hiểm İlsa về một sản phẩm y tế du lịch riêng phù hợp với điểm đến và độ dài chuyến đi của bạn.",
   "insurance.supplementaryHealth.faq6Q": "Bao gồm bao nhiêu khoản bảo hiểm điều trị ngoại trú?",
-  "insurance.supplementaryHealth.faq6A": "Outpatient visit entitlements depend on the package you choose — many insurers offer tiered programmes (for example higher versus standard outpatient visit limits). Your policy schedule states the exact number and any co-payments.",
+  "insurance.supplementaryHealth.faq6A": "Quyền lợi thăm khám ngoại trú tùy thuộc vào gói bạn chọn - nhiều công ty bảo hiểm cung cấp các chương trình theo cấp độ (ví dụ: giới hạn thăm khám ngoại trú tiêu chuẩn cao hơn so với tiêu chuẩn). Lịch trình chính sách của bạn nêu rõ con số chính xác và bất kỳ khoản đồng thanh toán nào.",
   "insurance.supplementaryHealth.faq7Q": "Phí bảo hiểm được tính như thế nào trong bảo hiểm y tế bổ sung?",
   "insurance.supplementaryHealth.faq7A": "Phí bảo hiểm phụ thuộc vào các yếu tố như cấp chương trình, mạng lưới bệnh viện, độ tuổi, khu vực rủi ro và khu vực và được cá nhân hóa ở giai đoạn báo giá.",
   "insurance.supplementaryHealth.faq8Q": "Bảo hiểm y tế bổ sung có được khấu trừ thuế không?",
@@ -857,5 +857,5 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "So sánh các chương trình sức khỏe bổ sung",
   "insurance.supplementaryHealth.bottomCtaBody": "Liên hệ với Bảo hiểm İlsa để được báo giá chỉ định và trợ giúp chọn mạng phù hợp với gia đình bạn.",
   "insurance.supplementaryHealth.bottomCtaButton": "Liên hệ với chúng tôi",
-  "insurance.health.supplementaryPageLink": "View supplementary health insurance (TSS) details"
+  "insurance.health.supplementaryPageLink": "Xem chi tiết bảo hiểm y tế bổ sung (TSS)"
 }

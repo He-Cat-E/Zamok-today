@@ -819,8 +819,8 @@
   "insurance.supplementaryHealth.expertSlide1Quote": "เริ่มต้นด้วยรายชื่อโรงพยาบาลที่คุณใช้จริงๆ มูลค่าเสริมจะลดลงหากผู้ให้บริการที่คุณต้องการไม่ได้อยู่ในเครือข่ายสำหรับระดับที่คุณซื้อ",
   "insurance.supplementaryHealth.expertSlide1Name": "เมห์เม็ต ยิลมาซ",
   "insurance.supplementaryHealth.expertSlide1Role": "การรับประกันสุขภาพ — ILsa Insurance",
-  "insurance.supplementaryHealth.expertSlide2Quote": "ถามอย่างชัดเจนเกี่ยวกับจำนวนการมาเยี่ยมผู้ป่วยนอก การจ่ายเงินร่วม และการยกเว้นสำหรับการติดตามผลแบบเรื้อรัง สิ่งเหล่านี้ขับเคลื่อนความพึงพอใจมากกว่าพาดหัวข่าวในโบรชัวร์",
-  "insurance.supplementaryHealth.expertSlide2Name": "Ayşe Demir",
+  "insurance.supplementaryHealth.expertSlide2Quote": "ถามอย่างชัดเจนเกี่ยวกับจำนวนการเข้ารับการตรวจของผู้ป่วยนอก การจ่ายเงินร่วม และการยกเว้นสำหรับการติดตามผลแบบเรื้อรัง สิ่งเหล่านี้ขับเคลื่อนความพึงพอใจมากกว่าพาดหัวข่าวในโบรชัวร์",
+  "insurance.supplementaryHealth.expertSlide2Name": "ไอเช่ เดมีร์",
   "insurance.supplementaryHealth.expertSlide2Role": "คำแนะนำลูกค้า — ILsa Insurance",
   "insurance.supplementaryHealth.expertSlide3Quote": "หากคุณเดินทางบ่อยครั้ง อย่าถือว่าความคุ้มครองเสริมของ SGK ใช้งานได้ในต่างประเทศ — จับคู่ TSS ในประเทศกับความคุ้มครองทางการแพทย์ระหว่างการเดินทางเมื่อจำเป็น",
   "insurance.supplementaryHealth.expertSlide3Name": "คาน ออซเติร์ก",
@@ -857,5 +857,5 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "เปรียบเทียบแผนสุขภาพเสริม",
   "insurance.supplementaryHealth.bottomCtaBody": "ติดต่อ ILsa Insurance เพื่อขอใบเสนอราคาและช่วยเลือกเครือข่ายที่เหมาะกับครอบครัวของคุณ",
   "insurance.supplementaryHealth.bottomCtaButton": "ติดต่อเรา",
-  "insurance.health.supplementaryPageLink": "View supplementary health insurance (TSS) details"
+  "insurance.health.supplementaryPageLink": "ดูรายละเอียดการประกันสุขภาพเสริม (TSS)"
 }

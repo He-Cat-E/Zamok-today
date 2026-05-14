@@ -1,6 +1,6 @@
 /**
- * Translates all insurance.supplementaryHealth.* values from English into each
- * locale JSON (except en + tr). insurance.common.* is left as synced from en.
+ * Translates insurance.supplementaryHealth.* plus insurance.health.supplementaryPageLink
+ * from English into each locale JSON (except en + tr). insurance.common.* is left as synced from en.
  *
  * Run from frontend: npm run i18n:translate-supplementary-health
  * Resume: npm run i18n:translate-supplementary-health -- de fr
@@ -15,6 +15,8 @@ const root = path.join(__dirname, "..");
 const localesDir = path.join(root, "public", "locales");
 
 const PREFIX = "insurance.supplementaryHealth.";
+/** Health page CTA to TSS — synced from en but must be translated here (not under PREFIX). */
+const EXTRA_KEYS = ["insurance.health.supplementaryPageLink"];
 
 const LOCALE_TO_GOOGLE = {
   da: "da",
@@ -91,9 +93,9 @@ async function translateLocale(fileBase, googleTo) {
   }
 
   const en = JSON.parse(fs.readFileSync(path.join(localesDir, "en.json"), "utf8"));
-  const entries = Object.entries(en)
-    .filter(([k]) => k.startsWith(PREFIX))
-    .sort(([a], [b]) => a.localeCompare(b));
+  const supplementary = Object.entries(en).filter(([k]) => k.startsWith(PREFIX));
+  const extra = EXTRA_KEYS.filter((k) => typeof en[k] === "string").map((k) => [k, en[k]]);
+  const entries = [...supplementary, ...extra].sort(([a], [b]) => a.localeCompare(b));
 
   const updates = {};
   for (let i = 0; i < entries.length; i += BATCH_SIZE) {

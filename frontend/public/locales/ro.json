@@ -792,7 +792,7 @@
   "insurance.supplementaryHealth.whoFootnote": "Eligibilitatea, perioadele de așteptare și regulile de subscriere sunt stabilite de către asigurător — İlsa Insurance verifică detaliile cu dvs. înainte de începere.",
   "insurance.supplementaryHealth.whyProductTitle": "De ce asigurare suplimentară de sănătate?",
   "insurance.supplementaryHealth.whyProduct1": "Puteți reduce sau elimina diferențele de taxe suplimentare la spitalele private contractate atunci când se aplică coordonarea SGK.",
-  "insurance.supplementaryHealth.whyProduct2": "Călătorii mai scurte pentru programare și admitere, în comparație cu bazarea numai pe aranjamentele informale din buzunar.",
+  "insurance.supplementaryHealth.whyProduct2": "Călătorii mai scurte pentru programare și admitere în comparație cu bazarea numai pe aranjamentele informale din buzunar.",
   "insurance.supplementaryHealth.whyProduct3": "Setări de tratament mai confortabile, în care lista de spitale a produsului dumneavoastră se potrivește cu preferințele dumneavoastră.",
   "insurance.supplementaryHealth.whyProduct4": "Prime competitive atunci când designul beneficiilor este potrivit cu modul în care utilizați de fapt asistența medicală.",
   "insurance.supplementaryHealth.advSectionTitle": "Avantajele asigurărilor suplimentare de sănătate",
@@ -831,11 +831,11 @@
   "insurance.supplementaryHealth.faqSeeMore": "Vezi mai multe întrebări",
   "insurance.supplementaryHealth.faqSeeLess": "Afișați mai puține întrebări",
   "insurance.supplementaryHealth.faq1Q": "Ce este asigurarea suplimentară de sănătate?",
-  "insurance.supplementaryHealth.faq1A": "Asigurarea suplimentară de sănătate este un produs de sănătate privat care ajută la acoperirea diferenței de costuri pentru cheltuielile de asistență medicală coordonate cu Instituția de Securitate Socială (SGK) la spitalele private contractate, în limitele și excluderile poliței dvs. - excluzând orice reguli obligatorii de coplăți SGK care încă se aplică prin lege.",
+  "insurance.supplementaryHealth.faq1A": "Asigurarea suplimentară de sănătate este un produs de sănătate privat care ajută la acoperirea diferențelor de costuri pentru cheltuielile de îngrijire a sănătății coordonate cu Instituția de Securitate Socială (SGK) la spitalele private contractate, în limitele și excluderile poliței dvs. – excluzând orice reguli obligatorii de coplăți SGK care încă se aplică prin lege.",
   "insurance.supplementaryHealth.faq2Q": "Cine poate achiziționa o asigurare suplimentară de sănătate?",
   "insurance.supplementaryHealth.faq2A": "Multe programe asigură persoane de la bebeluși cu vârsta mai mare de 14 zile până la vârsta de 64 de ani (inclusiv) la prima intrare, sub rezerva criteriilor de acceptare a asigurătorului și dezvăluirii medicale - confirmați intervalul de vârstă exact pe cota dvs.",
   "insurance.supplementaryHealth.faq3Q": "Care este diferența dintre asigurarea suplimentară de sănătate și asigurarea privată de sănătate?",
-  "insurance.supplementaryHealth.faq3A": "Private health insurance products can vary widely in networks and benefit design. Supplementary health insurance is typically structured around SGK-coordinated access to contracted private providers and may offer a more affordable route when your priority is fee-difference cover rather than a fully private international-style plan.",
+  "insurance.supplementaryHealth.faq3A": "Produsele de asigurări private de sănătate pot varia foarte mult în ceea ce privește rețelele și proiectarea beneficiilor. Asigurarea de sănătate suplimentară este de obicei structurată în jurul accesului coordonat de SGK la furnizorii privați contractați și poate oferi o rută mai accesibilă atunci când prioritatea dvs. este acoperirea cu diferențe de taxe, mai degrabă decât un plan complet privat în stil internațional.",
   "insurance.supplementaryHealth.faq4Q": "Asigurarea mea suplimentară de sănătate va acoperi condițiile mele existente?",
   "insurance.supplementaryHealth.faq4A": "Costurile legate de boli sau condiții care au existat înainte de începerea poliței sunt în general excluse sau supuse unor perioade de așteptare — citiți programul dvs. personal și solicitați İlsa Insurance să explice cum dezvăluirile dvs. se potrivesc cu subscrierea.",
   "insurance.supplementaryHealth.faq5Q": "Polița mea de asigurări suplimentare de sănătate este valabilă în străinătate?",
@@ -857,5 +857,5 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "Comparați planurile suplimentare de sănătate",
   "insurance.supplementaryHealth.bottomCtaBody": "Contactați İlsa Insurance pentru cotații orientative și ajutor în alegerea unei rețele care se potrivește familiei dvs.",
   "insurance.supplementaryHealth.bottomCtaButton": "Contactaţi-ne",
-  "insurance.health.supplementaryPageLink": "View supplementary health insurance (TSS) details"
+  "insurance.health.supplementaryPageLink": "Vedeți detaliile asigurării suplimentare de sănătate (TSS)."
 }
