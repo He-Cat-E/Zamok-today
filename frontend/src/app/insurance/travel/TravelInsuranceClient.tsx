@@ -18,6 +18,24 @@ function tr(t: (k: string) => string, key: string, fallback: string) {
 
 const COVER_IDS = [1, 2, 3, 4, 5, 6, 7] as const;
 
+function TravelCoverCard({ id, t }: { id: (typeof COVER_IDS)[number]; t: (k: string) => string }) {
+  return (
+    <div className="box-border flex min-w-0 flex-col rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/80 dark:shadow-black/40">
+      <div className="flex gap-3">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
+          <FiCheck className="h-5 w-5" />
+        </span>
+        <h3 className={`${recoleta.className} text-base font-semibold leading-snug text-zinc-900 dark:text-white md:text-lg`}>
+          {tr(t, `insurance.travel.coverItem${id}Title`, "")}
+        </h3>
+      </div>
+      <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 md:text-base">
+        {tr(t, `insurance.travel.coverItem${id}Desc`, "")}
+      </p>
+    </div>
+  );
+}
+
 const EXCLUSION_BLOCKS: ReadonlyArray<
   | { kind: "plain"; titleKey: string; bodyKey: string }
   | {
@@ -337,25 +355,19 @@ export function TravelInsuranceClient() {
             <p className="mx-auto mt-3 max-w-3xl text-center text-zinc-600 dark:text-zinc-300 md:text-lg">
               {tr(t, "insurance.travel.coverLead", "Depending on the chosen policy, it may include the following coverages:")}
             </p>
-            <div className="mx-auto mt-10 flex max-w-[1200px] flex-wrap justify-center gap-4">
-              {COVER_IDS.map((id) => (
-                <div
-                  key={id}
-                  className="box-border flex w-full max-w-md shrink-0 flex-col rounded-2xl border border-zinc-200/90 bg-white p-5 shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 sm:max-w-none sm:w-[min(100%,20rem)] lg:w-[17.25rem] dark:border-white/10 dark:bg-zinc-900/80 dark:shadow-black/40"
-                >
-                  <div className="flex gap-3">
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
-                      <FiCheck className="h-5 w-5" />
-                    </span>
-                    <h3 className={`${recoleta.className} text-base font-semibold leading-snug text-zinc-900 dark:text-white md:text-lg`}>
-                      {tr(t, `insurance.travel.coverItem${id}Title`, "")}
-                    </h3>
-                  </div>
-                  <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 md:text-base">
-                    {tr(t, `insurance.travel.coverItem${id}Desc`, "")}
-                  </p>
+            <div className="mt-10 flex flex-col gap-4">
+              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {COVER_IDS.slice(0, 4).map((id) => (
+                  <TravelCoverCard key={id} id={id} t={t} />
+                ))}
+              </div>
+              <div className="flex w-full justify-center">
+                <div className="grid w-full max-w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:w-[calc((100%-3rem)/4*3+2rem)] lg:max-w-none lg:grid-cols-3">
+                  {COVER_IDS.slice(4).map((id) => (
+                    <TravelCoverCard key={id} id={id} t={t} />
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
             <p className="mx-auto mt-6 max-w-3xl text-center text-sm text-zinc-600 dark:text-zinc-400">
               {tr(
