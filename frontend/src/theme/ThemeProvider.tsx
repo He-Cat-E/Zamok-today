@@ -40,7 +40,7 @@ function applyHtmlTheme(resolved: "light" | "dark") {
 }
 
 function applyFavicon() {
-  const href = "/icon.jfif";
+  const href = "/icon.png";
   const links = Array.from(
     document.querySelectorAll<HTMLLinkElement>('link[rel~="icon"], link[rel="shortcut icon"]')
   );
