@@ -10,7 +10,6 @@ import { InsuranceDocumentLinks } from "@/components/insurance/InsuranceDocument
 import { InsurancePartnerCompaniesSection } from "@/components/insurance/InsurancePartnerCompaniesSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { useT } from "@/i18n/I18nProvider";
-import { recoleta } from "@/theme/fonts";
 
 function tr(t: (k: string) => string, key: string, fallback: string) {
   const v = t(key);
@@ -161,7 +160,7 @@ function ExpertReviewsCarousel() {
       className="scroll-mt-32 border-y border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black"
     >
       <div className="mx-auto max-w-[800px] px-4 text-center">
-        <p className="text-sm font-semibold uppercase tracking-wide text-red-600 dark:text-zinc-400">
+        <p className="text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-zinc-400">
           {tr(t, "insurance.personalAccident.expertLabel", "Our expert says")}
         </p>
 
@@ -177,7 +176,7 @@ function ExpertReviewsCarousel() {
         <div className="mt-8 flex flex-col items-center justify-center gap-3">
           <div
             key={`av-${active}`}
-            className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-zinc-200 shadow-md ring-2 ring-red-200/90 motion-safe:animate-expertFadeIn dark:bg-zinc-900 dark:ring-white/25 motion-reduce:animate-none"
+            className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-zinc-200 shadow-md ring-2 ring-brand-200/90 motion-safe:animate-expertFadeIn dark:bg-zinc-900 dark:ring-white/25 motion-reduce:animate-none"
           >
             <Image src={slide.image} alt="" width={56} height={56} className="h-full w-full object-cover" />
           </div>
@@ -197,7 +196,7 @@ function ExpertReviewsCarousel() {
               aria-label={`Expert review ${i + 1}`}
               className={[
                 "h-2.5 rounded-full transition-all duration-300",
-                i === active ? "w-8 bg-red-600 dark:bg-zinc-100" : "w-2.5 bg-zinc-300 hover:bg-zinc-400 dark:bg-zinc-600 dark:hover:bg-zinc-500"
+                i === active ? "w-8 bg-brand-600 dark:bg-zinc-100" : "w-2.5 bg-zinc-300 hover:bg-zinc-400 dark:bg-zinc-600 dark:hover:bg-zinc-500"
               ].join(" ")}
               onClick={() => setActive(i)}
             />
@@ -214,11 +213,11 @@ export function PersonalAccidentInsuranceClient() {
   const [faqExpanded, setFaqExpanded] = useState(false);
 
   return (
-    <div className="flex min-h-dvh flex-col bg-zinc-50 text-zinc-900 transition-colors duration-300 selection:bg-red-200 selection:text-red-950 dark:bg-black dark:text-zinc-50 dark:selection:bg-zinc-700 dark:selection:text-zinc-100">
+    <div className="flex min-h-dvh flex-col bg-zinc-50 text-zinc-900 transition-colors duration-300 selection:bg-brand-200 selection:text-brand-950 dark:bg-black dark:text-zinc-50 dark:selection:bg-zinc-700 dark:selection:text-zinc-100">
       <Topbar />
 
       <InsuranceScrollMain>
-        <section className="relative overflow-hidden bg-red-600 dark:bg-black">
+        <section className="relative overflow-hidden bg-brand-600 dark:bg-black">
           <div className="relative mx-auto grid max-w-[1440px] gap-10 px-4 py-12 lg:grid-cols-2 lg:items-center lg:py-16">
             <div className="text-white">
               <nav className="mb-4 text-sm text-white/85 dark:text-white/80" aria-label="Breadcrumb">
@@ -238,7 +237,7 @@ export function PersonalAccidentInsuranceClient() {
                   </li>
                 </ol>
               </nav>
-              <h1 className={`${recoleta.className} text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl`}>
+              <h1 className={`text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl`}>
                 {personalAccidentHeroTitle(t)}
               </h1>
               <p className="mt-3 text-lg text-white/95 md:text-xl">
@@ -265,7 +264,7 @@ export function PersonalAccidentInsuranceClient() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href="#contact-quote"
-                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-red-700 shadow-lg shadow-red-900/15 ring-1 ring-white/20 transition hover:bg-red-50 hover:shadow-xl dark:bg-zinc-100 dark:text-zinc-950 dark:shadow-black/40 dark:ring-white/15 dark:hover:bg-white"
+                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-brand-700 shadow-lg shadow-brand-900/15 ring-1 ring-white/20 transition hover:bg-brand-50 hover:shadow-xl dark:bg-zinc-100 dark:text-zinc-950 dark:shadow-black/40 dark:ring-white/15 dark:hover:bg-white"
                 >
                   {tr(t, "insurance.personalAccident.ctaPrimary", "Get a quote")}
                   <FiArrowRight className="h-4 w-4" />
@@ -302,7 +301,7 @@ export function PersonalAccidentInsuranceClient() {
           className="scroll-mt-32 border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950"
         >
           <div className="mx-auto max-w-[800px] px-4">
-            <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.personalAccident.overviewTitle", "Why personal accident cover matters")}
             </h2>
             <p className="mt-4 text-zinc-600 dark:text-zinc-300 md:text-lg">{tr(t, "insurance.personalAccident.overviewLead", "")}</p>
@@ -315,7 +314,7 @@ export function PersonalAccidentInsuranceClient() {
           className="scroll-mt-32 border-b border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black"
         >
           <div className="mx-auto max-w-[1440px] px-4">
-            <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(
                 t,
                 "insurance.personalAccident.advSectionTitle",
@@ -334,7 +333,7 @@ export function PersonalAccidentInsuranceClient() {
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-white">
                     <Icon className="h-5 w-5" aria-hidden />
                   </span>
-                  <h3 className={`${recoleta.className} mt-4 text-lg font-semibold text-zinc-900 dark:text-white`}>{tr(t, titleKey, "")}</h3>
+                  <h3 className={`mt-4 text-lg font-semibold text-zinc-900 dark:text-white`}>{tr(t, titleKey, "")}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 md:text-base">{tr(t, bodyKey, "")}</p>
                 </div>
               ))}
@@ -347,9 +346,9 @@ export function PersonalAccidentInsuranceClient() {
           className="scroll-mt-32 border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950"
         >
           <div className="mx-auto max-w-[800px] px-4">
-            <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.personalAccident.whatIsTitleBefore", "What is personal accident insurance")}
-              <span className="text-red-600 dark:text-red-400">{tr(t, "insurance.personalAccident.whatIsTitleMark", "?")}</span>
+              <span className="text-brand-600 dark:text-brand-400">{tr(t, "insurance.personalAccident.whatIsTitleMark", "?")}</span>
             </h2>
             <p className="mt-5 whitespace-pre-line text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 md:text-base">
               {tr(t, "insurance.personalAccident.whatIsBody", "")}
@@ -362,7 +361,7 @@ export function PersonalAccidentInsuranceClient() {
           className="scroll-mt-32 border-b border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black"
         >
           <div className="mx-auto max-w-[800px] px-4">
-            <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.personalAccident.coverTitle", "What does personal accident insurance cover?")}
             </h2>
             <p className="mt-3 text-zinc-600 dark:text-zinc-300 md:text-lg">{tr(t, "insurance.personalAccident.coverLead", "")}</p>
@@ -372,7 +371,7 @@ export function PersonalAccidentInsuranceClient() {
                   key={key}
                   className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-white px-4 py-4 insurance-hover-card dark:border-white/10 dark:bg-zinc-950"
                 >
-                  <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
+                  <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand-600 text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
                     <FiCheck className="h-4 w-4" strokeWidth={2.5} />
                   </span>
                   <span className="text-sm font-medium leading-relaxed text-zinc-800 dark:text-zinc-100 md:text-base">{tr(t, key, "")}</span>
@@ -385,13 +384,13 @@ export function PersonalAccidentInsuranceClient() {
 
         <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
           <div className="mx-auto max-w-[800px] px-4">
-            <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.personalAccident.whoTitle", "Who is it for?")}
             </h2>
             <ul className="mt-8 flex flex-col gap-3">
               {WHO_KEYS.map((key) => (
                 <li key={key} className="flex gap-3">
-                  <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
+                  <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand-600 text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
                     <FiCheck className="h-4 w-4" strokeWidth={2.5} />
                   </span>
                   <span className="text-sm font-medium leading-relaxed text-zinc-800 dark:text-zinc-100 md:text-base">{tr(t, key, "")}</span>
@@ -404,7 +403,7 @@ export function PersonalAccidentInsuranceClient() {
 
         <section className="border-b border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
           <div className="mx-auto max-w-[1440px] px-4">
-            <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.personalAccident.whyTitle", "Why İlsa Insurance?")}
             </h2>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
@@ -413,7 +412,7 @@ export function PersonalAccidentInsuranceClient() {
                   key={key}
                   className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200/90 bg-white p-5 text-center shadow-sm insurance-hover-card dark:border-white/10 dark:bg-zinc-950 dark:shadow-black/50"
                 >
-                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-red-600 text-sm font-bold text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
+                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-brand-600 text-sm font-bold text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
                     {i + 1}
                   </span>
                   <p className="text-sm font-medium leading-snug text-zinc-800 dark:text-zinc-100">{tr(t, key, "")}</p>
@@ -425,7 +424,7 @@ export function PersonalAccidentInsuranceClient() {
 
         <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
           <div className="mx-auto max-w-[800px] px-4">
-            <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.personalAccident.pricingTitle", "Personal accident insurance premiums")}
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 md:text-base">{tr(t, "insurance.personalAccident.pricingBody", "")}</p>
@@ -440,13 +439,13 @@ export function PersonalAccidentInsuranceClient() {
         >
           <div className="mx-auto grid max-w-[1200px] gap-10 px-4 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-4">
-              <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+              <h2 className={`text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
                 {tr(t, "insurance.personalAccident.faqSectionTitle", "Frequently asked questions")}
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 md:text-base">{tr(t, "insurance.personalAccident.faqSectionLead", "")}</p>
               <button
                 type="button"
-                className="mt-6 inline-flex items-center justify-center rounded-full border-2 border-red-600 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-600 hover:text-white dark:border-red-400 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white"
+                className="mt-6 inline-flex items-center justify-center rounded-full border-2 border-brand-600 px-5 py-2.5 text-sm font-semibold text-brand-600 transition hover:bg-brand-600 hover:text-white dark:border-brand-400 dark:text-brand-400 dark:hover:bg-brand-500 dark:hover:text-white"
                 onClick={() => {
                   setFaqExpanded(true);
                   document.getElementById("faq-list")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -468,7 +467,7 @@ export function PersonalAccidentInsuranceClient() {
                         aria-expanded={open}
                         onClick={() => setOpenFaq((v) => (v === idx ? null : idx))}
                       >
-                        <span className={`${recoleta.className} text-base font-semibold text-zinc-900 dark:text-white sm:text-lg`}>
+                        <span className={`text-base font-semibold text-zinc-900 dark:text-white sm:text-lg`}>
                           {tr(t, item.q, "")}
                         </span>
                         <span className="mt-1 shrink-0 text-zinc-500 dark:text-zinc-400" aria-hidden>
@@ -488,7 +487,7 @@ export function PersonalAccidentInsuranceClient() {
                 <div className="mt-4 flex justify-end">
                   <button
                     type="button"
-                    className="inline-flex items-center gap-1 text-sm font-semibold text-red-600 transition hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600 transition hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300"
                     onClick={() => {
                       setFaqExpanded((prev) => {
                         const next = !prev;
@@ -513,7 +512,7 @@ export function PersonalAccidentInsuranceClient() {
           className="scroll-mt-32 border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950"
         >
           <div className="mx-auto max-w-[800px] px-4 text-center">
-            <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.personalAccident.docsTitle", "Related documents")}
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-sm text-zinc-600 dark:text-zinc-300 md:text-base">{tr(t, "insurance.personalAccident.docsLead", "")}</p>
@@ -526,10 +525,10 @@ export function PersonalAccidentInsuranceClient() {
 
         <section
           id="contact-quote"
-          className="scroll-mt-14 bg-red-600 py-14 transition-colors duration-300 dark:bg-black lg:scroll-mt-16"
+          className="scroll-mt-14 bg-brand-600 py-14 transition-colors duration-300 dark:bg-black lg:scroll-mt-16"
         >
           <div className="mx-auto max-w-[1440px] px-4 text-center">
-            <h2 className={`${recoleta.className} text-2xl font-bold text-white md:text-3xl`}>
+            <h2 className={`text-2xl font-bold text-white md:text-3xl`}>
               {tr(t, "insurance.personalAccident.bottomCtaTitle", "Ready to get covered?")}
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-white/90 dark:text-white/85">
@@ -537,7 +536,7 @@ export function PersonalAccidentInsuranceClient() {
             </p>
             <a
               href="#contact-quote"
-              className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-red-700 shadow-lg shadow-red-900/20 ring-1 ring-white/30 transition hover:bg-red-50 hover:shadow-xl dark:bg-zinc-100 dark:text-zinc-950 dark:shadow-black/40 dark:ring-white/20 dark:hover:bg-white"
+              className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow-lg shadow-brand-900/20 ring-1 ring-white/30 transition hover:bg-brand-50 hover:shadow-xl dark:bg-zinc-100 dark:text-zinc-950 dark:shadow-black/40 dark:ring-white/20 dark:hover:bg-white"
             >
               {tr(t, "insurance.personalAccident.bottomCtaButton", "Contact us")}
               <FiArrowRight className="h-4 w-4" />

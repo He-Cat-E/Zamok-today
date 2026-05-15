@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --brand: #c32c2b;
+  --brand-hover: #9e2423;
+  --brand-light: #f5c8c8;
+  --brand-ring: rgb(195 44 43 / 0.28);
+  --brand-border: rgb(195 44 43 / 0.45);
+  --brand-rgb: 195 44 43;
+}
+
 html,
 body {
   height: 100%;
@@ -11,7 +20,7 @@ body {
   @apply bg-slate-50 text-slate-900 antialiased;
   @apply dark:bg-black dark:text-white;
   @apply transition-colors duration-200;
-  font-family: var(--font-manrope), "Manrope", "Helvetica Neue", system-ui, sans-serif;
+  font-family: var(--font-manrope), "Manrope", system-ui, sans-serif;
   font-weight: 500;
 }
 
@@ -59,14 +68,14 @@ body {
     transform: translateY(-0.3rem);
     box-shadow:
       0 22px 44px -16px rgb(15 23 42 / 0.14),
-      0 0 0 1px rgb(248 113 113 / 0.28);
-    border-color: rgb(254 202 202 / 0.95);
+      0 0 0 1px var(--brand-ring);
+    border-color: var(--brand-light);
   }
   .dark .insurance-hover-card:hover {
     box-shadow:
       0 24px 50px -12px rgb(0 0 0 / 0.65),
-      0 0 0 1px rgb(248 113 113 / 0.35);
-    border-color: rgb(248 113 113 / 0.45);
+      0 0 0 1px var(--brand-border);
+    border-color: var(--brand-border);
   }
 }
 
@@ -76,11 +85,11 @@ body {
   }
   .insurance-hover-card:hover {
     box-shadow: 0 10px 26px -12px rgb(15 23 42 / 0.12);
-    border-color: rgb(254 202 202 / 0.85);
+    border-color: var(--brand-light);
   }
   .dark .insurance-hover-card:hover {
     box-shadow: 0 12px 28px -10px rgb(0 0 0 / 0.45);
-    border-color: rgb(248 113 113 / 0.35);
+    border-color: var(--brand-border);
   }
 }
 
@@ -93,11 +102,11 @@ b {
 /* Thin scrollbar styled with primary colors */
 * {
   scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #dc2626 #ffffff; /* thumb track */
+  scrollbar-color: var(--brand) #ffffff; /* thumb track */
 }
 
 .dark * {
-  scrollbar-color: #dc2626 #000000;
+  scrollbar-color: var(--brand) #000000;
 }
 
 /* Chromium / Safari */
@@ -115,7 +124,7 @@ b {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #dc2626;
+  background: var(--brand);
   border-radius: 999px;
   border: 2px solid #ffffff;
 }
@@ -125,7 +134,7 @@ b {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b91c1c;
+  background: var(--brand-hover);
 }
 
 /* Map page: keep one zoom control at right-center */
@@ -191,7 +200,7 @@ b {
   color: #0f172a;
   border: 1px solid #e2e8f0;
   box-shadow: 0 1px 6px rgb(15 23 42 / 12%);
-  font-family: var(--font-manrope), "Manrope", "Helvetica Neue", system-ui, sans-serif;
+  font-family: var(--font-manrope), "Manrope", system-ui, sans-serif;
   transform: scale(1);
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background-color 160ms ease;
 }
@@ -271,7 +280,7 @@ b {
   color: #1e3a8a;
   padding: 6px 10px;
   box-shadow: 0 3px 10px rgb(37 99 235 / 22%);
-  font-family: var(--font-manrope), "Manrope", "Helvetica Neue", system-ui, sans-serif;
+  font-family: var(--font-manrope), "Manrope", system-ui, sans-serif;
   font-size: 13px;
   font-weight: 600;
   line-height: 1;

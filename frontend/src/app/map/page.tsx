@@ -12,7 +12,6 @@ import { LuArrowDownUp } from "react-icons/lu";
 import { FlightSearch } from "@/components/FlightSearch";
 import { Topbar } from "@/components/Topbar";
 import { useI18n } from "@/i18n/I18nProvider";
-import { recoleta } from "@/theme/fonts";
 import { useTheme } from "@/theme/ThemeProvider";
 import { useAppSelector } from "@/store/hooks";
 import { env } from "@/lib/env";
@@ -366,7 +365,7 @@ export default function MapPage() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-black">
       <Topbar />
-      <section className="sticky top-16 z-40 bg-red-600 dark:bg-black shadow-sm">
+      <section className="sticky top-16 z-40 bg-brand-600 dark:bg-black shadow-sm">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
           <FlightSearch
             stickyEnabled={false}
@@ -390,20 +389,20 @@ export default function MapPage() {
                 <button
                   type="button"
                   onClick={() => setFocusedCountry(null)}
-                  className="mb-4 inline-flex items-center gap-2 rounded-2xl bg-transparent px-4 py-2 text-sm font-semibold text-red-600 ring-1 ring-red-500 transition hover:bg-red-50 dark:text-white dark:ring-white/25 dark:hover:bg-white/10"
+                  className="mb-4 inline-flex items-center gap-2 rounded-2xl bg-transparent px-4 py-2 text-sm font-semibold text-brand-600 ring-1 ring-brand-500 transition hover:bg-brand-50 dark:text-white dark:ring-white/25 dark:hover:bg-white/10"
                 >
                   <FiChevronLeft className="h-4 w-4" />
                   {tr("map.allCountries", "All countries")}
                 </button>
                 <div className="mt-2 flex items-center gap-3">
                   <span className={`fi fi-${focusedGroup.regionCode} h-6 w-6`} />
-                  <div className={`${recoleta.className} text-4xl font-bold text-slate-900 dark:text-white`}>
+                  <div className={`text-4xl font-bold text-slate-900 dark:text-white`}>
                     {regionNames.of(focusedGroup.regionCode.toUpperCase()) || focusedGroup.country}
                   </div>
                 </div>
               </div>
             ) : (
-              <div className={`${recoleta.className} text-3xl font-bold text-slate-900 dark:text-white`}>
+              <div className={`text-3xl font-bold text-slate-900 dark:text-white`}>
                 {tr("search.anywhere", "Anywhere")}
               </div>
             )}
@@ -454,7 +453,7 @@ export default function MapPage() {
                   className={[
                     "rounded-2xl px-5 py-1.5 ring-1 transition",
                     directOnly
-                      ? "bg-red-600 text-white ring-red-600 dark:bg-red-600 dark:text-white dark:ring-red-500"
+                      ? "bg-brand-600 text-white ring-brand-600 dark:bg-brand-600 dark:text-white dark:ring-brand-500"
                       : "bg-white text-slate-700 ring-slate-200 dark:bg-white/10 dark:text-white dark:ring-white/15"
                   ].join(" ")}
                 >
@@ -466,7 +465,7 @@ export default function MapPage() {
                   className={[
                     "rounded-2xl px-5 py-1.5 ring-1 transition",
                     baggageOnly
-                      ? "bg-red-600 text-white ring-red-600 dark:bg-red-600 dark:text-white dark:ring-red-500"
+                      ? "bg-brand-600 text-white ring-brand-600 dark:bg-brand-600 dark:text-white dark:ring-brand-500"
                       : "bg-white text-slate-700 ring-slate-200 dark:bg-white/10 dark:text-white dark:ring-white/15"
                   ].join(" ")}
                 >
@@ -538,7 +537,7 @@ export default function MapPage() {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <span className={`fi fi-${group.regionCode} h-6 w-6`} />
-                            <div className={`${recoleta.className} text-2xl text-slate-900 dark:text-white`}>
+                            <div className={`text-2xl text-slate-900 dark:text-white`}>
                               {regionNames.of(group.regionCode.toUpperCase()) || group.country}
                             </div>
                           </div>
@@ -612,7 +611,7 @@ export default function MapPage() {
                             onClick={() => setFocusedCountry(group.regionCode)}
                             className="inline-flex h-12 items-center justify-center rounded-2xl bg-slate-100 px-10 text-sm font-semibold text-slate-900 ring-1 ring-slate-200 dark:bg-white/10 dark:text-white dark:ring-white/15"
                           >
-                            <span className={`${recoleta.className} text-sm font-semibold text-slate-900 dark:text-white`}>
+                            <span className={`text-sm font-semibold text-slate-900 dark:text-white`}>
                               {tr("map.allCities", "All cities")}
                             </span>
                             <FiChevronRight className="ml-4 h-4 w-4" />

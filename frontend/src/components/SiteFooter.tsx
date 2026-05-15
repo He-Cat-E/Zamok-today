@@ -20,7 +20,7 @@ const SOCIAL = {
 } as const;
 
 const linkClass =
-  "block text-sm font-medium text-zinc-700 transition hover:text-red-600 dark:text-zinc-300 dark:hover:text-red-400";
+  "block text-sm font-medium text-zinc-700 transition hover:text-brand-600 dark:text-zinc-300 dark:hover:text-brand-400";
 
 function FooterNavLink({ href, label }: { href: string; label: string }) {
   if (href === "#") {
@@ -40,7 +40,7 @@ function FooterNavLink({ href, label }: { href: string; label: string }) {
 function ZAMOKWordmark() {
   return (
     <div
-      className="flex select-none items-center justify-center gap-[0.06em] text-[clamp(2.75rem,10vw,4.5rem)] font-extrabold uppercase leading-none tracking-[0.08em] text-red-600 lg:text-[300px]"
+      className="flex select-none items-center justify-center gap-[0.06em] text-[clamp(2.75rem,10vw,4.5rem)] font-extrabold uppercase leading-none tracking-[0.08em] text-brand-600 lg:text-[300px]"
       aria-label="ZAMOK"
     >
       {"ZAMOK".split("").map((ch, i) => (
@@ -133,7 +133,7 @@ export function SiteFooter() {
                 <li>
                   <a
                     href={`mailto:${CONTACT_EMAIL}`}
-                    className="font-medium transition hover:text-red-600 dark:hover:text-red-400"
+                    className="font-medium transition hover:text-brand-600 dark:hover:text-brand-400"
                   >
                     {CONTACT_EMAIL}
                   </a>
@@ -141,7 +141,7 @@ export function SiteFooter() {
                 <li>
                   <a
                     href={`tel:${CONTACT_PHONE_TEL}`}
-                    className="font-medium transition hover:text-red-600 dark:hover:text-red-400"
+                    className="font-medium transition hover:text-brand-600 dark:hover:text-brand-400"
                   >
                     {CONTACT_PHONE_DISPLAY}
                   </a>
@@ -153,7 +153,7 @@ export function SiteFooter() {
                   href={SOCIAL.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 transition hover:border-red-500/50 hover:text-red-600 dark:border-white/20 dark:text-zinc-300 dark:hover:border-red-400/40 dark:hover:text-red-400"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 transition hover:border-brand-500/50 hover:text-brand-600 dark:border-white/20 dark:text-zinc-300 dark:hover:border-brand-400/40 dark:hover:text-brand-400"
                   aria-label={t("footer.social.instagram")}
                 >
                   <FaInstagram className="h-[18px] w-[18px]" />
@@ -162,7 +162,7 @@ export function SiteFooter() {
                   href={SOCIAL.x}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 transition hover:border-red-500/50 hover:text-red-600 dark:border-white/20 dark:text-zinc-300 dark:hover:border-red-400/40 dark:hover:text-red-400"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 transition hover:border-brand-500/50 hover:text-brand-600 dark:border-white/20 dark:text-zinc-300 dark:hover:border-brand-400/40 dark:hover:text-brand-400"
                   aria-label={t("footer.social.x")}
                 >
                   <FaXTwitter className="h-[17px] w-[17px]" />
@@ -171,7 +171,7 @@ export function SiteFooter() {
                   href={SOCIAL.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 transition hover:border-red-500/50 hover:text-red-600 dark:border-white/20 dark:text-zinc-300 dark:hover:border-red-400/40 dark:hover:text-red-400"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 transition hover:border-brand-500/50 hover:text-brand-600 dark:border-white/20 dark:text-zinc-300 dark:hover:border-brand-400/40 dark:hover:text-brand-400"
                   aria-label={t("footer.social.whatsapp")}
                 >
                   <FaWhatsapp className="h-[18px] w-[18px]" />
@@ -180,7 +180,7 @@ export function SiteFooter() {
                   href={SOCIAL.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 transition hover:border-red-500/50 hover:text-red-600 dark:border-white/20 dark:text-zinc-300 dark:hover:border-red-400/40 dark:hover:text-red-400"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 text-zinc-600 transition hover:border-brand-500/50 hover:text-brand-600 dark:border-white/20 dark:text-zinc-300 dark:hover:border-brand-400/40 dark:hover:text-brand-400"
                   aria-label={t("footer.social.telegram")}
                 >
                   <FaTelegram className="h-[18px] w-[18px]" />
@@ -199,7 +199,7 @@ export function SiteFooter() {
               href={MEP_FUTURE_DESIGN_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline decoration-zinc-400 underline-offset-2 transition hover:text-red-600 dark:decoration-zinc-500 dark:hover:text-red-400"
+              className="underline decoration-zinc-400 underline-offset-2 transition hover:text-brand-600 dark:decoration-zinc-500 dark:hover:text-brand-400"
             >
               {t("footer.mepCompanyName")}
             </a>

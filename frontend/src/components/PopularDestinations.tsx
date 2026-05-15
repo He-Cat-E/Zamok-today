@@ -11,7 +11,6 @@ import { env } from "@/lib/env";
 import { getPopularDestinationCards } from "@/lib/siteDestinationData";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setFlightSearchForm } from "@/store/flightsSlice";
-import { recoleta } from "@/theme/fonts";
 
 const staticDestinations = getPopularDestinationCards();
 const BLANK_DESTINATION_IMAGE = "/Images/blank.webp";
@@ -254,7 +253,7 @@ export function PopularDestinations() {
             })
           )
         }
-        className="block h-full rounded-2xl outline-none ring-red-600/0 transition hover:ring-2 focus-visible:ring-2 focus-visible:ring-red-600"
+        className="block h-full rounded-2xl outline-none ring-brand-600/0 transition hover:ring-2 focus-visible:ring-2 focus-visible:ring-brand-600"
       >
         {cardContent}
       </Link>
@@ -266,7 +265,7 @@ export function PopularDestinations() {
       <section className="rounded-3xl bg-white dark:bg-black p-6 shadow-sm ring-1 ring-slate-200 dark:ring-white/10">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <div className={`${recoleta.className} text-3xl font-semibold text-slate-900 dark:text-white`}>{t("popular.title")}</div>
+            <div className={`text-3xl font-semibold text-slate-900 dark:text-white`}>{t("popular.title")}</div>
             <div className="mt-1 text-sm text-slate-500 dark:text-white/70">{t("popular.subtitle")}</div>
           </div>
           <div className="flex items-center gap-2">
@@ -345,7 +344,7 @@ export function PopularDestinations() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="sticky top-0 z-20 mb-4 flex shrink-0 items-center justify-between border-b border-slate-200 bg-white/95 pb-3 backdrop-blur dark:border-white/10 dark:bg-black/95">
-              <div className={`${recoleta.className} text-3xl font-semibold text-slate-900 dark:text-white`}>
+              <div className={`text-3xl font-semibold text-slate-900 dark:text-white`}>
                 {t("popular.title")}
               </div>
               <button

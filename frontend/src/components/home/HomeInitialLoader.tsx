@@ -1,6 +1,5 @@
 "use client";
 
-import { JetBrains_Mono } from "next/font/google";
 import { usePathname } from "next/navigation";
 import {
   useCallback,
@@ -16,12 +15,6 @@ import styles from "./HomeInitialLoader.module.css";
 const MIN_LOAD_MS = 3000;
 /** Allow opacity transition to finish before unmounting (see `.shell` CSS). */
 const FADE_OUT_MS = 480;
-
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-hloader-mono"
-});
 
 function randomNodeId() {
   const hex = () => Math.floor(Math.random() * 16).toString(16).toUpperCase();
@@ -274,7 +267,7 @@ export function HomeInitialLoader() {
 
   return (
     <div
-      className={`${manrope.variable} ${mono.variable} ${styles.shell} ${fadeOut ? styles.shellFadeOut : ""}`}
+      className={`${manrope.variable} font-sans ${styles.shell} ${fadeOut ? styles.shellFadeOut : ""}`}
       role="progressbar"
       aria-valuemin={1}
       aria-valuemax={100}

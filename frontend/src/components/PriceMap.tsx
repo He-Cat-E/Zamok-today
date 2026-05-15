@@ -7,7 +7,6 @@ import { useT } from "@/i18n/I18nProvider";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 import { FiChevronRight, FiInfo, FiX } from "react-icons/fi";
 import { useTheme } from "@/theme/ThemeProvider";
-import { recoleta } from "@/theme/fonts";
 
 export function PriceMap() {
   const t = useT();
@@ -27,7 +26,7 @@ export function PriceMap() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-center">
           <div className="flex flex-col gap-3 md:gap-4 h-full justify-between">
             <div>
-              <div className={`${recoleta.className} text-3xl font-semibold text-slate-900 dark:text-white`}>{t("pricemap.title")}</div>
+              <div className={`text-3xl font-semibold text-slate-900 dark:text-white`}>{t("pricemap.title")}</div>
               <div className="mt-1 text-sm text-slate-500 dark:text-white/70">{t("pricemap.subtitle")}</div>
             </div>
 
@@ -68,7 +67,7 @@ export function PriceMap() {
           <button
             type="button"
             onClick={() => setHowItWorksOpen((v) => !v)}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-red-600 hover:text-red-700 dark:text-white dark:hover:text-white/85"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700 dark:text-white dark:hover:text-white/85"
             aria-expanded={howItWorksOpen}
             aria-controls="pricemap-how-it-works"
           >

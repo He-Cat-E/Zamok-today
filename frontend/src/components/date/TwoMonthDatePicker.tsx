@@ -137,10 +137,10 @@ function MonthView({
                 isDisabled
                   ? "text-slate-300 cursor-not-allowed dark:text-white/35"
                   : "text-slate-900 hover:bg-slate-50 dark:text-white dark:hover:bg-white/10",
-                inRange ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-200" : "",
-                isRangeStart ? "bg-red-600 text-white hover:bg-red-600" : "",
-                isRangeEnd ? "bg-red-600 text-white hover:bg-red-600" : "",
-                !isRangeStart && !isRangeEnd && isSelected ? "bg-red-600 text-white hover:bg-red-600" : ""
+                inRange ? "bg-brand-100 text-brand-700 dark:bg-brand-900/30 dark:text-brand-200" : "",
+                isRangeStart ? "bg-brand-600 text-white hover:bg-brand-600" : "",
+                isRangeEnd ? "bg-brand-600 text-white hover:bg-brand-600" : "",
+                !isRangeStart && !isRangeEnd && isSelected ? "bg-brand-600 text-white hover:bg-brand-600" : ""
               )}
             >
               {d.getDate()}
@@ -251,7 +251,7 @@ export function TwoMonthDatePicker({ value, minYmd, rangeStartYmd, rangeEndYmd, 
           onClick={() => {
             onClose();
           }}
-          className="rounded-2xl bg-red-600 px-6 py-3 text-sm font-semibold text-white hover:bg-red-700"
+          className="rounded-2xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white hover:bg-brand-700"
         >
           Select for one-way trip
         </button>

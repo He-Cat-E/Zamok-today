@@ -1,25 +1,36 @@
 import type { Config } from "tailwindcss";
+import tailwindColors from "tailwindcss/colors";
+import { brandRed } from "./src/theme/brand";
+
+/** Tailwind default palette minus deprecated names and `red` (replaced by brand). */
+const {
+  lightBlue,
+  warmGray,
+  trueGray,
+  coolGray,
+  blueGray,
+  red: _defaultRed,
+  ...baseColors
+} = tailwindColors;
 
 const config: Config = {
   darkMode: "class",
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
+    colors: {
+      ...baseColors,
+      red: { ...brandRed },
+      brand: { ...brandRed }
+    },
     extend: {
       fontFamily: {
-        sans: [
-          "var(--font-manrope)",
-          "Manrope",
-          "Helvetica Neue",
-          "system-ui",
-          "sans-serif"
-        ]
+        sans: ["var(--font-manrope)", "Manrope", "system-ui", "sans-serif"]
       },
       fontSize: {
-        // Enforce minimum readable size across UI
-        xs: ["0.875rem", { lineHeight: "1.25rem" }], // 14px
-        sm: ["1rem", { lineHeight: "1.5rem" }], // 16px
-        base: ["1.125rem", { lineHeight: "1.75rem" }], // 18px
-        lg: ["1.25rem", { lineHeight: "1.875rem" }] // 20px
+        xs: ["0.875rem", { lineHeight: "1.25rem" }],
+        sm: ["1rem", { lineHeight: "1.5rem" }],
+        base: ["1.125rem", { lineHeight: "1.75rem" }],
+        lg: ["1.25rem", { lineHeight: "1.875rem" }]
       },
       keyframes: {
         expertFadeIn: {
@@ -36,4 +47,3 @@ const config: Config = {
 };
 
 export default config;
-

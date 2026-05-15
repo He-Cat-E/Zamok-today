@@ -9,7 +9,7 @@ export function Header() {
     <>
       <Topbar />
 
-      <section className="bg-red-600 dark:bg-black">
+      <section className="bg-brand-600 dark:bg-black">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-1 md:py-20">
           <div className="mt-3 mb-4 text-center text-white md:mt-12 md:mb-8">
             <HeroTitle />
@@ -17,7 +17,7 @@ export function Header() {
           <FlightSearch usePersistedSearchForm={false} />
         </div>
       </section>
-      <section className="h-3 bg-red-600 dark:bg-black md:h-[80px]" />
+      <section className="h-3 bg-brand-600 dark:bg-black md:h-[80px]" />
     </>
   );
 }

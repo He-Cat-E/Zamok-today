@@ -130,8 +130,8 @@ export function PassengersPicker({ value, onChange }: Props) {
             className={cn(
               "grid h-9 w-9 place-items-center rounded-full ring-1 transition",
               incDisabled
-                ? "bg-red-100 text-red-300 ring-red-200 cursor-not-allowed"
-                : "bg-red-600 text-white ring-red-600 hover:bg-red-700"
+                ? "bg-brand-100 text-brand-300 ring-brand-200 cursor-not-allowed"
+                : "bg-brand-600 text-white ring-brand-600 hover:bg-brand-700"
             )}
             aria-label={`Increase ${title}`}
           >
@@ -210,7 +210,7 @@ export function PassengersPicker({ value, onChange }: Props) {
                 >
                   <div className="text-base text-slate-900 dark:text-white">{c.label}</div>
                   {selected ? (
-                    <FiCheckCircle className="h-5 w-5 text-red-600" />
+                    <FiCheckCircle className="h-5 w-5 text-brand-600" />
                   ) : (
                     <FiCircle className="h-5 w-5 text-slate-300 dark:text-white/25" />
                   )}
@@ -283,7 +283,7 @@ export function PassengersPicker({ value, onChange }: Props) {
                     >
                       <div className="text-base text-slate-900 dark:text-white">{c.label}</div>
                       {selected ? (
-                        <FiCheckCircle className="h-6 w-6 text-red-600" />
+                        <FiCheckCircle className="h-6 w-6 text-brand-600" />
                       ) : (
                         <FiCircle className="h-6 w-6 text-slate-300 dark:text-white/25" />
                       )}
@@ -297,7 +297,7 @@ export function PassengersPicker({ value, onChange }: Props) {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="w-full rounded-2xl bg-red-600 py-3 text-xl font-semibold text-white hover:bg-red-700"
+                className="w-full rounded-2xl bg-brand-600 py-3 text-xl font-semibold text-white hover:bg-brand-700"
               >
                 Ok
               </button>

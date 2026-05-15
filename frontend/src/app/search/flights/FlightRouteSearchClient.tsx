@@ -14,7 +14,6 @@ import { useAppSelector } from "@/store/hooks";
 import { env } from "@/lib/env";
 import { SITE_DEFAULT_TO_CITY, SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
 import type { FlightOffer } from "@/lib/types";
-import { recoleta } from "@/theme/fonts";
 
 const visibleTickets = 2;
 
@@ -134,7 +133,7 @@ export function FlightRouteSearchClient() {
   return (
     <main className="flex min-h-dvh flex-col bg-slate-50 dark:bg-black">
       <Topbar />
-      <section className="sticky top-16 z-40 shrink-0 bg-red-600 dark:bg-black shadow-sm">
+      <section className="sticky top-16 z-40 shrink-0 bg-brand-600 dark:bg-black shadow-sm">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
           <FlightSearch
             key={`${fromCity}-${toCity}`}
@@ -151,7 +150,7 @@ export function FlightRouteSearchClient() {
         <div className="mx-auto flex w-full max-w-[1240px] flex-1 flex-col gap-6 px-4 py-8 lg:flex-row lg:items-start">
         <aside className="w-full shrink-0 lg:sticky lg:top-[152px] lg:w-[260px]">
           <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-black dark:ring-white/10">
-            <p className={`${recoleta.className} text-lg font-bold leading-snug text-slate-900 dark:text-white`}>
+            <p className={`text-lg font-bold leading-snug text-slate-900 dark:text-white`}>
               {fromCity} – {toCity}
             </p>
             <nav className="mt-5 space-y-1" aria-label={tr("searchRoute.navAria", "Route sections")}>
@@ -161,14 +160,14 @@ export function FlightRouteSearchClient() {
                 className={[
                   "flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold transition",
                   activeNav === "cheapest"
-                    ? "bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-200"
+                    ? "bg-brand-50 text-brand-700 dark:bg-brand-950/40 dark:text-brand-200"
                     : "text-slate-700 hover:bg-slate-50 dark:text-white/85 dark:hover:bg-white/10"
                 ].join(" ")}
               >
                 <span
                   className={[
                     "grid h-9 w-9 shrink-0 place-items-center rounded-full text-white",
-                    activeNav === "cheapest" ? "bg-red-600" : "bg-slate-300 dark:bg-white/20"
+                    activeNav === "cheapest" ? "bg-brand-600" : "bg-slate-300 dark:bg-white/20"
                   ].join(" ")}
                 >
                   <BiSolidPlaneAlt className="h-4 w-4" />
@@ -181,14 +180,14 @@ export function FlightRouteSearchClient() {
                 className={[
                   "flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold transition",
                   activeNav === "noDirect"
-                    ? "bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-200"
+                    ? "bg-brand-50 text-brand-700 dark:bg-brand-950/40 dark:text-brand-200"
                     : "text-slate-700 hover:bg-slate-50 dark:text-white/85 dark:hover:bg-white/10"
                 ].join(" ")}
               >
                 <span
                   className={[
                     "grid h-9 w-9 shrink-0 place-items-center rounded-full text-white",
-                    activeNav === "noDirect" ? "bg-red-600" : "bg-slate-300 dark:bg-white/20"
+                    activeNav === "noDirect" ? "bg-brand-600" : "bg-slate-300 dark:bg-white/20"
                   ].join(" ")}
                 >
                   <LuCalendarOff className="h-4 w-4" />
@@ -206,7 +205,7 @@ export function FlightRouteSearchClient() {
             className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-black dark:ring-white/10 md:p-6"
           >
             <div className="mb-4 flex items-center justify-between gap-3">
-              <h2 className={`${recoleta.className} text-xl font-bold text-slate-900 dark:text-white md:text-2xl`}>
+              <h2 className={`text-xl font-bold text-slate-900 dark:text-white md:text-2xl`}>
                 {tr("destination.cheapestTitle", "Cheapest tickets")}
               </h2>
               {showTicketSlider ? (
@@ -242,7 +241,7 @@ export function FlightRouteSearchClient() {
                 </div>
               ) : null}
               {!isLoading && loadError ? (
-                <p className="text-sm text-red-600 dark:text-red-300">{loadError}</p>
+                <p className="text-sm text-brand-600 dark:text-brand-300">{loadError}</p>
               ) : null}
               {!isLoading && !loadError ? (
                 tickets.length === 0 ? (
@@ -289,7 +288,7 @@ export function FlightRouteSearchClient() {
             id="route-no-direct"
             className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-black dark:ring-white/10 md:p-6"
           >
-            <h2 className={`${recoleta.className} mb-3 text-xl font-bold text-slate-900 dark:text-white md:text-2xl`}>
+            <h2 className={`mb-3 text-xl font-bold text-slate-900 dark:text-white md:text-2xl`}>
               {tr("searchRoute.noDirectNav", "No direct flights")}
             </h2>
             <p className="max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-white/65">

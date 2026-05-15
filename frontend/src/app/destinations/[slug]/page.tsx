@@ -17,7 +17,6 @@ import type { FlightOffer } from "@/lib/types";
 import { env } from "@/lib/env";
 import { setFlightSearchForm } from "@/store/flightsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { recoleta } from "@/theme/fonts";
 
 
 const BLANK_CITY_IMAGE = "/Images/blank.webp";
@@ -344,7 +343,7 @@ export default function DestinationCountryPage() {
       return (
         <main className="min-h-screen bg-slate-50 dark:bg-black">
           <Topbar />
-          <section className="sticky top-16 z-40 bg-red-600 dark:bg-black shadow-sm">
+          <section className="sticky top-16 z-40 bg-brand-600 dark:bg-black shadow-sm">
             <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
               <FlightSearch stickyEnabled={false} forceCompact showBottomActions={false} />
             </div>
@@ -387,7 +386,7 @@ export default function DestinationCountryPage() {
     return (
       <main className="min-h-screen bg-slate-50 dark:bg-black">
         <Topbar />
-        <section className="sticky top-16 z-40 bg-red-600 dark:bg-black shadow-sm">
+        <section className="sticky top-16 z-40 bg-brand-600 dark:bg-black shadow-sm">
           <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
             <FlightSearch stickyEnabled={false} forceCompact showBottomActions={false} />
           </div>
@@ -412,7 +411,7 @@ export default function DestinationCountryPage() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-black">
       <Topbar />
-      <section className="sticky top-16 z-40 bg-red-600 dark:bg-black shadow-sm">
+      <section className="sticky top-16 z-40 bg-brand-600 dark:bg-black shadow-sm">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
           <FlightSearch
             stickyEnabled={false}
@@ -425,14 +424,14 @@ export default function DestinationCountryPage() {
       <div className="mx-auto w-full max-w-[1240px] px-4 py-8">
         <div className="mb-8 flex items-center gap-3">
           <span className={`fi fi-${data.regionCode} h-[30px] w-[40px] shrink-0`} />
-          <h1 className={`${recoleta.className} text-3xl font-bold text-slate-900 dark:text-white md:text-4xl`}>
+          <h1 className={`text-3xl font-bold text-slate-900 dark:text-white md:text-4xl`}>
             {data.country}
           </h1>
         </div>
 
         <section className="mb-8 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-black dark:ring-white/10 md:p-6">
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h2 className={`${recoleta.className} text-2xl font-semibold text-slate-900 dark:text-white`}>
+            <h2 className={`text-2xl font-semibold text-slate-900 dark:text-white`}>
               {tr("destination.citiesTitle", "Cities")}
             </h2>
             {showCitySlider ? (
@@ -534,7 +533,7 @@ export default function DestinationCountryPage() {
 
         <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-black dark:ring-white/10 md:p-6">
           <div className="mb-4 flex items-center gap-3">
-            <h2 className={`${recoleta.className} text-2xl font-semibold text-slate-900 dark:text-white`}>
+            <h2 className={`text-2xl font-semibold text-slate-900 dark:text-white`}>
               {tr("destination.cheapestTitle", "Cheapest tickets")}
             </h2>
           </div>
@@ -548,7 +547,7 @@ export default function DestinationCountryPage() {
                 className={[
                   "rounded-full px-4 py-2 text-sm font-semibold ring-1 transition",
                   filterCity === c.name
-                    ? "bg-red-600 text-white ring-red-600"
+                    ? "bg-brand-600 text-white ring-brand-600"
                     : "bg-slate-100 text-slate-800 ring-slate-200 hover:bg-slate-200 dark:bg-white/10 dark:text-white dark:ring-white/15 dark:hover:bg-white/15"
                 ].join(" ")}
               >
@@ -573,7 +572,7 @@ export default function DestinationCountryPage() {
                   type="button"
                   onClick={() => setTicketStart((s) => Math.max(0, s - 1))}
                   disabled={ticketStart === 0}
-                  className="absolute left-0 top-1/2 z-10 grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-red-200 bg-white text-red-600 shadow-sm transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-red-500/40 dark:bg-black dark:text-red-300 dark:hover:bg-red-950/30"
+                  className="absolute left-0 top-1/2 z-10 grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-brand-200 bg-white text-brand-600 shadow-sm transition hover:bg-brand-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-brand-500/40 dark:bg-black dark:text-brand-300 dark:hover:bg-brand-950/30"
                   aria-label={tr("destination.ticketsPrev", "Previous tickets")}
                 >
                   <FiChevronLeft className="h-5 w-5" />
@@ -582,7 +581,7 @@ export default function DestinationCountryPage() {
                   type="button"
                   onClick={() => setTicketStart((s) => Math.min(maxTicketStart, s + 1))}
                   disabled={ticketStart >= maxTicketStart}
-                  className="absolute right-0 top-1/2 z-10 grid h-9 w-9 translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-red-200 bg-white text-red-600 shadow-sm transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-red-500/40 dark:bg-black dark:text-red-300 dark:hover:bg-red-950/30"
+                  className="absolute right-0 top-1/2 z-10 grid h-9 w-9 translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-brand-200 bg-white text-brand-600 shadow-sm transition hover:bg-brand-50 disabled:cursor-not-allowed disabled:opacity-40 dark:border-brand-500/40 dark:bg-black dark:text-brand-300 dark:hover:bg-brand-950/30"
                   aria-label={tr("destination.ticketsNext", "Next tickets")}
                 >
                   <FiChevronRight className="h-5 w-5" />
@@ -628,7 +627,7 @@ export default function DestinationCountryPage() {
             <div className="flex shrink-0 items-start justify-between gap-3 border-b border-slate-200 px-5 py-4 dark:border-white/10 sm:px-6">
               <h2
                 id="destination-all-cities-title"
-                className={`${recoleta.className} text-xl font-bold text-slate-900 dark:text-white sm:text-2xl`}
+                className={`text-xl font-bold text-slate-900 dark:text-white sm:text-2xl`}
               >
                 {tr("destination.allCitiesTitle", "All cities")} — {data.country}
               </h2>
@@ -651,7 +650,7 @@ export default function DestinationCountryPage() {
                     onClick={() => setAllCitiesOpen(false)}
                     className="block text-left"
                   >
-                    <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:ring-2 hover:ring-red-500/30 dark:border-white/10 dark:bg-black">
+                    <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:ring-2 hover:ring-brand-500/30 dark:border-white/10 dark:bg-black">
                       <div className="relative h-36">
                         <CityImageCard src={city.image} alt="" sizes="(max-width: 640px) 100vw, 33vw" />
                       </div>

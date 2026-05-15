@@ -9,7 +9,6 @@ import { InsuranceScrollMain } from "@/components/insurance/InsuranceScrollMain"
 import { InsurancePartnerCompaniesSection } from "@/components/insurance/InsurancePartnerCompaniesSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { useT } from "@/i18n/I18nProvider";
-import { recoleta } from "@/theme/fonts";
 
 function tr(t: (k: string) => string, key: string, fallback: string) {
   const v = t(key);
@@ -115,7 +114,7 @@ function ExpertReviewsCarousel() {
   return (
     <section className="border-y border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
       <div className="mx-auto max-w-[800px] px-4 text-center">
-        <p className="text-sm font-semibold uppercase tracking-wide text-red-600 dark:text-zinc-400">
+        <p className="text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-zinc-400">
           {tr(t, "insurance.home.expertLabel", "Our expert says")}
         </p>
 
@@ -131,7 +130,7 @@ function ExpertReviewsCarousel() {
         <div className="mt-8 flex flex-col items-center justify-center gap-3">
           <div
             key={`av-${active}`}
-            className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-zinc-200 shadow-md ring-2 ring-red-200/90 motion-safe:animate-expertFadeIn dark:bg-zinc-900 dark:ring-white/25 motion-reduce:animate-none"
+            className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-zinc-200 shadow-md ring-2 ring-brand-200/90 motion-safe:animate-expertFadeIn dark:bg-zinc-900 dark:ring-white/25 motion-reduce:animate-none"
           >
             <Image src={slide.image} alt="" width={56} height={56} className="h-full w-full object-cover" />
           </div>
@@ -154,7 +153,7 @@ function ExpertReviewsCarousel() {
               aria-label={`Expert review ${i + 1}`}
               className={[
                 "h-2.5 rounded-full transition-all duration-300",
-                i === active ? "w-8 bg-red-600 dark:bg-zinc-100" : "w-2.5 bg-zinc-300 hover:bg-zinc-400 dark:bg-zinc-600 dark:hover:bg-zinc-500"
+                i === active ? "w-8 bg-brand-600 dark:bg-zinc-100" : "w-2.5 bg-zinc-300 hover:bg-zinc-400 dark:bg-zinc-600 dark:hover:bg-zinc-500"
               ].join(" ")}
               onClick={() => setActive(i)}
             />
@@ -169,12 +168,12 @@ export function HomeInsuranceClient() {
   const t = useT();
 
   return (
-    <div className="flex min-h-dvh flex-col bg-zinc-50 text-zinc-900 transition-colors duration-300 selection:bg-red-200 selection:text-red-950 dark:bg-black dark:text-zinc-50 dark:selection:bg-zinc-700 dark:selection:text-zinc-100">
+    <div className="flex min-h-dvh flex-col bg-zinc-50 text-zinc-900 transition-colors duration-300 selection:bg-brand-200 selection:text-brand-950 dark:bg-black dark:text-zinc-50 dark:selection:bg-zinc-700 dark:selection:text-zinc-100">
       <Topbar />
 
       <InsuranceScrollMain>
         {/* Hero — brand red in light; solid black in dark (matches comprehensive car) */}
-        <section className="relative overflow-hidden bg-red-600 dark:bg-black">
+        <section className="relative overflow-hidden bg-brand-600 dark:bg-black">
           <div className="relative mx-auto grid max-w-[1440px] gap-10 px-4 py-12 lg:grid-cols-2 lg:items-center lg:py-16">
             <div className="text-white">
               <nav className="mb-4 text-sm text-white/85 dark:text-white/80" aria-label="Breadcrumb">
@@ -194,7 +193,7 @@ export function HomeInsuranceClient() {
                   </li>
                 </ol>
               </nav>
-              <h1 className={`${recoleta.className} text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl`}>
+              <h1 className={`text-3xl font-bold leading-tight tracking-tight md:text-4xl lg:text-5xl`}>
                 {tr(t, "insurance.home.heroTitle", "Home insurance")}
               </h1>
               <p className="mt-3 text-lg text-white/95 md:text-xl">
@@ -217,7 +216,7 @@ export function HomeInsuranceClient() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href="#contact-quote"
-                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-red-700 shadow-lg shadow-red-900/15 ring-1 ring-white/20 transition hover:bg-red-50 hover:shadow-xl dark:bg-zinc-100 dark:text-zinc-950 dark:shadow-black/40 dark:ring-white/15 dark:hover:bg-white"
+                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-brand-700 shadow-lg shadow-brand-900/15 ring-1 ring-white/20 transition hover:bg-brand-50 hover:shadow-xl dark:bg-zinc-100 dark:text-zinc-950 dark:shadow-black/40 dark:ring-white/15 dark:hover:bg-white"
                 >
                   {tr(t, "insurance.home.ctaPrimary", "Get a quote")}
                   <FiArrowRight className="h-4 w-4" />
@@ -252,7 +251,7 @@ export function HomeInsuranceClient() {
         {/* Do I need home insurance? — image left, copy right */}
         <section className="border-b border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
           <div className="mx-auto max-w-[1440px] px-4">
-            <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.home.needGuideTitle", "Do I need home insurance?")}
             </h2>
             <div className="mt-10 grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
@@ -302,7 +301,7 @@ export function HomeInsuranceClient() {
         {/* 1 — Compare home insurance with İlsa Insurance */}
         <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
           <div className="mx-auto max-w-[1440px] px-4">
-            <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.home.compareTitle", "Compare home insurance with İlsa Insurance")}
             </h2>
             <p className="mx-auto mt-3 max-w-3xl text-center text-zinc-600 dark:text-zinc-300 md:text-lg">
@@ -319,7 +318,7 @@ export function HomeInsuranceClient() {
                     <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-zinc-400 bg-white text-xl font-bold tabular-nums text-zinc-900 shadow-sm dark:border-zinc-500 dark:bg-zinc-950 dark:text-white md:h-14 md:w-14 md:text-2xl">
                       {s.n}
                     </div>
-                    <h3 className={`${recoleta.className} mt-5 text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-white md:text-2xl`}>
+                    <h3 className={`mt-5 text-xl font-semibold leading-snug tracking-tight text-zinc-900 dark:text-white md:text-2xl`}>
                       {tr(t, s.title, "")}
                     </h3>
                     <p className="mt-3 max-w-sm text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 md:max-w-none md:text-base">
@@ -335,7 +334,7 @@ export function HomeInsuranceClient() {
         {/* 2 — DASK vs home insurance */}
         <section className="border-b border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
           <div className="mx-auto max-w-[1440px] px-4">
-            <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(
                 t,
                 "insurance.home.daskTitle",
@@ -355,7 +354,7 @@ export function HomeInsuranceClient() {
         {/* 3 — What does home insurance cover? */}
         <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
           <div className="mx-auto max-w-[1440px] px-4">
-            <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.home.coverTitle", "What does home insurance cover?")}
             </h2>
             <p className="mt-4 max-w-3xl text-zinc-600 dark:text-zinc-300">
@@ -367,7 +366,7 @@ export function HomeInsuranceClient() {
                   key={key}
                   className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-zinc-50/90 p-4 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-zinc-900/70"
                 >
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm shadow-red-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-brand-600 text-white shadow-sm shadow-brand-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
                     <FiCheck className="h-5 w-5" />
                   </span>
                   <span className="text-sm font-medium leading-snug text-zinc-800 dark:text-zinc-100 md:text-base">
@@ -389,7 +388,7 @@ export function HomeInsuranceClient() {
         {/* 4 — How are home insurance prices determined? */}
         <section className="border-b border-zinc-200/90 bg-zinc-50 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
           <div className="mx-auto max-w-[800px] px-4 text-center">
-            <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.home.pricingTitle", "How are home insurance prices determined?")}
             </h2>
             <p className="mt-4 text-zinc-600 dark:text-zinc-300 md:text-lg">
@@ -406,7 +405,7 @@ export function HomeInsuranceClient() {
         <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
           <div className="mx-auto grid max-w-[1440px] gap-10 px-4 lg:grid-cols-2 lg:items-start">
             <div>
-              <h2 className={`${recoleta.className} text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+              <h2 className={`text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
                 {tr(t, "insurance.home.costsTitle", "Understanding home insurance costs in 2026")}
               </h2>
               <p className="mt-4 text-zinc-600 dark:text-zinc-300 md:text-lg">{tr(t, "insurance.home.costsCol1P1", "")}</p>
@@ -458,7 +457,7 @@ export function HomeInsuranceClient() {
         {/* 5 — What is driving your premium? */}
         <section className="border-b border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
           <div className="mx-auto max-w-[1440px] px-4">
-            <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.home.premiumTitle", "What is driving your premium?")}
             </h2>
             <p className="mx-auto mt-3 max-w-3xl text-center text-zinc-600 dark:text-zinc-300 md:text-lg">
@@ -467,7 +466,7 @@ export function HomeInsuranceClient() {
             <div className="mt-10 grid gap-6 md:grid-cols-2">
               <div className={CARD_WHITE}>
                 <div className="flex gap-3">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm shadow-red-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-brand-600 text-white shadow-sm shadow-brand-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
                     <FiCheck className="h-5 w-5" strokeWidth={2.5} />
                   </span>
                   <div>
@@ -482,7 +481,7 @@ export function HomeInsuranceClient() {
               </div>
               <div className={CARD_WHITE}>
                 <div className="flex gap-3">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-red-600 text-white shadow-sm shadow-red-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-brand-600 text-white shadow-sm shadow-brand-900/20 dark:bg-zinc-950 dark:shadow-black/50 dark:ring-1 dark:ring-white/15">
                     <FiCheck className="h-5 w-5" strokeWidth={2.5} />
                   </span>
                   <div>
@@ -502,7 +501,7 @@ export function HomeInsuranceClient() {
         {/* 7 — Choose the right type of home insurance */}
         <section className="border-b border-zinc-200/90 bg-white py-14 transition-colors duration-300 dark:border-white/10 dark:bg-zinc-950">
           <div className="mx-auto max-w-[1440px] px-4">
-            <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.home.typesTitle", "Choose the right type of home insurance")}
             </h2>
             <p className="mx-auto mt-3 max-w-3xl text-center text-zinc-600 dark:text-zinc-300 md:text-lg">
@@ -533,7 +532,7 @@ export function HomeInsuranceClient() {
                   </p>
                   <a
                     href="#contact-quote"
-                    className="mt-6 text-sm font-semibold text-red-700 underline decoration-red-700/40 underline-offset-4 transition hover:text-red-800 dark:text-red-400 dark:decoration-red-400/40 dark:hover:text-red-300"
+                    className="mt-6 text-sm font-semibold text-brand-700 underline decoration-brand-700/40 underline-offset-4 transition hover:text-brand-800 dark:text-brand-400 dark:decoration-brand-400/40 dark:hover:text-brand-300"
                   >
                     {tr(t, card.link, "")}
                   </a>
@@ -546,7 +545,7 @@ export function HomeInsuranceClient() {
         {/* 8 — Why İlsa Insurance? */}
         <section className="border-b border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black">
           <div className="mx-auto max-w-[1440px] px-4">
-            <h2 className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
+            <h2 className={`text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}>
               {tr(t, "insurance.home.whyTitle", "Why İlsa Insurance?")}
             </h2>
             <p className="mx-auto mt-3 max-w-2xl text-center text-zinc-600 dark:text-zinc-300">
@@ -559,7 +558,7 @@ export function HomeInsuranceClient() {
                   className="flex gap-3 rounded-2xl border border-zinc-200/90 bg-white p-5 text-center shadow-sm shadow-zinc-900/5 insurance-hover-card transition-colors duration-300 dark:border-white/10 dark:bg-black dark:shadow-black/50"
                 >
                   <div className="flex w-full flex-col items-center gap-3">
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-red-600 text-sm font-bold text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-brand-600 text-sm font-bold text-white shadow-sm dark:bg-zinc-950 dark:ring-1 dark:ring-white/15">
                       {i + 1}
                     </span>
                     <p className="mt-1 w-full text-sm text-zinc-800 dark:text-zinc-100">{tr(t, key, "")}</p>
@@ -577,10 +576,10 @@ export function HomeInsuranceClient() {
 
         <section
           id="contact-quote"
-          className="scroll-mt-14 bg-red-600 py-14 transition-colors duration-300 dark:bg-black lg:scroll-mt-16"
+          className="scroll-mt-14 bg-brand-600 py-14 transition-colors duration-300 dark:bg-black lg:scroll-mt-16"
         >
           <div className="mx-auto max-w-[1440px] px-4 text-center">
-            <h2 className={`${recoleta.className} text-2xl font-bold text-white md:text-3xl`}>
+            <h2 className={`text-2xl font-bold text-white md:text-3xl`}>
               {tr(t, "insurance.home.bottomCtaTitle", "Ready to protect your home?")}
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-white/90 dark:text-white/85">
@@ -588,7 +587,7 @@ export function HomeInsuranceClient() {
             </p>
             <a
               href="#contact-quote"
-              className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-red-700 shadow-lg shadow-red-900/20 ring-1 ring-white/30 transition hover:bg-red-50 hover:shadow-xl dark:bg-zinc-100 dark:text-zinc-950 dark:shadow-black/40 dark:ring-white/20 dark:hover:bg-white"
+              className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow-lg shadow-brand-900/20 ring-1 ring-white/30 transition hover:bg-brand-50 hover:shadow-xl dark:bg-zinc-100 dark:text-zinc-950 dark:shadow-black/40 dark:ring-white/20 dark:hover:bg-white"
             >
               {tr(t, "insurance.home.bottomCtaButton", "Contact us")}
               <FiArrowRight className="h-4 w-4" />

@@ -46,14 +46,14 @@ export function ScrollToTopButton() {
       onClick={goTop}
       className={[
         "fixed bottom-6 right-6 z-[100] flex h-[52px] w-[52px] items-center justify-center rounded-full",
-        "bg-white text-red-600 shadow-lg shadow-zinc-900/10 ring-1 ring-zinc-200/90 transition-all duration-300",
-        "hover:bg-zinc-50 hover:shadow-xl hover:ring-zinc-300/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600",
-        "dark:bg-zinc-900 dark:text-red-400 dark:shadow-black/40 dark:ring-white/10 dark:hover:bg-zinc-800 dark:hover:ring-white/20",
+        "bg-white text-brand-600 shadow-lg shadow-zinc-900/10 ring-1 ring-zinc-200/90 transition-all duration-300",
+        "hover:bg-zinc-50 hover:shadow-xl hover:ring-zinc-300/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600",
+        "dark:bg-zinc-900 dark:text-brand-400 dark:shadow-black/40 dark:ring-white/10 dark:hover:bg-zinc-800 dark:hover:ring-white/20",
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"
       ].join(" ")}
     >
       <svg
-        className="absolute inset-0 -rotate-90 text-red-600 dark:text-red-400"
+        className="absolute inset-0 -rotate-90 text-brand-600 dark:text-brand-400"
         width={BTN_PX}
         height={BTN_PX}
         viewBox={`0 0 ${BTN_PX} ${BTN_PX}`}

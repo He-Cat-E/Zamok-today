@@ -48,26 +48,26 @@ export function InsuranceDocumentLinks({
               href={row.href}
               download={row.fileName}
               aria-label={aria}
-              className="group relative flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-2xl border border-zinc-200/90 bg-zinc-50/90 px-4 py-4 shadow-sm ring-zinc-900/5 transition duration-200 ease-out hover:-translate-y-0.5 hover:border-red-200/90 hover:bg-white hover:shadow-md hover:shadow-zinc-900/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/55 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/10 dark:bg-zinc-950/90 dark:ring-white/5 dark:hover:border-red-400/35 dark:hover:bg-zinc-950 dark:hover:shadow-black/50 dark:focus-visible:ring-offset-zinc-950 sm:px-5 sm:py-4 md:gap-6"
+              className="group relative flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-2xl border border-zinc-200/90 bg-zinc-50/90 px-4 py-4 shadow-sm ring-zinc-900/5 transition duration-200 ease-out hover:-translate-y-0.5 hover:border-brand-200/90 hover:bg-white hover:shadow-md hover:shadow-zinc-900/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/55 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-white/10 dark:bg-zinc-950/90 dark:ring-white/5 dark:hover:border-brand-400/35 dark:hover:bg-zinc-950 dark:hover:shadow-black/50 dark:focus-visible:ring-offset-zinc-950 sm:px-5 sm:py-4 md:gap-6"
             >
-              <span className="pointer-events-none absolute inset-x-0 top-0 h-0.5 scale-x-0 bg-gradient-to-r from-red-500/0 via-red-500/80 to-red-500/0 opacity-0 transition duration-300 group-hover:scale-x-100 group-hover:opacity-100" aria-hidden />
+              <span className="pointer-events-none absolute inset-x-0 top-0 h-0.5 scale-x-0 bg-gradient-to-r from-brand-500/0 via-brand-500/80 to-brand-500/0 opacity-0 transition duration-300 group-hover:scale-x-100 group-hover:opacity-100" aria-hidden />
               <span className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
                 {showDocIcon ? (
                   <span
-                    className="grid h-11 w-11 shrink-0 place-items-center rounded-lg border border-zinc-200/90 bg-white text-zinc-500 shadow-sm transition-colors duration-200 group-hover:border-red-200/80 group-hover:text-red-600 dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-400 dark:group-hover:border-red-400/40 dark:group-hover:text-red-400"
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-lg border border-zinc-200/90 bg-white text-zinc-500 shadow-sm transition-colors duration-200 group-hover:border-brand-200/80 group-hover:text-brand-600 dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-400 dark:group-hover:border-brand-400/40 dark:group-hover:text-brand-400"
                     aria-hidden
                   >
                     <FiFileText className="h-5 w-5" strokeWidth={1.75} />
                   </span>
                 ) : null}
-                <span className="shrink-0 rounded-md bg-red-100 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-red-800 shadow-sm transition-colors duration-200 group-hover:bg-red-600 group-hover:text-white dark:bg-red-950/60 dark:text-red-100 dark:group-hover:bg-red-500 dark:group-hover:text-white">
+                <span className="shrink-0 rounded-md bg-brand-100 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-brand-800 shadow-sm transition-colors duration-200 group-hover:bg-brand-600 group-hover:text-white dark:bg-brand-950/60 dark:text-brand-100 dark:group-hover:bg-brand-500 dark:group-hover:text-white">
                   {badge}
                 </span>
                 <span className="min-w-0 text-sm font-medium leading-snug text-zinc-800 transition-colors group-hover:text-zinc-950 dark:text-zinc-100 dark:group-hover:text-white md:text-base">
                   {title}
                 </span>
               </span>
-              <span className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-zinc-100/90 px-3 py-2 text-sm font-semibold text-red-600 transition-all duration-200 group-hover:bg-red-600 group-hover:text-white group-hover:shadow-md group-hover:shadow-red-900/20 dark:bg-zinc-800/90 dark:text-red-400 dark:group-hover:bg-red-500 dark:group-hover:text-white">
+              <span className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-zinc-100/90 px-3 py-2 text-sm font-semibold text-brand-600 transition-all duration-200 group-hover:bg-brand-600 group-hover:text-white group-hover:shadow-md group-hover:shadow-brand-900/20 dark:bg-zinc-800/90 dark:text-brand-400 dark:group-hover:bg-brand-500 dark:group-hover:text-white">
                 <FiDownload className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-px group-hover:scale-110" aria-hidden />
                 <span>{downloadLabel}</span>
               </span>

@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useT } from "@/i18n/I18nProvider";
-import { recoleta } from "@/theme/fonts";
 
 function tr(t: (k: string) => string, key: string, fallback: string) {
   const v = t(key);
@@ -29,7 +28,7 @@ export function InsurancePartnerCompaniesSection() {
       <div className="mx-auto max-w-[1440px] px-4">
         <h2
           id="insurance-partners-heading"
-          className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}
+          className={`text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}
         >
           {tr(t, "insurance.partnersTitle", "Insurers we work with")}
         </h2>

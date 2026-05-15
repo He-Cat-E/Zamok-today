@@ -220,9 +220,9 @@ export function MobileDateRangePicker({
                           disabled
                             ? "text-slate-300 dark:text-white/20"
                             : "text-slate-900 dark:text-white",
-                          inRange ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-200" : "",
+                          inRange ? "bg-brand-100 text-brand-700 dark:bg-brand-900/30 dark:text-brand-200" : "",
                           isDepart || isReturn
-                            ? "rounded-xl bg-red-600 text-white dark:bg-red-500 dark:text-white"
+                            ? "rounded-xl bg-brand-600 text-white dark:bg-brand-500 dark:text-white"
                             : "rounded-xl"
                         ].join(" ")}
                       >

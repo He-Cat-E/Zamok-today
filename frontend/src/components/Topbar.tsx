@@ -18,7 +18,6 @@ import {
   type InsuranceMenuKey
 } from "@/lib/siteNavConfig";
 import { useTheme } from "@/theme/ThemeProvider";
-import { recoleta } from "@/theme/fonts";
 
 function topbarTabsAlwaysVisible(pathname: string | null): boolean {
   if (!pathname) return false;
@@ -43,7 +42,7 @@ function InsuranceMegaMenuContent({
       {INSURANCE_MENU_ITEM_KEYS.map((key: InsuranceMenuKey) => {
         const href = INSURANCE_ITEM_HREF[key] ?? "#";
         const className =
-          "block rounded-lg py-2 px-3 text-sm font-medium leading-snug text-slate-700 transition hover:bg-slate-50 hover:text-red-600 dark:text-white/85 dark:hover:bg-white/5 dark:hover:text-red-400";
+          "block rounded-lg py-2 px-3 text-sm font-medium leading-snug text-slate-700 transition hover:bg-slate-50 hover:text-brand-600 dark:text-white/85 dark:hover:bg-white/5 dark:hover:text-brand-400";
         if (href !== "#") {
           return (
             <li key={key}>
@@ -129,7 +128,7 @@ export function Topbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-red-600 dark:bg-black">
+    <header className="sticky top-0 z-50 bg-brand-600 dark:bg-black">
       <div className="relative mx-auto w-full max-w-[1440px] px-3 sm:px-4">
         <div className="flex h-14 items-center gap-2 lg:h-16 lg:gap-4">
           <button
@@ -150,7 +149,7 @@ export function Topbar() {
               <Image src="/logo.png" alt="Zamok Today" width={40} height={40} className="h-9 w-9 object-cover sm:h-10 sm:w-10" priority />
             </div>
             <div className="hidden leading-tight sm:block">
-              <div className={`${recoleta.className} text-xl font-semibold text-white sm:text-2xl`}>Zamok Today</div>
+              <div className={`text-xl font-semibold text-white sm:text-2xl`}>Zamok Today</div>
             </div>
           </Link>
 
@@ -247,7 +246,7 @@ export function Topbar() {
       </div>
 
       {mobileNavOpen ? (
-        <div className="fixed inset-x-0 top-14 bottom-0 z-[55] overflow-y-auto border-t border-white/15 bg-red-700 shadow-inner dark:bg-black lg:hidden">
+        <div className="fixed inset-x-0 top-14 bottom-0 z-[55] overflow-y-auto border-t border-white/15 bg-brand-700 shadow-inner dark:bg-black lg:hidden">
           <nav className="flex flex-col px-4 py-4" aria-label="Primary mobile">
             {HEADER_CENTER_NAV.map((item) =>
               item.href !== "#" ? (
@@ -272,7 +271,7 @@ export function Topbar() {
             )}
 
             {showSearchTabs ? (
-              <div className="mt-2 rounded-2xl border border-white/20 bg-red-800/40 p-2 dark:bg-white/10">
+              <div className="mt-2 rounded-2xl border border-white/20 bg-brand-800/40 p-2 dark:bg-white/10">
                 <div className="flex gap-2">
                   <button
                     type="button"
