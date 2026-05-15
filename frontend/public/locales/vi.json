@@ -857,5 +857,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "So sánh các chương trình sức khỏe bổ sung",
   "insurance.supplementaryHealth.bottomCtaBody": "Liên hệ với Bảo hiểm İlsa để được báo giá chỉ định và trợ giúp chọn mạng phù hợp với gia đình bạn.",
   "insurance.supplementaryHealth.bottomCtaButton": "Liên hệ với chúng tôi",
-  "insurance.health.supplementaryPageLink": "Xem chi tiết bảo hiểm y tế bổ sung (TSS)"
+  "insurance.health.supplementaryPageLink": "Xem chi tiết bảo hiểm y tế bổ sung (TSS)",
+  "insurance.partnersTitle": "Các công ty bảo hiểm chúng tôi hợp tác",
+  "insurance.partnersSubtitle": "Chúng tôi so sánh các sản phẩm của các công ty bảo hiểm hàng đầu Thổ Nhĩ Kỳ—bao gồm Hepiyi, Mapfre, Sompo Japan, Doğa và Quick—để bạn có thể thấy các lựa chọn rõ ràng và các ưu đãi tốt nhất hiện có của chúng tôi.",
+  "insurance.partner.hepIyi": "Hepiyi Sigorta",
+  "insurance.partner.mapfre": "Mapfre Sigorta",
+  "insurance.partner.sompo": "Sompo Nhật Bản Sigorta",
+  "insurance.partner.doga": "Doğa Sigorta",
+  "insurance.partner.quick": "Sigorta nhanh"
 }

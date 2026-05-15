@@ -857,5 +857,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "השוו תכניות בריאות משלימות",
   "insurance.supplementaryHealth.bottomCtaBody": "צור קשר עם אילסה ביטוח לקבלת הצעות מחיר אינדיקטיביות ועזרה בבחירת רשת המתאימה למשפחתך.",
   "insurance.supplementaryHealth.bottomCtaButton": "צור איתנו קשר",
-  "insurance.health.supplementaryPageLink": "צפה בפרטי ביטוח בריאות משלים (TSS)."
+  "insurance.health.supplementaryPageLink": "צפה בפרטי ביטוח בריאות משלים (TSS).",
+  "insurance.partnersTitle": "חברות ביטוח שאנחנו עובדים איתם",
+  "insurance.partnersSubtitle": "אנו משווים מוצרים ממבטחים מובילים בטורקיה - כולל Hepiyi, Mapfre, Sompo Japan, Doğa ו-Quick - כך שתוכל לראות אפשרויות ברורות והעסקאות הזמינות הטובות ביותר שלנו.",
+  "insurance.partner.hepIyi": "Hepiyi Sigorta",
+  "insurance.partner.mapfre": "Mapfre Sigorta",
+  "insurance.partner.sompo": "סופו יפן סיגורטה",
+  "insurance.partner.doga": "דוגה סיגורטה",
+  "insurance.partner.quick": "מהיר סיגורטה"
 }

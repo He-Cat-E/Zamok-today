@@ -857,5 +857,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "Comparați planurile suplimentare de sănătate",
   "insurance.supplementaryHealth.bottomCtaBody": "Contactați İlsa Insurance pentru cotații orientative și ajutor în alegerea unei rețele care se potrivește familiei dvs.",
   "insurance.supplementaryHealth.bottomCtaButton": "Contactaţi-ne",
-  "insurance.health.supplementaryPageLink": "Vedeți detaliile asigurării suplimentare de sănătate (TSS)."
+  "insurance.health.supplementaryPageLink": "Vedeți detaliile asigurării suplimentare de sănătate (TSS).",
+  "insurance.partnersTitle": "Asigurătorii cu care lucrăm",
+  "insurance.partnersSubtitle": "Comparăm produse de la asigurători turci de top, inclusiv Hepiyi, Mapfre, Sompo Japan, Doğa și Quick, astfel încât să puteți vedea opțiuni clare și cele mai bune oferte disponibile.",
+  "insurance.partner.hepIyi": "Hepiyi Sigorta",
+  "insurance.partner.mapfre": "Mapfre Sigorta",
+  "insurance.partner.sompo": "Sompo Japan Sigorta",
+  "insurance.partner.doga": "Doğa Sigorta",
+  "insurance.partner.quick": "Rapid Sigorta"
 }

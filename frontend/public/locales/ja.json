@@ -857,5 +857,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "補足医療プランを比較する",
   "insurance.supplementaryHealth.bottomCtaBody": "参考見積もりについては、İlsa Insurance にお問い合わせください。ご家族に合ったネットワークの選択をお手伝いします。",
   "insurance.supplementaryHealth.bottomCtaButton": "お問い合わせ",
-  "insurance.health.supplementaryPageLink": "補足健康保険 (TSS) の詳細を表示する"
+  "insurance.health.supplementaryPageLink": "補足健康保険 (TSS) の詳細を表示する",
+  "insurance.partnersTitle": "私たちが提携している保険会社",
+  "insurance.partnersSubtitle": "Hepiyi、Mapfre、損保ジャパン、Doğa、Quick などのトルコの大手保険会社の商品を比較することで、明確なオプションと最もお得な取引を確認できます。",
+  "insurance.partner.hepIyi": "ヘピイ・シゴルタ",
+  "insurance.partner.mapfre": "マプフレ・シゴルタ",
+  "insurance.partner.sompo": "損保ジャパン シゴルタ",
+  "insurance.partner.doga": "ドーア・シゴルタ",
+  "insurance.partner.quick": "クイックシゴルタ"
 }

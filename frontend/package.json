@@ -19,7 +19,9 @@
     "i18n:translate-dask": "node scripts/translate-dask-i18n.mjs",
     "i18n:translate-insurance": "node scripts/translate-dask-i18n.mjs && node scripts/translate-personal-accident-i18n.mjs",
     "i18n:supplementary-health": "node tools/seed-supplementary-health-i18n.mjs && node tools/sync-supplementary-health-locales.mjs",
-    "i18n:translate-supplementary-health": "node scripts/translate-supplementary-health-i18n.mjs"
+    "i18n:translate-supplementary-health": "node scripts/translate-supplementary-health-i18n.mjs",
+    "i18n:insurance-partners": "node tools/sync-insurance-partners-i18n.mjs",
+    "i18n:translate-insurance-partners": "node scripts/translate-insurance-partners-i18n.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",

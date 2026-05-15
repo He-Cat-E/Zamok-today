@@ -857,5 +857,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "Сравните дополнительные планы медицинского страхования",
   "insurance.supplementaryHealth.bottomCtaBody": "Свяжитесь с İlsa Insurance, чтобы получить ориентировочные расценки и помочь выбрать страховую сеть, которая подойдет вашей семье.",
   "insurance.supplementaryHealth.bottomCtaButton": "Связаться с нами",
-  "insurance.health.supplementaryPageLink": "Посмотреть подробную информацию о дополнительном медицинском страховании (TSS)"
+  "insurance.health.supplementaryPageLink": "Посмотреть подробную информацию о дополнительном медицинском страховании (TSS)",
+  "insurance.partnersTitle": "Страховщики, с которыми мы работаем",
+  "insurance.partnersSubtitle": "Мы сравниваем продукты ведущих турецких страховщиков, включая Hepiyi, Mapfre, Sompo Japan, Doğa и Quick, чтобы вы могли увидеть четкие варианты и наши лучшие доступные предложения.",
+  "insurance.partner.hepIyi": "Хэпийи Сигорта",
+  "insurance.partner.mapfre": "Мапфре Сигорта",
+  "insurance.partner.sompo": "Сомпо Япония Сигорта",
+  "insurance.partner.doga": "Дога Сигорта",
+  "insurance.partner.quick": "Быстрая Сигорта"
 }

@@ -857,5 +857,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "Vergleichen Sie Zusatzkrankenversicherungen",
   "insurance.supplementaryHealth.bottomCtaBody": "Kontaktieren Sie İlsa Insurance für Richtangebote und Hilfe bei der Auswahl eines Netzwerks, das zu Ihrer Familie passt.",
   "insurance.supplementaryHealth.bottomCtaButton": "Kontaktieren Sie uns",
-  "insurance.health.supplementaryPageLink": "Details zur Zusatzkrankenversicherung (TSS) anzeigen"
+  "insurance.health.supplementaryPageLink": "Details zur Zusatzkrankenversicherung (TSS) anzeigen",
+  "insurance.partnersTitle": "Versicherer, mit denen wir zusammenarbeiten",
+  "insurance.partnersSubtitle": "Wir vergleichen Produkte führender türkischer Versicherer – darunter Hepiyi, Mapfre, Sompo Japan, Doğa und Quick –, damit Sie klare Optionen und unsere besten verfügbaren Angebote sehen können.",
+  "insurance.partner.hepIyi": "Hepiyi Sigorta",
+  "insurance.partner.mapfre": "Mapfre Sigorta",
+  "insurance.partner.sompo": "Sompo Japan Sigorta",
+  "insurance.partner.doga": "Doğa Sigorta",
+  "insurance.partner.quick": "Schnelle Sigorta"
 }

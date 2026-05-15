@@ -857,5 +857,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "เปรียบเทียบแผนสุขภาพเสริม",
   "insurance.supplementaryHealth.bottomCtaBody": "ติดต่อ ILsa Insurance เพื่อขอใบเสนอราคาและช่วยเลือกเครือข่ายที่เหมาะกับครอบครัวของคุณ",
   "insurance.supplementaryHealth.bottomCtaButton": "ติดต่อเรา",
-  "insurance.health.supplementaryPageLink": "ดูรายละเอียดการประกันสุขภาพเสริม (TSS)"
+  "insurance.health.supplementaryPageLink": "ดูรายละเอียดการประกันสุขภาพเสริม (TSS)",
+  "insurance.partnersTitle": "บริษัทประกันภัยที่เราร่วมงานด้วย",
+  "insurance.partnersSubtitle": "We compare products from leading Turkish insurers—including Hepiyi, Mapfre, Sompo Japan, Doğa, and Quick—so you can see clear options and our best available deals.",
+  "insurance.partner.hepIyi": "เฮปิยี ซิกอร์ตา",
+  "insurance.partner.mapfre": "มาปเฟร ซิกอร์ตา",
+  "insurance.partner.sompo": "ซอมโป เจแปน ซิกอร์ตา",
+  "insurance.partner.doga": "โดกา ซิกอร์ต้า",
+  "insurance.partner.quick": "ซิกอร์ต้าด่วนๆ"
 }

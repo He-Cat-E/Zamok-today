@@ -26,7 +26,7 @@ export function InsurancePartnerCompaniesSection() {
       className="border-b border-zinc-200/90 bg-zinc-100 py-14 transition-colors duration-300 dark:border-white/10 dark:bg-black"
       aria-labelledby="insurance-partners-heading"
     >
-      <div className="mx-auto max-w-[1080px] px-4">
+      <div className="mx-auto max-w-[1440px] px-4">
         <h2
           id="insurance-partners-heading"
           className={`${recoleta.className} text-center text-2xl font-bold text-zinc-900 dark:text-white md:text-3xl`}

@@ -857,5 +857,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "Bandingkan rencana kesehatan tambahan",
   "insurance.supplementaryHealth.bottomCtaBody": "Hubungi Asuransi İlsa untuk mendapatkan penawaran indikatif dan bantuan memilih jaringan yang sesuai dengan keluarga Anda.",
   "insurance.supplementaryHealth.bottomCtaButton": "Hubungi kami",
-  "insurance.health.supplementaryPageLink": "Lihat rincian asuransi kesehatan tambahan (TSS)."
+  "insurance.health.supplementaryPageLink": "Lihat rincian asuransi kesehatan tambahan (TSS).",
+  "insurance.partnersTitle": "Perusahaan asuransi tempat kami bekerja",
+  "insurance.partnersSubtitle": "Kami membandingkan produk dari perusahaan asuransi terkemuka Turki—termasuk Hepiyi, Mapfre, Sompo Japan, Doğa, dan Quick—sehingga Anda dapat melihat opsi yang jelas dan penawaran terbaik kami yang tersedia.",
+  "insurance.partner.hepIyi": "Hepiyi Sigorta",
+  "insurance.partner.mapfre": "Mapfre Sigorta",
+  "insurance.partner.sompo": "Sompo Jepang Sigorta",
+  "insurance.partner.doga": "Doğa Sigorta",
+  "insurance.partner.quick": "Sigorta cepat"
 }

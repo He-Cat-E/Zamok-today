@@ -903,5 +903,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "Vertaa täydentäviä terveyssuunnitelmia",
   "insurance.supplementaryHealth.bottomCtaBody": "Ota yhteyttä İlsa Insuranceen saadaksesi suuntaa-antavat tarjoukset ja apua perheellesi sopivan verkoston valinnassa.",
   "insurance.supplementaryHealth.bottomCtaButton": "Ota yhteyttä",
-  "insurance.health.supplementaryPageLink": "Katso täydentävän sairausvakuutuksen (TSS) tiedot"
+  "insurance.health.supplementaryPageLink": "Katso täydentävän sairausvakuutuksen (TSS) tiedot",
+  "insurance.partnersTitle": "Vakuutusyhtiöt, joiden kanssa teemme yhteistyötä",
+  "insurance.partnersSubtitle": "Vertailemme johtavien turkkilaisten vakuutusyhtiöiden – mukaan lukien Hepiyi, Mapfre, Sompo Japan, Doğa ja Quick – tuotteita, jotta näet selkeät vaihtoehdot ja parhaat saatavilla olevat tarjoukset.",
+  "insurance.partner.hepIyi": "Hepiyi Sigorta",
+  "insurance.partner.mapfre": "Mapfre Sigorta",
+  "insurance.partner.sompo": "Sompo Japani Sigorta",
+  "insurance.partner.doga": "Doğa Sigorta",
+  "insurance.partner.quick": "Nopea Sigorta"
 }

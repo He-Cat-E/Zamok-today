@@ -857,5 +857,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "Porównaj dodatkowe plany zdrowotne",
   "insurance.supplementaryHealth.bottomCtaBody": "Skontaktuj się z İlsa Insurance, aby uzyskać orientacyjną wycenę i pomoc w wyborze sieci odpowiedniej dla Twojej rodziny.",
   "insurance.supplementaryHealth.bottomCtaButton": "Skontaktuj się z nami",
-  "insurance.health.supplementaryPageLink": "Zobacz szczegóły dotyczące dodatkowego ubezpieczenia zdrowotnego (TSS)."
+  "insurance.health.supplementaryPageLink": "Zobacz szczegóły dotyczące dodatkowego ubezpieczenia zdrowotnego (TSS).",
+  "insurance.partnersTitle": "Ubezpieczyciele, z którymi współpracujemy",
+  "insurance.partnersSubtitle": "Porównujemy produkty wiodących tureckich ubezpieczycieli — w tym Hepiyi, Mapfre, Sompo Japan, Doğa i Quick — dzięki czemu możesz zobaczyć jasne opcje i nasze najlepsze dostępne oferty.",
+  "insurance.partner.hepIyi": "Hepiyi Sigorta",
+  "insurance.partner.mapfre": "Mapfre Sigorta",
+  "insurance.partner.sompo": "Sompo Japan Sigorta",
+  "insurance.partner.doga": "Doğa Sigorta",
+  "insurance.partner.quick": "Szybka Sigorta"
 }

@@ -857,5 +857,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "पूरक स्वास्थ्य योजनाओं की तुलना करें",
   "insurance.supplementaryHealth.bottomCtaBody": "सांकेतिक उद्धरण के लिए इल्सा इंश्योरेंस से संपर्क करें और अपने परिवार के लिए उपयुक्त नेटवर्क चुनने में मदद करें।",
   "insurance.supplementaryHealth.bottomCtaButton": "हमसे संपर्क करें",
-  "insurance.health.supplementaryPageLink": "पूरक स्वास्थ्य बीमा (टीएसएस) विवरण देखें"
+  "insurance.health.supplementaryPageLink": "पूरक स्वास्थ्य बीमा (टीएसएस) विवरण देखें",
+  "insurance.partnersTitle": "जिन बीमाकर्ताओं के साथ हम काम करते हैं",
+  "insurance.partnersSubtitle": "हम अग्रणी तुर्की बीमा कंपनियों के उत्पादों की तुलना करते हैं - जिनमें हेपियि, मैपफ्रे, सोम्पो जापान, डोगा और क्विक शामिल हैं - ताकि आप स्पष्ट विकल्प और हमारे सर्वोत्तम उपलब्ध सौदे देख सकें।",
+  "insurance.partner.hepIyi": "हेपियी सिगॉर्टा",
+  "insurance.partner.mapfre": "मैपफ़्रे सिगॉर्टा",
+  "insurance.partner.sompo": "सोम्पो जापान सिगोर्टा",
+  "insurance.partner.doga": "डोगा सिगोर्टा",
+  "insurance.partner.quick": "त्वरित सिगॉर्टा"
 }

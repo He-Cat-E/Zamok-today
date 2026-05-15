@@ -857,5 +857,12 @@
   "insurance.supplementaryHealth.bottomCtaTitle": "比较补充健康计划",
   "insurance.supplementaryHealth.bottomCtaBody": "请联系 ilsa Insurance 获取指示性报价并帮助选择适合您家庭的网络。",
   "insurance.supplementaryHealth.bottomCtaButton": "联系我们",
-  "insurance.health.supplementaryPageLink": "查看补充健康保险 (TSS) 详细信息"
+  "insurance.health.supplementaryPageLink": "查看补充健康保险 (TSS) 详细信息",
+  "insurance.partnersTitle": "与我们合作的保险公司",
+  "insurance.partnersSubtitle": "我们比较领先的土耳其保险公司（包括 Hepiyi、Mapfre、Sompo Japan、Doğa 和 Quick）的产品，以便您可以看到明确的选择和我们最优惠的优惠。",
+  "insurance.partner.hepIyi": "赫皮伊·西戈塔",
+  "insurance.partner.mapfre": "马普弗雷·西戈塔",
+  "insurance.partner.sompo": "日本财产保险 Sigorta",
+  "insurance.partner.doga": "多加·西戈塔",
+  "insurance.partner.quick": "快速西戈塔"
 }
