@@ -343,7 +343,7 @@ export default function DestinationCountryPage() {
       return (
         <main className="min-h-screen bg-slate-50 dark:bg-black">
           <Topbar />
-          <section className="sticky top-16 z-40 bg-brand-600 dark:bg-black shadow-sm">
+          <section className="sticky z-40 bg-brand-600 dark:bg-black shadow-sm">
             <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
               <FlightSearch stickyEnabled={false} forceCompact showBottomActions={false} />
             </div>
@@ -386,7 +386,7 @@ export default function DestinationCountryPage() {
     return (
       <main className="min-h-screen bg-slate-50 dark:bg-black">
         <Topbar />
-        <section className="sticky top-16 z-40 bg-brand-600 dark:bg-black shadow-sm">
+        <section className="sticky z-40 bg-brand-600 dark:bg-black shadow-sm">
           <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
             <FlightSearch stickyEnabled={false} forceCompact showBottomActions={false} />
           </div>
@@ -411,7 +411,7 @@ export default function DestinationCountryPage() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-black">
       <Topbar />
-      <section className="sticky top-16 z-40 bg-brand-600 dark:bg-black shadow-sm">
+      <section className="sticky z-40 bg-brand-600 dark:bg-black shadow-sm">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
           <FlightSearch
             stickyEnabled={false}

@@ -365,7 +365,7 @@ export default function MapPage() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-black">
       <Topbar />
-      <section className="sticky top-16 z-40 bg-brand-600 dark:bg-black shadow-sm">
+      <section className="sticky z-40 bg-brand-600 dark:bg-black shadow-sm">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
           <FlightSearch
             stickyEnabled={false}
@@ -406,7 +406,7 @@ export default function MapPage() {
                 {tr("search.anywhere", "Anywhere")}
               </div>
             )}
-            <div className="sticky top-[152px] z-30 bg-slate-50 pt-5 pb-4 dark:bg-black">
+            <div className="z-30 bg-slate-50 pt-5 pb-4 dark:bg-black">
               <div className="flex flex-wrap items-center gap-2">
                 <div ref={sortMenuRef} className="relative">
                   <button

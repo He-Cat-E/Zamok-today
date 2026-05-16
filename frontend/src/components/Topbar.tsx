@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaBed } from "react-icons/fa6";
-import { BiSolidPlaneAlt } from "react-icons/bi";
 import { BsFillPatchQuestionFill } from "react-icons/bs";
 import { FiChevronDown, FiMenu, FiMoon, FiSun, FiX } from "react-icons/fi";
 import { LocalePicker } from "@/components/LocalePicker";
@@ -269,35 +267,6 @@ export function Topbar() {
                 </a>
               )
             )}
-
-            {showSearchTabs ? (
-              <div className="mt-2 rounded-2xl border border-white/20 bg-brand-800/40 p-2 dark:bg-white/10">
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab("flights")}
-                    className={[
-                      "flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold",
-                      activeTab === "flights" ? "bg-white text-slate-900" : "text-white/90"
-                    ].join(" ")}
-                  >
-                    <BiSolidPlaneAlt className="h-4 w-4" />
-                    {t("tabs.flights")}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab("hotels")}
-                    className={[
-                      "flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold",
-                      activeTab === "hotels" ? "bg-white text-slate-900" : "text-white/90"
-                    ].join(" ")}
-                  >
-                    <FaBed className="h-4 w-4" />
-                    {t("tabs.hotels")}
-                  </button>
-                </div>
-              </div>
-            ) : null}
 
             <button
               type="button"

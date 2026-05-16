@@ -133,7 +133,7 @@ export function FlightRouteSearchClient() {
   return (
     <main className="flex min-h-dvh flex-col bg-slate-50 dark:bg-black">
       <Topbar />
-      <section className="sticky top-16 z-40 shrink-0 bg-brand-600 dark:bg-black shadow-sm">
+        <section className="sticky z-40 shrink-0 bg-brand-600 dark:bg-black shadow-sm">
         <div className="mx-auto w-full max-w-[1440px] px-4 py-2">
           <FlightSearch
             key={`${fromCity}-${toCity}`}
