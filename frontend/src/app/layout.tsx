@@ -7,8 +7,10 @@ import { Providers } from "@/store/Providers";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import { ThemeProvider } from "@/theme/ThemeProvider";
 import { manrope } from "@/theme/fonts";
+import { AppToaster } from "@/components/AppToaster";
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 import { HomeInitialLoader } from "@/components/home/HomeInitialLoader";
+import { EmailVerificationBanner } from "@/components/auth/EmailVerificationBanner";
 
 export const metadata: Metadata = {
   title: "Zamok Today — Flights",
@@ -45,6 +47,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           <ThemeProvider>
             <I18nProvider>
+              <AppToaster />
+              <EmailVerificationBanner />
               <HomeInitialLoader />
               {children}
               <ScrollToTopButton />

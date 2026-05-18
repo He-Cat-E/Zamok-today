@@ -1,8 +1,11 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import healthRoutes from "./routes/health.routes.js";
 import localeRoutes from "./routes/locale.routes.js";
 import flightRoutes from "./routes/flight.routes.js";
+import authRoutes from "./routes/auth.routes.js";
+import walletRoutes from "./routes/wallet.routes.js";
 
 export function createApp() {
   const app = express();
@@ -25,10 +28,13 @@ export function createApp() {
     })
   );
   app.use(express.json({ limit: "1mb" }));
+  app.use(cookieParser());
 
   app.use(healthRoutes);
   app.use("/api/locale", localeRoutes);
   app.use("/api/flights", flightRoutes);
+  app.use("/api/auth", authRoutes);
+  app.use("/api/wallet", walletRoutes);
 
   return app;
 }

@@ -6,6 +6,7 @@ import { useT } from "@/i18n/I18nProvider";
 import { FiCheck, FiGlobe, FiSearch, FiX } from "react-icons/fi";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setCountry, setCurrency, setLanguage } from "@/store/localeSlice";
+import { topbarPillClassName } from "@/components/TopbarPill";
 
 type Tab = "country" | "language" | "currency";
 
@@ -241,7 +242,7 @@ export function LocalePicker() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex items-center gap-2 rounded-full bg-slate-100 dark:bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-white ring-1 ring-slate-200 dark:ring-white/15 hover:bg-slate-200 dark:hover:bg-white/15"
+        className={topbarPillClassName}
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-label={t("locale.searchPlaceholder")}

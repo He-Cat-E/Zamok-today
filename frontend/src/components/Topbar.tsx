@@ -16,6 +16,9 @@ import {
   type InsuranceMenuKey
 } from "@/lib/siteNavConfig";
 import { useTheme } from "@/theme/ThemeProvider";
+import { UserMenu } from "@/components/auth/UserMenu";
+import { TopbarPillLink } from "@/components/TopbarPill";
+import { useAppSelector } from "@/store/hooks";
 
 function topbarTabsAlwaysVisible(pathname: string | null): boolean {
   if (!pathname) return false;
@@ -70,6 +73,8 @@ export function Topbar() {
   const t = useT();
   const pathname = usePathname();
   const { resolved, toggle } = useTheme();
+  const authStatus = useAppSelector((s) => s.auth.status);
+  const isAuthenticated = authStatus === "authenticated";
   const isDark = resolved === "dark";
   const showSearchTabs = topbarTabsAlwaysVisible(pathname);
   const [activeTab, setActiveTab] = useState<"flights" | "hotels">("flights");
@@ -183,14 +188,18 @@ export function Topbar() {
           </nav>
 
           <div className="ml-auto flex shrink-0 items-center gap-2 text-xs text-white/90 sm:gap-4">
-            <a
-              className="hidden items-center gap-2 rounded-full bg-slate-100 px-2 py-1.5 text-xs font-semibold text-slate-900 ring-1 ring-slate-200 hover:bg-slate-200 sm:inline-flex md:px-3"
-              href={HEADER_SUPPORT_NAV.href}
-            >
-              <BsFillPatchQuestionFill className="h-4 w-4" />
+            <TopbarPillLink href={HEADER_SUPPORT_NAV.href} className="hidden sm:inline-flex">
+              <BsFillPatchQuestionFill className="h-4 w-4 shrink-0" />
               <span className="hidden lg:inline">{t(HEADER_SUPPORT_NAV.labelKey)}</span>
-            </a>
+            </TopbarPillLink>
             <LocalePicker />
+            {authStatus === "loading" ? (
+              <span className="hidden h-8 w-8 shrink-0 rounded-full bg-white/15 sm:inline-block" aria-hidden />
+            ) : isAuthenticated ? (
+              <UserMenu />
+            ) : (
+              <TopbarPillLink href="/login">{t("nav.login")}</TopbarPillLink>
+            )}
             <button
               type="button"
               onClick={toggle}
@@ -284,14 +293,24 @@ export function Topbar() {
               </div>
             ) : null}
 
-            <a
-              className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-900"
+            {!isAuthenticated ? (
+              <TopbarPillLink href="/login" className="mt-4 w-full justify-center py-2.5 text-sm" onClick={closeAllMenus}>
+                {t("nav.login")}
+              </TopbarPillLink>
+            ) : (
+              <div className="mt-4 px-1">
+                <UserMenu />
+              </div>
+            )}
+
+            <TopbarPillLink
               href={HEADER_SUPPORT_NAV.href}
+              className="mt-4 w-full justify-center gap-2 py-2.5 text-sm"
               onClick={closeAllMenus}
             >
-              <BsFillPatchQuestionFill className="h-4 w-4" />
+              <BsFillPatchQuestionFill className="h-4 w-4 shrink-0" />
               {t(HEADER_SUPPORT_NAV.labelKey)}
-            </a>
+            </TopbarPillLink>
           </nav>
         </div>
       ) : null}

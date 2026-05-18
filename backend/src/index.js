@@ -2,6 +2,8 @@ import "dotenv/config";
 import dns from "node:dns";
 import mongoose from "mongoose";
 import { createApp } from "./app.js";
+import { isMailConfigured } from "./config/mail.js";
+import { verifyMailTransport } from "./mail/transport.js";
 
 const PORT = Number(process.env.PORT || 4000);
 const RAW_MONGODB_URI = String(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/zamok_today").trim();
@@ -33,6 +35,21 @@ async function start() {
     serverSelectionTimeoutMS: 15_000,
     family: 4
   });
+  if (isMailConfigured()) {
+    verifyMailTransport()
+      .then(() => {
+        // eslint-disable-next-line no-console
+        console.log("[mail] SMTP connection verified");
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.warn("[mail] SMTP verify failed:", err?.message || err);
+      });
+  } else {
+    // eslint-disable-next-line no-console
+    console.warn("[mail] SMTP not configured — password reset emails will use dev fallback only");
+  }
+
   const app = createApp();
   app.listen(PORT, () => {
     // eslint-disable-next-line no-console

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setLocale } from "@/store/localeSlice";
 import { setFlightSearchForm } from "@/store/flightsSlice";
 import { env } from "@/lib/env";
-
+import { fetchAuthUser } from "@/store/authSlice";
 function LocalePersistence() {
   const dispatch = useAppDispatch();
   const locale = useAppSelector((s) => s.locale);
@@ -78,6 +78,16 @@ function FlightSearchPersistence() {
   return null;
 }
 
+function AuthBootstrap() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    void dispatch(fetchAuthUser());
+  }, [dispatch]);
+
+  return null;
+}
+
 function LocationBootstrap() {
   const dispatch = useAppDispatch();
   const language = useAppSelector((s) => s.locale.language);
@@ -138,6 +148,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <Provider store={store}>
       <LocalePersistence />
       <FlightSearchPersistence />
+      <AuthBootstrap />
       <LocationBootstrap />
       {children}
     </Provider>

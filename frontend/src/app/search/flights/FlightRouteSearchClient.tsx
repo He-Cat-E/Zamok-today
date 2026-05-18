@@ -12,6 +12,7 @@ import { Topbar } from "@/components/Topbar";
 import { useI18n } from "@/i18n/I18nProvider";
 import { useAppSelector } from "@/store/hooks";
 import { env } from "@/lib/env";
+import { toast } from "@/lib/toast";
 import { SITE_DEFAULT_TO_CITY, SITE_PRIMARY_FROM_CITY } from "@/lib/siteDefaults";
 import type { FlightOffer } from "@/lib/types";
 
@@ -41,7 +42,6 @@ export function FlightRouteSearchClient() {
   const currencyCode = useAppSelector((s) => s.locale.currency);
   const [offers, setOffers] = useState<FlightOffer[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [loadError, setLoadError] = useState<string | null>(null);
   const tickets = useMemo(() => {
     return offers.map((offer, idx) => {
       const first = offer.segments[0];
@@ -90,7 +90,6 @@ export function FlightRouteSearchClient() {
     }
     const controller = new AbortController();
     setIsLoading(true);
-    setLoadError(null);
     void fetch(`${env.apiBaseUrl}/api/flights/search?currency=${encodeURIComponent(String(currencyCode || "USD"))}`, {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -112,7 +111,7 @@ export function FlightRouteSearchClient() {
       .catch((err) => {
         if (controller.signal.aborted) return;
         setOffers([]);
-        setLoadError(err instanceof Error ? err.message : "Request failed");
+        toast.error(err instanceof Error ? err.message : t("toast.error.generic"));
       })
       .finally(() => {
         if (!controller.signal.aborted) setIsLoading(false);
@@ -240,10 +239,7 @@ export function FlightRouteSearchClient() {
                   ))}
                 </div>
               ) : null}
-              {!isLoading && loadError ? (
-                <p className="text-sm text-brand-600 dark:text-brand-300">{loadError}</p>
-              ) : null}
-              {!isLoading && !loadError ? (
+              {!isLoading ? (
                 tickets.length === 0 ? (
                   <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-6 text-sm text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-white/70">
                     {tr("searchRoute.noCheapestTickets", "No cheapest tickets found for this route right now.")}

@@ -21,7 +21,9 @@
     "i18n:supplementary-health": "node tools/seed-supplementary-health-i18n.mjs && node tools/sync-supplementary-health-locales.mjs",
     "i18n:translate-supplementary-health": "node scripts/translate-supplementary-health-i18n.mjs",
     "i18n:insurance-partners": "node tools/sync-insurance-partners-i18n.mjs",
-    "i18n:translate-insurance-partners": "node scripts/translate-insurance-partners-i18n.mjs"
+    "i18n:translate-insurance-partners": "node scripts/translate-insurance-partners-i18n.mjs",
+    "i18n:auth": "node tools/sync-auth-i18n.mjs",
+    "i18n:translate-auth": "node scripts/translate-auth-i18n.mjs"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
@@ -32,7 +34,8 @@
     "react-dom": "^19.0.0",
     "react-icons": "^5.3.0",
     "react-leaflet": "^5.0.0",
-    "react-redux": "^9.1.2"
+    "react-redux": "^9.1.2",
+    "sonner": "^2.0.7"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.21",

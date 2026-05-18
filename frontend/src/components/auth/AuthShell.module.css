@@ -1,0 +1,329 @@
+.page {
+  --auth-obsidian: #06070d;
+  --auth-carbon: #0d0f17;
+  --auth-brand: #c32c2b;
+  --auth-brand-dim: rgba(195, 44, 43, 0.45);
+  --auth-line: rgba(195, 44, 43, 0.14);
+
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: var(--auth-obsidian);
+  overflow: hidden;
+}
+
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--auth-line) 1px, transparent 0),
+    linear-gradient(90deg, var(--auth-line) 1px, transparent 0);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, #000 25%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 25%, transparent 75%);
+}
+
+.page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(195, 44, 43, 0.18), transparent 65%);
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  border-radius: 1.25rem;
+  border: 1px solid var(--auth-brand-dim);
+  background: linear-gradient(165deg, rgba(13, 15, 23, 0.96) 0%, rgba(6, 7, 13, 0.98) 100%);
+  padding: 2rem 1.75rem 1.75rem;
+  box-shadow:
+    0 0 0 1px rgba(195, 44, 43, 0.12),
+    0 0 48px rgba(195, 44, 43, 0.22),
+    0 24px 64px rgba(0, 0, 0, 0.55);
+}
+
+.logoWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.logoRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoImg {
+  border-radius: 0.75rem;
+  box-shadow: 0 0 24px rgba(195, 44, 43, 0.35);
+}
+
+.brandTitle {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #f4f4f5;
+  line-height: 1.1;
+}
+
+.brandTagline {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244, 244, 245, 0.55);
+}
+
+.subtitle {
+  margin-top: 0.25rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: rgba(244, 244, 245, 0.72);
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(244, 244, 245, 0.85);
+}
+
+.inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 0.85rem;
+  color: rgba(244, 244, 245, 0.45);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 0.7rem 0.85rem 0.7rem 2.5rem;
+  font-size: 0.95rem;
+  color: #f4f4f5;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inputNoIcon {
+  padding-left: 0.85rem;
+}
+
+.input:focus {
+  border-color: var(--auth-brand-dim);
+  box-shadow: 0 0 0 3px rgba(195, 44, 43, 0.2);
+}
+
+.togglePw {
+  position: absolute;
+  right: 0.65rem;
+  color: rgba(244, 244, 245, 0.5);
+  padding: 0.25rem;
+}
+
+.togglePw:hover {
+  color: #f4f4f5;
+}
+
+.rowBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0.25rem 0 1.25rem;
+  font-size: 0.8rem;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: rgba(244, 244, 245, 0.75);
+  cursor: pointer;
+}
+
+.remember input {
+  accent-color: var(--auth-brand);
+}
+
+.link {
+  color: var(--auth-brand);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.link:hover {
+  color: #e07a79;
+}
+
+.submit {
+  width: 100%;
+  border-radius: 0.65rem;
+  border: none;
+  background: var(--auth-brand);
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 28px rgba(195, 44, 43, 0.45);
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.submit:hover:not(:disabled) {
+  background: #9e2423;
+  box-shadow: 0 0 36px rgba(195, 44, 43, 0.55);
+}
+
+.submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.error {
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(195, 44, 43, 0.45);
+  background: rgba(195, 44, 43, 0.12);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.85rem;
+  color: #fca5a5;
+}
+
+.success {
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  background: rgba(34, 197, 94, 0.1);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.85rem;
+  color: #86efac;
+}
+
+.footer {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(244, 244, 245, 0.6);
+}
+
+.footer strong {
+  color: #f4f4f5;
+}
+
+.devReset {
+  margin: 0 0 1rem;
+  padding: 0.75rem 0.875rem;
+  border-radius: 0.75rem;
+  border: 1px dashed rgba(195, 44, 43, 0.45);
+  background: rgba(195, 44, 43, 0.08);
+}
+
+.devResetLabel {
+  margin: 0 0 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(244, 244, 245, 0.55);
+}
+
+.devResetLink {
+  display: block;
+  word-break: break-all;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: #e07a79;
+  text-decoration: underline;
+}
+
+.verifyBlock {
+  text-align: center;
+}
+
+.verifyIconWrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.verifyIcon {
+  width: 2.75rem;
+  height: 2.75rem;
+  color: #e07a79;
+}
+
+.verifyHint {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgba(244, 244, 245, 0.72);
+}
+
+.verifyEmail {
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f4f4f5;
+  word-break: break-all;
+}
+
+.verifySuccess {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.95rem;
+  color: #86efac;
+}
+
+.submitLink {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  border-radius: 0.75rem;
+  background: #c32c2b;
+  padding: 0.85rem 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.submitLink:hover {
+  background: #9e2423;
+}
