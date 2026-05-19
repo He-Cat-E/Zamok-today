@@ -1,16 +1,21 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { AdminPageHeader } from "@/components/layout/AdminPageHeader";
-import { ComingSoonTable } from "@/components/layout/ComingSoonTable";
 import { useT } from "@/i18n/I18nProvider";
 
-const COLUMNS = [
-  { key: "id", labelKey: "table.id" },
-  { key: "email", labelKey: "table.email" },
-  { key: "amount", labelKey: "table.amount" },
-  { key: "date", labelKey: "table.date" },
-  { key: "status", labelKey: "table.status" }
-] as const;
+const TransactionsDataTable = dynamic(
+  () =>
+    import("@/components/transactions/TransactionsDataTable").then((m) => m.TransactionsDataTable),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="rounded-2xl border border-zinc-200 bg-white px-6 py-16 text-center text-sm text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
+        …
+      </div>
+    )
+  }
+);
 
 export default function TransactionsPage() {
   const t = useT();
@@ -21,7 +26,7 @@ export default function TransactionsPage() {
         title={t("page.transactions.title")}
         subtitle={t("page.transactions.subtitle")}
       />
-      <ComingSoonTable messageKey="page.transactions.placeholder" columns={[...COLUMNS]} />
+      <TransactionsDataTable />
     </>
   );
 }

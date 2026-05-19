@@ -35,6 +35,257 @@ html:not(.dark) body {
   padding: 1rem 1rem 1.25rem;
 }
 
+.zt-tx-period-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(228 228 231);
+}
+
+html.dark .zt-tx-period-bar {
+  border-bottom-color: rgb(63 63 70);
+}
+
+.zt-tx-period-label {
+  width: 100%;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  @apply text-zinc-500 dark:text-zinc-400;
+}
+
+@media (min-width: 640px) {
+  .zt-tx-period-label {
+    width: auto;
+    align-self: center;
+    margin-right: 0.25rem;
+  }
+}
+
+.zt-tx-period-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.zt-tx-period-field-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  @apply text-zinc-600 dark:text-zinc-400;
+}
+
+.zt-tx-period-input {
+  min-width: 10.5rem;
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.875rem;
+  @apply border border-zinc-200 bg-white text-zinc-900 outline-none ring-brand-600/20 focus:border-brand-500 focus:ring-2 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100;
+}
+
+.zt-tx-period-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.zt-tx-period-btn {
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.zt-tx-period-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.zt-tx-period-btn--primary {
+  @apply bg-brand-600 text-white hover:bg-brand-700;
+}
+
+.zt-tx-period-btn--ghost {
+  @apply border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800;
+}
+
+/* Transaction period — dual-month range picker */
+.zt-range-picker {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: min(100%, 20rem);
+}
+
+.zt-range-trigger {
+  display: flex;
+  min-width: min(100%, 22rem);
+  flex: 1;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  @apply border border-zinc-200 bg-white text-zinc-900 hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:hover:border-zinc-600;
+}
+
+.zt-range-trigger-icon {
+  flex-shrink: 0;
+  @apply text-brand-600 dark:text-brand-400;
+}
+
+.zt-range-trigger-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.zt-range-trigger-placeholder {
+  font-size: 0.875rem;
+  @apply text-zinc-500 dark:text-zinc-400;
+}
+
+.zt-range-popover {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  z-index: 40;
+  width: min(100vw - 2rem, 42rem);
+  max-width: 42rem;
+  border-radius: 1rem;
+  padding: 1rem 1rem 1.1rem;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+  @apply border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900;
+}
+
+html.dark .zt-range-popover {
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.zt-range-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 0.35rem;
+}
+
+.zt-range-nav-btn {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin-top: 1.75rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  @apply text-zinc-600 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800;
+}
+
+.zt-range-calendars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .zt-range-popover {
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(100vw - 1.5rem, 22rem);
+  }
+
+  .zt-range-calendars {
+    grid-template-columns: 1fr;
+  }
+
+  .zt-range-nav-btn {
+    margin-top: 0.5rem;
+  }
+}
+
+.zt-range-month-title {
+  margin: 0 0 0.65rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  @apply text-zinc-800 dark:text-zinc-100;
+}
+
+.zt-range-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 0.35rem;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  @apply text-zinc-500 dark:text-zinc-400;
+}
+
+.zt-range-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.15rem;
+}
+
+.zt-range-day {
+  display: grid;
+  place-items: center;
+  height: 2.25rem;
+  border: none;
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 0.65rem;
+  @apply text-zinc-800 dark:text-zinc-200;
+}
+
+.zt-range-day--empty {
+  pointer-events: none;
+}
+
+.zt-range-day:hover:not(.zt-range-day--endpoint):not(.zt-range-day--empty) {
+  @apply bg-zinc-100 dark:bg-zinc-800;
+}
+
+.zt-range-day--in-range {
+  border-radius: 0.35rem;
+  @apply bg-brand-100 text-brand-900 dark:bg-brand-950/55 dark:text-brand-100;
+}
+
+.zt-range-day--endpoint {
+  @apply bg-brand-600 font-semibold text-white shadow-sm dark:bg-brand-600 dark:text-white;
+}
+
+.zt-range-footer {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.zt-range-apply-btn {
+  width: 100%;
+  max-width: 20rem;
+  border-radius: 9999px;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  @apply bg-brand-600 text-white hover:bg-brand-700 dark:bg-brand-600 dark:hover:bg-brand-500;
+}
+
 .zt-datatables-wrap .dt-container {
   @apply text-zinc-700 dark:text-zinc-300;
 }
@@ -63,6 +314,11 @@ html:not(.dark) body {
 
 .zt-datatables-wrap table.dataTable tbody td {
   @apply border-b border-zinc-100 px-4 py-3 text-zinc-800 dark:border-zinc-800/80 dark:text-zinc-200;
+}
+
+.zt-datatables-wrap table.dataTable thead th.text-right,
+.zt-datatables-wrap table.dataTable tbody td.text-right {
+  text-align: right;
 }
 
 .zt-datatables-wrap table.dataTable tbody tr:hover td {
@@ -370,24 +626,12 @@ html.dark .zt-dt-skeleton-row {
   display: block;
   height: 0.65rem;
   border-radius: 0.25rem;
-  background: linear-gradient(
-    90deg,
-    rgba(161, 161, 170, 0.25) 0%,
-    rgba(161, 161, 170, 0.45) 50%,
-    rgba(161, 161, 170, 0.25) 100%
-  );
-  background-size: 200% 100%;
-  animation: zt-dt-shimmer 1.2s ease-in-out infinite;
+  background: rgb(212 212 216);
+  animation: zt-dt-pulse 1.2s ease-in-out infinite;
 }
 
 html.dark .zt-dt-skeleton-cell {
-  background: linear-gradient(
-    90deg,
-    rgba(82, 82, 91, 0.35) 0%,
-    rgba(113, 113, 122, 0.55) 50%,
-    rgba(82, 82, 91, 0.35) 100%
-  );
-  background-size: 200% 100%;
+  background: rgb(82 82 91);
 }
 
 .zt-dt-skeleton-cell--wide {
@@ -408,12 +652,13 @@ html.dark .zt-dt-skeleton-cell {
   }
 }
 
-@keyframes zt-dt-shimmer {
-  0% {
-    background-position: 200% 0;
-  }
+@keyframes zt-dt-pulse {
+  0%,
   100% {
-    background-position: -200% 0;
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.9;
   }
 }
 
@@ -429,4 +674,408 @@ html.dark .zt-dt-skeleton-cell {
   .zt-dt-skeleton-row .zt-dt-skeleton-cell:nth-child(n + 3) {
     display: none;
   }
+}
+
+/* Admin profile — full-width tabbed settings */
+.zt-profile-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.zt-profile-hero {
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid rgb(228 228 231);
+  background: rgb(255 255 255);
+}
+
+html.dark .zt-profile-hero {
+  border-color: rgb(63 63 70);
+  background: rgb(24 24 27);
+}
+
+.zt-profile-hero-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 1.75rem;
+  padding: 1.5rem 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .zt-profile-hero-inner {
+    padding: 1.75rem 2rem;
+  }
+}
+
+.zt-profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 1rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: white;
+  background: rgb(195 44 43);
+}
+
+.zt-profile-hero-text {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.zt-profile-hero-kicker {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  @apply text-zinc-500 dark:text-zinc-400;
+}
+
+.zt-profile-hero-name {
+  margin: 0.35rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  @apply text-zinc-900 dark:text-white;
+}
+
+@media (min-width: 640px) {
+  .zt-profile-hero-name {
+    font-size: 1.75rem;
+  }
+}
+
+.zt-profile-hero-email {
+  margin: 0.35rem 0 0;
+  font-size: 0.9375rem;
+  @apply text-zinc-600 dark:text-zinc-400;
+}
+
+.zt-profile-hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.zt-profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 9999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.zt-profile-badge--role {
+  @apply bg-zinc-200/80 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200;
+}
+
+.zt-profile-badge--ok {
+  @apply bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300;
+}
+
+.zt-profile-badge--danger {
+  @apply bg-red-100 text-red-800 dark:bg-red-950/50 dark:text-red-300;
+}
+
+.zt-profile-panel {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid rgb(228 228 231);
+  background: white;
+}
+
+html.dark .zt-profile-panel {
+  border-color: rgb(63 63 70);
+  background: rgb(24 24 27);
+}
+
+.zt-profile-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.65rem 0.75rem 0;
+  border-bottom: 1px solid rgb(228 228 231);
+  background: rgb(250 250 250 / 0.85);
+}
+
+html.dark .zt-profile-tabs {
+  border-bottom-color: rgb(63 63 70);
+  background: rgb(39 39 42 / 0.5);
+}
+
+.zt-profile-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: none;
+  border-radius: 0.5rem 0.5rem 0 0;
+  padding: 0.65rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  transition: color 0.15s, background 0.15s;
+  @apply text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100;
+}
+
+.zt-profile-tab--active {
+  margin-bottom: -1px;
+  border: 1px solid rgb(228 228 231);
+  border-bottom-color: white;
+  background: white;
+  @apply text-brand-700 dark:border-zinc-700 dark:border-b-zinc-900 dark:bg-zinc-900 dark:text-brand-300;
+}
+
+html:not(.dark) .zt-profile-tab--active {
+  border-bottom-color: white;
+}
+
+.zt-profile-tab-body {
+  padding: 0;
+}
+
+.zt-profile-tab-panel {
+  padding: 1.5rem 1.75rem 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .zt-profile-tab-panel {
+    padding: 1.75rem 2rem 2rem;
+  }
+}
+
+.zt-profile-section-head {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(244 244 245);
+}
+
+html.dark .zt-profile-section-head {
+  border-bottom-color: rgb(63 63 70);
+}
+
+.zt-profile-section-title {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  @apply text-zinc-900 dark:text-white;
+}
+
+.zt-profile-section-desc {
+  margin: 0.35rem 0 0;
+  max-width: 42rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  @apply text-zinc-600 dark:text-zinc-400;
+}
+
+.zt-profile-info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .zt-profile-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .zt-profile-info-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .zt-profile-info-tile--wide {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 1280px) {
+  .zt-profile-info-tile--wide {
+    grid-column: span 1;
+  }
+}
+
+.zt-profile-info-tile {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(244 244 245);
+  padding: 0.85rem 1rem;
+  @apply bg-zinc-50/90 dark:border-zinc-800 dark:bg-zinc-900/60;
+}
+
+.zt-profile-info-icon {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  @apply bg-white text-brand-600 shadow-sm dark:bg-zinc-800 dark:text-brand-400;
+}
+
+.zt-profile-info-label {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  @apply text-zinc-500 dark:text-zinc-400;
+}
+
+.zt-profile-info-value {
+  margin: 0.2rem 0 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  word-break: break-word;
+  @apply text-zinc-900 dark:text-zinc-100;
+}
+
+.zt-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.zt-profile-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .zt-profile-form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.zt-profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.zt-profile-field--full {
+  grid-column: 1 / -1;
+}
+
+.zt-profile-field-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  @apply text-zinc-700 dark:text-zinc-300;
+}
+
+.zt-profile-input {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(228 228 231);
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9375rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  @apply bg-white text-zinc-900 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100;
+}
+
+.zt-profile-input:focus {
+  border-color: rgb(195 44 43);
+  box-shadow: 0 0 0 3px rgb(195 44 43 / 0.15);
+}
+
+.zt-profile-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.zt-profile-flash {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.zt-profile-flash--ok {
+  @apply border border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300;
+}
+
+.zt-profile-flash--err {
+  @apply border border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300;
+}
+
+.zt-profile-form-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  margin-top: 0.25rem;
+  border-top: 1px solid rgb(244 244 245);
+}
+
+html.dark .zt-profile-form-footer {
+  border-top-color: rgb(63 63 70);
+}
+
+.zt-profile-btn {
+  border-radius: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.zt-profile-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.zt-profile-btn--primary {
+  @apply bg-brand-600 text-white hover:bg-brand-700;
+}
+
+.zt-password-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.zt-password-input {
+  padding-right: 2.5rem;
+}
+
+.zt-password-toggle {
+  position: absolute;
+  right: 0.5rem;
+  display: grid;
+  place-items: center;
+  padding: 0.25rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  @apply text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100;
+}
+
+.zt-password-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

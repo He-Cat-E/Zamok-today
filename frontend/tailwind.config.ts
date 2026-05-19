@@ -2,16 +2,21 @@ import type { Config } from "tailwindcss";
 import tailwindColors from "tailwindcss/colors";
 import { brandRed } from "./src/theme/brand";
 
-/** Tailwind default palette minus deprecated names and `red` (replaced by brand). */
-const {
-  lightBlue,
-  warmGray,
-  trueGray,
-  coolGray,
-  blueGray,
-  red: _defaultRed,
-  ...baseColors
-} = tailwindColors;
+/** Default palette minus deprecated aliases and `red` (replaced by brand). Keys are filtered without reading deprecated entries. */
+const OMIT_COLOR_KEYS = new Set([
+  "lightBlue",
+  "warmGray",
+  "trueGray",
+  "coolGray",
+  "blueGray",
+  "red"
+]);
+
+const baseColors = Object.fromEntries(
+  (Object.keys(tailwindColors) as (keyof typeof tailwindColors)[]).flatMap((key) =>
+    OMIT_COLOR_KEYS.has(key) ? [] : [[key, tailwindColors[key]]]
+  )
+);
 
 const config: Config = {
   darkMode: "class",

@@ -28,7 +28,9 @@ export async function seedSuperAdmin() {
     email,
     passwordHash,
     fullName: "Super Admin",
-    role: "super_admin"
+    role: "super_admin",
+    accountStatus: "active",
+    permissions: ["dashboard", "users", "admins", "transactions"]
   });
 
   // eslint-disable-next-line no-console

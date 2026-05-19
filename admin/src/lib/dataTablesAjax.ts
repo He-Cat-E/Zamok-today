@@ -10,7 +10,12 @@ export type DataTablesServerParams = {
   columns?: Array<{ data?: string; name?: string; searchable?: boolean; orderable?: boolean }>;
 };
 
-export function buildDataTablesQuery(params: DataTablesServerParams): string {
+export type DataTablesExtraParams = Record<string, string>;
+
+export function buildDataTablesQuery(
+  params: DataTablesServerParams,
+  extra?: DataTablesExtraParams
+): string {
   const qs = new URLSearchParams();
 
   qs.set("draw", String(params.draw ?? 1));
@@ -37,14 +42,22 @@ export function buildDataTablesQuery(params: DataTablesServerParams): string {
     qs.set(`columns[${index}][orderable]`, String(col.orderable !== false));
   });
 
+  if (extra) {
+    for (const [key, value] of Object.entries(extra)) {
+      const v = String(value ?? "").trim();
+      if (v) qs.set(key, v);
+    }
+  }
+
   return qs.toString();
 }
 
 export async function fetchDataTablesJson<T>(
   url: string,
-  params: DataTablesServerParams
+  params: DataTablesServerParams,
+  extra?: DataTablesExtraParams
 ): Promise<T> {
-  const query = buildDataTablesQuery(params);
+  const query = buildDataTablesQuery(params, extra);
   const res = await fetch(`${url}?${query}`, {
     method: "GET",
     credentials: "include",

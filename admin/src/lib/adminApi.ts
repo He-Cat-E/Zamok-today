@@ -4,7 +4,26 @@ export type AdminUser = {
   id: string;
   email: string;
   fullName: string;
-  role: string;
+  role: "super_admin" | "admin" | string;
+  accountStatus?: AccountStatus;
+  permissions: string[];
+  canManageAdmins?: boolean;
+};
+
+export type AdminPageDef = { key: string; path: string };
+
+export type AdminAccountRow = {
+  id: string;
+  fullName: string;
+  email: string;
+  role: "super_admin" | "admin";
+  accountStatus: AccountStatus;
+  permissions: string[];
+  permissionsCount: number;
+  isSuperAdmin: boolean;
+  isSelf: boolean;
+  createdAt: string;
+  createdAtDisplay: string;
 };
 
 async function parseJson<T>(res: Response): Promise<T> {
@@ -45,6 +64,37 @@ export async function fetchAdminMe(): Promise<AdminUser | null> {
   const data = await parseJson<{ admin?: AdminUser; error?: string }>(res);
   if (!res.ok) return null;
   return data.admin ?? null;
+}
+
+export async function updateAdminProfile(fullName: string): Promise<AdminUser> {
+  const res = await fetch(`${env.apiBaseUrl}/api/admin/auth/profile`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fullName })
+  });
+  const data = await parseJson<{ admin?: AdminUser; error?: string }>(res);
+  if (!res.ok || !data.admin) {
+    throw new Error(typeof data.error === "string" ? data.error : "Could not update profile");
+  }
+  return data.admin;
+}
+
+export async function changeAdminPassword(body: {
+  currentPassword: string;
+  password: string;
+  confirmPassword: string;
+}): Promise<void> {
+  const res = await fetch(`${env.apiBaseUrl}/api/admin/auth/password`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+  const data = await parseJson<{ error?: string }>(res);
+  if (!res.ok) {
+    throw new Error(typeof data.error === "string" ? data.error : "Could not change password");
+  }
 }
 
 export type AccountStatus = "active" | "suspended";
@@ -108,4 +158,69 @@ export async function setAdminUserAccountStatus(
     throw new Error(typeof data.error === "string" ? data.error : "Could not update account");
   }
   return { user: data.user };
+}
+
+export async function fetchAdminPages(): Promise<AdminPageDef[]> {
+  const res = await fetch(`${env.apiBaseUrl}/api/admin/pages`, { credentials: "include" });
+  const data = await parseJson<{ pages?: AdminPageDef[]; error?: string }>(res);
+  if (!res.ok || !data.pages) {
+    throw new Error(typeof data.error === "string" ? data.error : "Could not load pages");
+  }
+  return data.pages;
+}
+
+export async function createAdminAccount(body: {
+  fullName: string;
+  email: string;
+  password: string;
+  permissions: string[];
+}): Promise<AdminAccountRow> {
+  const res = await fetch(`${env.apiBaseUrl}/api/admin/admins`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+  const data = await parseJson<{ admin?: AdminAccountRow; error?: string }>(res);
+  if (!res.ok || !data.admin) {
+    throw new Error(typeof data.error === "string" ? data.error : "Could not create administrator");
+  }
+  return data.admin;
+}
+
+export async function updateAdminAccount(
+  adminId: string,
+  body: { fullName?: string; permissions: string[] }
+): Promise<AdminAccountRow> {
+  const res = await fetch(`${env.apiBaseUrl}/api/admin/admins/${encodeURIComponent(adminId)}`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+  const data = await parseJson<{ admin?: AdminAccountRow; error?: string }>(res);
+  if (!res.ok || !data.admin) {
+    throw new Error(typeof data.error === "string" ? data.error : "Could not update administrator");
+  }
+  return data.admin;
+}
+
+export async function setAdminAccountStatus(
+  adminId: string,
+  status: AccountStatus
+): Promise<AdminAccountRow> {
+  const res = await fetch(
+    `${env.apiBaseUrl}/api/admin/admins/${encodeURIComponent(adminId)}/account-status`,
+    {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status })
+    }
+  );
+  const data = await parseJson<{ admin?: AdminAccountRow; error?: string }>(res);
+  if (!res.ok || !data.admin) {
+    throw new Error(typeof data.error === "string" ? data.error : "Could not update account status");
+  }
+  return data.admin;
 }

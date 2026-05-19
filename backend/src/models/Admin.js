@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { sanitizeAdminPermissions } from "../config/adminPages.js";
 
 const adminSchema = new mongoose.Schema(
   {
@@ -12,17 +13,38 @@ const adminSchema = new mongoose.Schema(
     },
     passwordHash: { type: String, required: true, select: false },
     fullName: { type: String, default: "Super Admin", trim: true, maxlength: 80 },
-    role: { type: String, enum: ["super_admin", "admin"], default: "super_admin" }
+    role: { type: String, enum: ["super_admin", "admin"], default: "super_admin" },
+    accountStatus: {
+      type: String,
+      enum: ["active", "suspended"],
+      default: "active"
+    },
+    suspendedAt: { type: Date, default: null },
+    permissions: {
+      type: [String],
+      default: () => ["dashboard"]
+    }
   },
   { timestamps: true }
 );
 
+adminSchema.methods.getPageKeys = function getPageKeys() {
+  if (this.role === "super_admin") {
+    return sanitizeAdminPermissions(["dashboard", "users", "admins", "transactions"]);
+  }
+  return sanitizeAdminPermissions(this.permissions);
+};
+
 adminSchema.methods.toPublicJSON = function toPublicJSON() {
+  const pageKeys = this.getPageKeys();
   return {
     id: String(this._id),
     email: this.email,
     fullName: String(this.fullName || "Admin").trim(),
-    role: this.role
+    role: this.role,
+    accountStatus: this.accountStatus === "suspended" ? "suspended" : "active",
+    permissions: pageKeys,
+    canManageAdmins: this.role === "super_admin" || pageKeys.includes("admins")
   };
 };
 

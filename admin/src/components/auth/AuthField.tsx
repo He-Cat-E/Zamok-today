@@ -2,6 +2,7 @@
 
 import type { IconType } from "react-icons";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useT } from "@/i18n/I18nProvider";
 import styles from "./AuthShell.module.css";
 
 export function AuthField({
@@ -29,7 +30,9 @@ export function AuthField({
   visible?: boolean;
   onToggleVisible?: () => void;
 }) {
+  const t = useT();
   const inputType = showToggle ? (visible ? "text" : "password") : type;
+  const toggleLabel = visible ? t("auth.hidePassword") : t("auth.showPassword");
 
   return (
     <div className={styles.field}>
@@ -52,7 +55,8 @@ export function AuthField({
             type="button"
             className={styles.togglePw}
             onClick={onToggleVisible}
-            aria-label={visible ? "Hide password" : "Show password"}
+            aria-label={toggleLabel}
+            aria-pressed={visible}
           >
             {visible ? <FiEyeOff className="h-4 w-4" /> : <FiEye className="h-4 w-4" />}
           </button>

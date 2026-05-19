@@ -14,27 +14,6 @@
   overflow: hidden;
 }
 
-.page::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(var(--auth-line) 1px, transparent 0),
-    linear-gradient(90deg, var(--auth-line) 1px, transparent 0);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse at center, #000 25%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 25%, transparent 75%);
-}
-
-.page::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(195, 44, 43, 0.18), transparent 65%);
-}
-
 .card {
   position: relative;
   z-index: 1;
@@ -42,12 +21,8 @@
   max-width: 440px;
   border-radius: 1.25rem;
   border: 1px solid var(--auth-brand-dim);
-  background: linear-gradient(165deg, rgba(13, 15, 23, 0.96) 0%, rgba(6, 7, 13, 0.98) 100%);
+  background: #0d0f17;
   padding: 2rem 1.75rem 1.75rem;
-  box-shadow:
-    0 0 0 1px rgba(195, 44, 43, 0.12),
-    0 0 48px rgba(195, 44, 43, 0.22),
-    0 24px 64px rgba(0, 0, 0, 0.55);
 }
 
 .logoWrap {
@@ -159,15 +134,11 @@
   font-weight: 700;
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 0 28px rgba(195, 44, 43, 0.45);
-  transition:
-    background 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: background 0.2s ease;
 }
 
 .submit:hover:not(:disabled) {
   background: #9e2423;
-  box-shadow: 0 0 36px rgba(195, 44, 43, 0.55);
 }
 
 .submit:disabled {

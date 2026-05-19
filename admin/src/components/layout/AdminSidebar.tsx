@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiChevronLeft, FiChevronRight, FiLogOut } from "react-icons/fi";
 import { sidebarNavActive, sidebarNavIdle, sidebarNavItem } from "@/components/layout/layoutUi";
+import { filterNavForAdmin } from "@/config/adminPages";
 import { ADMIN_NAV_ITEMS } from "@/config/nav";
 import { useAdminAuth } from "@/context/AdminAuthContext";
 import { useAdminLayout } from "@/context/AdminLayoutContext";
@@ -19,6 +20,7 @@ export function AdminSidebar() {
   const { sidebarCollapsed, toggleSidebar } = useAdminLayout();
 
   const brandTitle = `${t("sidebar.brandLine")} ${t("sidebar.brandSub")}`;
+  const navItems = filterNavForAdmin(ADMIN_NAV_ITEMS, admin);
 
   return (
     <aside
@@ -43,7 +45,7 @@ export function AdminSidebar() {
         >
           {sidebarCollapsed ? (
             <span className="text-[11px] font-bold leading-none tracking-tight text-brand-600 dark:text-brand-400">
-              ZT
+              
             </span>
           ) : (
             <>
@@ -78,7 +80,7 @@ export function AdminSidebar() {
       ) : null}
 
       <nav className="flex-1 space-y-0.5 overflow-y-auto px-2 py-2">
-        {ADMIN_NAV_ITEMS.map(({ href, labelKey, icon: Icon }) => {
+        {navItems.map(({ href, labelKey, icon: Icon }) => {
           const active =
             pathname === href || (href !== "/dashboard" && pathname.startsWith(`${href}/`));
           return (
