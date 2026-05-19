@@ -5,7 +5,9 @@
   "scripts": {
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
-    "dev:admin": "cd admin && npm run dev"
+    "dev:admin": "cd admin && npm run dev",
+    "build:admin": "npm run build --prefix admin",
+    "vercel-build": "npm install --prefix admin && npm run build --prefix admin"
   }
 }
 

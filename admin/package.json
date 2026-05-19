@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "dev:clean": "node tools/clean-next.mjs && next dev -p 3001",
-    "build": "next build",
+    "build": "npm run i18n:sync && next build",
     "start": "next start -p 3001",
     "lint": "next lint",
     "i18n:sync": "node tools/sync-admin-i18n.mjs"
