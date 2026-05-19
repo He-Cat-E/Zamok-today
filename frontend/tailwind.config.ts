@@ -36,10 +36,15 @@ const config: Config = {
         expertFadeIn: {
           from: { opacity: "0" },
           to: { opacity: "1" }
+        },
+        idCardScanLine: {
+          "0%, 100%": { top: "7%", opacity: "0.65" },
+          "50%": { top: "91%", opacity: "1" }
         }
       },
       animation: {
-        expertFadeIn: "expertFadeIn 0.35s ease-out forwards"
+        expertFadeIn: "expertFadeIn 0.35s ease-out forwards",
+        "id-card-scan-line": "idCardScanLine 2.1s ease-in-out infinite"
       }
     }
   },

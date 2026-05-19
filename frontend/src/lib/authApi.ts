@@ -5,6 +5,8 @@ export type AuthUser = {
   fullName: string;
   email: string;
   avatarUrl: string;
+  nationalId?: string;
+  dateOfBirth?: string;
   emailVerified: boolean;
 };
 
@@ -65,7 +67,11 @@ export async function authMe() {
   );
 }
 
-export async function authUpdateProfile(body: { fullName: string }) {
+export async function authUpdateProfile(body: {
+  fullName: string;
+  nationalId?: string;
+  dateOfBirth?: string;
+}) {
   return parseJson<AuthResponse>(
     await fetch(`${env.apiBaseUrl}/api/auth/profile`, {
       method: "PATCH",

@@ -72,7 +72,10 @@ export const verifyEmail = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk(
   "auth/updateProfile",
-  async (body: { fullName: string }, { rejectWithValue }) => {
+  async (
+    body: { fullName: string; nationalId?: string; dateOfBirth?: string },
+    { rejectWithValue }
+  ) => {
     try {
       const { user } = await authApi.authUpdateProfile(body);
       return user;

@@ -194,7 +194,7 @@ export function Topbar() {
             </TopbarPillLink>
             <LocalePicker />
             {authStatus === "loading" ? (
-              <span className="hidden h-8 w-8 shrink-0 rounded-full bg-white/15 sm:inline-block" aria-hidden />
+              <span className="hidden h-9 w-9 shrink-0 rounded-full bg-white/15 sm:inline-block" aria-hidden />
             ) : isAuthenticated ? (
               <UserMenu />
             ) : (

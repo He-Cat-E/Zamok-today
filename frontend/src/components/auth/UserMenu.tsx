@@ -4,12 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { FiChevronDown, FiCreditCard, FiLogOut, FiUser } from "react-icons/fi";
+import { FiCreditCard, FiLogOut, FiUser } from "react-icons/fi";
 import { userInitials } from "@/lib/authApi";
 import { useT } from "@/i18n/I18nProvider";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logoutUser } from "@/store/authSlice";
-import { topbarPillClassName } from "@/components/TopbarPill";
 import { toast } from "@/lib/toast";
 
 const menuLinkClass =
@@ -42,25 +41,31 @@ export function UserMenu() {
   if (!user) return null;
 
   const initials = userInitials(user);
+  const menuLabel = user.fullName?.trim() || user.email;
 
   return (
     <div ref={wrapRef} className="relative">
       <button
         type="button"
-        className={[topbarPillClassName, "py-1 pl-1 pr-2"].join(" ")}
+        className={[
+          "relative grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-full",
+          "bg-white p-0.5 shadow-sm ring-1 ring-white/50",
+          "transition hover:shadow-md hover:ring-white/80",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-600",
+          open ? "ring-2 ring-white" : ""
+        ].join(" ")}
         aria-expanded={open}
         aria-haspopup="menu"
+        aria-label={menuLabel}
         onClick={() => setOpen((o) => !o)}
       >
-        <span className="relative grid h-8 w-8 shrink-0 place-items-center overflow-hidden rounded-full bg-brand-700 text-xs font-bold text-white ring-2 ring-white/30 dark:bg-zinc-800">
+        <span className="grid h-full w-full place-items-center overflow-hidden rounded-full bg-brand-600 text-xs font-bold tracking-tight text-white">
           {user.avatarUrl ? (
-            <Image src={user.avatarUrl} alt="" width={32} height={32} className="h-full w-full object-cover" />
+            <Image src={user.avatarUrl} alt="" width={36} height={36} className="h-full w-full object-cover" />
           ) : (
             initials
           )}
         </span>
-        <span className="hidden max-w-[9rem] truncate text-sm font-semibold sm:inline">{user.fullName}</span>
-        <FiChevronDown className={`h-4 w-4 shrink-0 transition ${open ? "rotate-180" : ""}`} />
       </button>
 
       {open ? (
