@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AuthUser } from "@/lib/authApi";
 import * as authApi from "@/lib/authApi";
+import { isAuthApiError } from "@/lib/authErrors";
 
 export type AuthStatus = "idle" | "loading" | "authenticated" | "anonymous";
 
@@ -35,6 +36,9 @@ export const loginUser = createAsyncThunk(
       const { user } = await authApi.authLogin(body);
       return user;
     } catch (e) {
+      if (isAuthApiError(e) && e.code === "ACCOUNT_SUSPENDED") {
+        return rejectWithValue("ACCOUNT_SUSPENDED");
+      }
       return rejectWithValue(e instanceof Error ? e.message : "Login failed");
     }
   }
@@ -102,6 +106,11 @@ const authSlice = createSlice({
   reducers: {
     clearAuthError(state) {
       state.error = null;
+    },
+    phoneLoginSuccess(state, action: { payload: AuthUser }) {
+      state.user = action.payload;
+      state.status = "authenticated";
+      state.error = null;
     }
   },
   extraReducers: (builder) => {
@@ -153,5 +162,5 @@ const authSlice = createSlice({
   }
 });
 
-export const { clearAuthError } = authSlice.actions;
+export const { clearAuthError, phoneLoginSuccess } = authSlice.actions;
 export const authReducer = authSlice.reducer;

@@ -6,16 +6,19 @@
   "scripts": {
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",
-    "mail:preview": "node scripts/preview-emails.mjs"
+    "mail:preview": "node scripts/preview-emails.mjs",
+    "netgsm:test": "node scripts/test-netgsm.mjs"
   },
   "dependencies": {
     "@google-cloud/vision": "^5.3.6",
+    "@netgsm/sms": "^1.1.11",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.3",
+    "libphonenumber-js": "^1.13.2",
     "mongoose": "^8.12.1",
     "multer": "^2.1.1",
     "nodemailer": "^8.0.7",

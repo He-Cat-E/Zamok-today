@@ -60,7 +60,7 @@ function ResetPasswordForm() {
       <form onSubmit={onSubmit}>
         <AuthField
           id="reset-password"
-          label={t("auth.password")}
+          label={t("auth.passwordLabel")}
           value={password}
           onChange={setPassword}
           placeholder="••••••••"
@@ -72,7 +72,7 @@ function ResetPasswordForm() {
         />
         <AuthField
           id="reset-confirm"
-          label={t("auth.confirmPassword")}
+          label={t("auth.confirmPasswordLabel")}
           value={confirmPassword}
           onChange={setConfirmPassword}
           placeholder="••••••••"
@@ -93,7 +93,7 @@ function ResetPasswordForm() {
 export default function ResetPasswordPage() {
   const t = useT();
   return (
-    <Suspense fallback={<AuthShell subtitle={t("auth.pleaseWait")}>{null}</AuthShell>}>
+    <Suspense fallback={<AuthShell>{null}</AuthShell>}>
       <ResetPasswordForm />
     </Suspense>
   );

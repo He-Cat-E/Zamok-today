@@ -67,8 +67,8 @@ function VerifyEmailContent() {
 
   if (token && verifying) {
     return (
-      <AuthShell subtitle={t("auth.verify.checking")}>
-        <p className={styles.verifyHint}>{t("auth.pleaseWait")}</p>
+      <AuthShell subtitle={t("auth.verify.subtitle")}>
+        <p className={styles.verifyHint}>{t("auth.verify.checking")}</p>
       </AuthShell>
     );
   }
@@ -138,7 +138,7 @@ function VerifyEmailContent() {
 export default function VerifyEmailPage() {
   const t = useT();
   return (
-    <Suspense fallback={<AuthShell subtitle={t("auth.pleaseWait")}>{null}</AuthShell>}>
+    <Suspense fallback={<AuthShell>{null}</AuthShell>}>
       <VerifyEmailContent />
     </Suspense>
   );

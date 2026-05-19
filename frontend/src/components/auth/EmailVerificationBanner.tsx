@@ -19,8 +19,9 @@ const HIDDEN_PREFIXES = [
   "/wallet"
 ];
 
-function needsVerification(user: { emailVerified?: boolean } | null) {
-  return user?.emailVerified === false;
+function needsVerification(user: { emailVerified?: boolean; authMethod?: string } | null) {
+  if (!user || user.authMethod === "phone") return false;
+  return user.emailVerified === false;
 }
 
 export function EmailVerificationBanner() {

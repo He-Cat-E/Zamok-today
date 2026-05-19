@@ -51,46 +51,333 @@
     0 24px 64px rgba(0, 0, 0, 0.55);
 }
 
+.methodTabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  margin-bottom: 1.25rem;
+  padding: 0.25rem;
+  border-radius: 0.65rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.methodTab {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(244, 244, 245, 0.55);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.methodTab:hover {
+  color: rgba(244, 244, 245, 0.85);
+}
+
+.methodTabActive {
+  color: #f4f4f5;
+  background: rgba(195, 44, 43, 0.25);
+  box-shadow: 0 0 0 1px rgba(195, 44, 43, 0.35);
+}
+
+.phoneRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.dialButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  flex-shrink: 0;
+  min-width: 6.75rem;
+  min-height: 2.75rem;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 0.65rem 0.7rem 0.65rem 0.75rem;
+  color: #f4f4f5;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  overflow: visible;
+}
+
+.dialButton:hover:not(:disabled) {
+  border-color: var(--auth-brand-dim);
+}
+
+.dialButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dialFlagIcon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.125rem;
+  border-radius: 3px;
+  line-height: 1.125rem;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.dialCodeText {
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dialChevron {
+  width: 0.9rem;
+  height: 0.9rem;
+  opacity: 0.55;
+  flex-shrink: 0;
+}
+
+.phoneNationalWrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.phoneNationalWrap .input {
+  min-height: 2.75rem;
+  padding-left: 2.5rem;
+  box-sizing: border-box;
+}
+
+.phoneDialPanel {
+  position: fixed;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(195, 44, 43, 0.35);
+  background: #0d0f17;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+}
+
+.phoneDialPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f4f4f5;
+}
+
+.phoneDialPanelHeader button {
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  color: rgba(244, 244, 245, 0.6);
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.phoneDialSearch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f4f4f5;
+}
+
+.phoneDialSearch input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 0.85rem;
+  color: #f4f4f5;
+  outline: none;
+}
+
+.phoneDialSearch input::placeholder {
+  color: rgba(244, 244, 245, 0.4);
+}
+
+.phoneDialList {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem;
+  overflow: auto;
+  flex: 1;
+}
+
+.phoneDialEmpty {
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(244, 244, 245, 0.5);
+}
+
+.phoneDialList li button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.65rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: transparent;
+  padding: 0.5rem 0.55rem;
+  text-align: left;
+  cursor: pointer;
+  color: #f4f4f5;
+}
+
+.phoneDialList li button:hover {
+  background: rgba(195, 44, 43, 0.15);
+}
+
+.phoneDialFlagIcon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.125rem;
+  border-radius: 3px;
+  line-height: 1.125rem;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.phoneDialName {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.phoneDialCode {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(244, 244, 245, 0.55);
+  flex-shrink: 0;
+}
+
+.codeHint {
+  margin: -0.25rem 0 0.85rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: rgba(134, 239, 172, 0.9);
+}
+
+.otpBoxes {
+  display: flex;
+  gap: 0.45rem;
+  justify-content: space-between;
+}
+
+.otpBox {
+  width: 2.65rem;
+  height: 2.65rem;
+  flex: 1;
+  max-width: 3rem;
+  border-radius: 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #f4f4f5;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.otpBox:focus {
+  border-color: var(--auth-brand-dim);
+  box-shadow: 0 0 0 3px rgba(195, 44, 43, 0.22);
+}
+
+.otpBox:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.resendRow {
+  display: flex;
+  justify-content: flex-end;
+  margin: -0.35rem 0 1rem;
+}
+
+.linkButton {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--auth-brand);
+  cursor: pointer;
+}
+
+.linkButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .logoWrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
   margin-bottom: 1.5rem;
-}
-
-.logoRow {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.logoImg {
-  border-radius: 0.75rem;
-  box-shadow: 0 0 24px rgba(195, 44, 43, 0.35);
-}
-
-.brandTitle {
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: #f4f4f5;
-  line-height: 1.1;
-}
-
-.brandTagline {
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(244, 244, 245, 0.55);
+  text-align: center;
 }
 
 .subtitle {
-  margin-top: 0.25rem;
-  text-align: center;
-  font-size: 0.95rem;
+  margin: 0.75rem 0 0;
+  max-width: 20rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  font-weight: 500;
   color: rgba(244, 244, 245, 0.72);
+}
+
+.logoLink {
+  display: block;
+  line-height: 0;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.logoLink:hover {
+  transform: scale(1.03);
+  filter: brightness(1.05);
+}
+
+.logoLink:focus-visible {
+  outline: 2px solid var(--auth-brand);
+  outline-offset: 4px;
+  border-radius: 1rem;
+}
+
+.logoImg {
+  display: block;
+  width: 6rem;
+  height: 6rem;
 }
 
 .field {

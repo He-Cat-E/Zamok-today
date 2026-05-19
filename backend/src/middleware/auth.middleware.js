@@ -1,5 +1,15 @@
 import { verifyAuthToken, getAuthCookieName } from "../utils/authTokens.js";
 import { User } from "../models/User.js";
+import { accountSuspendedPayload, isUserSuspended } from "../utils/accountStatus.js";
+
+function clearAuthCookie(res) {
+  res.clearCookie(getAuthCookieName(), {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/"
+  });
+}
 
 export async function requireAuth(req, res, next) {
   try {
@@ -11,6 +21,10 @@ export async function requireAuth(req, res, next) {
     const user = await User.findById(payload.sub);
     if (!user) {
       return res.status(401).json({ error: "Unauthorized" });
+    }
+    if (isUserSuspended(user)) {
+      clearAuthCookie(res);
+      return res.status(403).json(accountSuspendedPayload());
     }
     req.user = user;
     req.userId = String(user._id);

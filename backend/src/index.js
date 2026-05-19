@@ -3,7 +3,11 @@ import dns from "node:dns";
 import mongoose from "mongoose";
 import { createApp } from "./app.js";
 import { isMailConfigured } from "./config/mail.js";
+import { isNetgsmConfigured } from "./config/netgsm.js";
 import { verifyMailTransport } from "./mail/transport.js";
+import { seedSuperAdmin } from "./services/seedSuperAdmin.js";
+import { ensureUserAuthIndexes } from "./services/ensureUserIndexes.js";
+import { verifyNetgsmCredentials } from "./services/netgsm.service.js";
 
 const PORT = Number(process.env.PORT || 4000);
 const RAW_MONGODB_URI = String(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/zamok_today").trim();
@@ -35,6 +39,8 @@ async function start() {
     serverSelectionTimeoutMS: 15_000,
     family: 4
   });
+  await ensureUserAuthIndexes();
+  await seedSuperAdmin();
   if (isMailConfigured()) {
     verifyMailTransport()
       .then(() => {
@@ -48,6 +54,28 @@ async function start() {
   } else {
     // eslint-disable-next-line no-console
     console.warn("[mail] SMTP not configured — password reset emails will use dev fallback only");
+  }
+
+  if (isNetgsmConfigured()) {
+    verifyNetgsmCredentials()
+      .then((result) => {
+        if (result.ok) {
+          // eslint-disable-next-line no-console
+          console.log("[netgsm] API credentials verified");
+          return;
+        }
+        // eslint-disable-next-line no-console
+        console.warn(`[netgsm] API check failed (code ${result.code}): ${result.message}`);
+        // eslint-disable-next-line no-console
+        console.warn("[netgsm] Run: npm run netgsm:test — fix API sub-user, API access, IP whitelist, or NETGSM_HEADER in .env");
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.warn("[netgsm] API check error:", err?.message || err);
+      });
+  } else {
+    // eslint-disable-next-line no-console
+    console.warn("[netgsm] Not configured — phone OTP SMS disabled (set NETGSM_USER, NETGSM_PASSWORD, NETGSM_HEADER)");
   }
 
   const app = createApp();

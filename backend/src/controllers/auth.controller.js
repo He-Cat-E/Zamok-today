@@ -26,6 +26,7 @@ import { logResetLinkDev, shouldExposeResetLinkInResponse } from "../utils/mailD
 import { assignVerificationToken, hashVerificationToken } from "../utils/emailVerification.js";
 import { deliverVerificationEmail } from "../utils/sendVerificationEmail.js";
 import { getOrCreateWalletForUser } from "../services/wallet.service.js";
+import { assertUserCanAuthenticate } from "../utils/accountStatus.js";
 
 const BCRYPT_ROUNDS = 12;
 const RESET_TOKEN_MS = 60 * 60 * 1000;
@@ -146,6 +147,15 @@ export async function login(req, res) {
   const ok = await bcrypt.compare(password, user.passwordHash);
   if (!ok) {
     return res.status(401).json({ error: "Invalid email or password" });
+  }
+
+  try {
+    assertUserCanAuthenticate(user);
+  } catch (err) {
+    return res.status(err.status || 403).json({
+      error: err.message,
+      ...(err.code ? { code: err.code } : {})
+    });
   }
 
   setAuthCookie(res, user._id);

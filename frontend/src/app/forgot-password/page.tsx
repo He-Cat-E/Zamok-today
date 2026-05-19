@@ -54,7 +54,7 @@ export default function ForgotPasswordPage() {
         ) : null}
         <AuthField
           id="forgot-email"
-          label={t("auth.email")}
+          label={t("auth.emailLabel")}
           type="email"
           value={email}
           onChange={setEmail}

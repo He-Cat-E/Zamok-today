@@ -3,12 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FiCheckCircle, FiCreditCard, FiLock, FiMail, FiUser } from "react-icons/fi";
+import { FiCheckCircle, FiCreditCard, FiLock, FiMail, FiSmartphone, FiUser } from "react-icons/fi";
 import { AccountPageShell } from "@/components/account/AccountPageShell";
 import { RequireAuth } from "@/components/auth/RequireAuth";
 import { ProfileIdScanModal } from "@/components/profile/ProfileIdScanModal";
 import type { DetectedPersonalData } from "@/lib/profileApi";
 import { userInitials } from "@/lib/authApi";
+import {
+  formatUserPhone,
+  hasEmail,
+  hasPhone,
+  isPhoneAuthUser,
+  profilePrimaryContact
+} from "@/lib/profileDisplay";
 import { useT } from "@/i18n/I18nProvider";
 import { toast } from "@/lib/toast";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -34,11 +41,37 @@ function ProfileContent() {
     setFullName(user.fullName);
   }, [user.fullName]);
 
-  const verified = user.emailVerified !== false;
+  const phoneAuth = isPhoneAuthUser(user);
+  const phoneDisplay = hasPhone(user) ? formatUserPhone(user.phone!) : "";
+  const emailDisplay = hasEmail(user) ? user.email.trim() : "";
+  const contactLine = profilePrimaryContact(user);
+
+  const emailVerified = user.emailVerified !== false;
+  const phoneVerified = user.phoneVerified !== false;
+  const showEmailVerify = !phoneAuth && hasEmail(user) && !emailVerified;
+  const showPhoneRow = phoneAuth || hasPhone(user);
+  const showEmailRow = !phoneAuth || hasEmail(user);
+
   const nationalId = user.nationalId || "";
   const dateOfBirth = user.dateOfBirth || "";
 
   const profileDirty = fullName.trim() !== user.fullName.trim();
+
+  const verifiedBadge = phoneAuth
+    ? {
+        ok: phoneVerified,
+        label: phoneVerified ? t("profile.phoneVerified") : t("profile.phoneNotVerified"),
+        Icon: phoneVerified ? FiCheckCircle : FiSmartphone
+      }
+    : {
+        ok: emailVerified,
+        label: emailVerified ? t("profile.emailVerified") : t("profile.emailNotVerified"),
+        Icon: emailVerified ? FiCheckCircle : FiMail
+      };
+  const VerifiedIcon = verifiedBadge.Icon;
+  const signInMethodLabel = phoneAuth
+    ? t("profile.signInMethodPhone")
+    : t("profile.signInMethodEmail");
 
   async function onSave(e: React.FormEvent) {
     e.preventDefault();
@@ -102,17 +135,22 @@ function ProfileContent() {
               )}
             </span>
             <p className="mt-4 text-lg font-semibold text-zinc-900 dark:text-white">{user.fullName}</p>
-            <p className="mt-1 truncate text-sm text-zinc-500 dark:text-zinc-400">{user.email}</p>
+            {contactLine ? (
+              <p className="mt-1 truncate text-sm text-zinc-500 dark:text-zinc-400">{contactLine}</p>
+            ) : null}
+            <p className="mt-2 text-xs font-medium uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
+              {signInMethodLabel}
+            </p>
             <p
               className={[
                 "mt-4 inline-flex items-center justify-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold",
-                verified
+                verifiedBadge.ok
                   ? "bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
                   : "border border-brand-200/80 bg-brand-50 text-brand-700 dark:border-brand-500/35 dark:bg-brand-950/50 dark:text-brand-200"
               ].join(" ")}
             >
-              {verified ? <FiCheckCircle className="h-3.5 w-3.5" /> : <FiMail className="h-3.5 w-3.5" />}
-              {verified ? t("profile.emailVerified") : t("profile.emailNotVerified")}
+              <VerifiedIcon className="h-3.5 w-3.5" />
+              {verifiedBadge.label}
             </p>
           </div>
         </aside>
@@ -121,39 +159,78 @@ function ProfileContent() {
           <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm ring-1 ring-zinc-900/5 dark:border-white/10 dark:bg-zinc-950 dark:ring-white/10">
             <h2 className="text-base font-semibold text-zinc-900 dark:text-white">{t("profile.personalInfo")}</h2>
 
-            <form onSubmit={onSave} className="mt-5 space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="profile-full-name"
-                    className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
-                  >
-                    {t("auth.fullName")}
-                  </label>
-                  <div className="relative">
-                    <FiUser
-                      className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400"
-                      aria-hidden
-                    />
-                    <input
-                      id="profile-full-name"
-                      type="text"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      placeholder={t("auth.fullNamePlaceholder")}
-                      autoComplete="name"
-                      className={inputClass}
-                    />
-                  </div>
+            <form onSubmit={onSave} className="mt-5 space-y-5">
+              <div className="max-w-md">
+                <label
+                  htmlFor="profile-full-name"
+                  className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                >
+                  {t("auth.fullName")}
+                </label>
+                <div className="relative">
+                  <FiUser
+                    className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400"
+                    aria-hidden
+                  />
+                  <input
+                    id="profile-full-name"
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder={t("auth.fullNamePlaceholder")}
+                    autoComplete="name"
+                    className={inputClass}
+                  />
                 </div>
-                <div>
-                  <label className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                    {t("auth.email")}
-                  </label>
-                  <div className={`${readOnlyFieldClass} gap-2 text-zinc-600 dark:text-zinc-400`}>
-                    <FiMail className="h-4 w-4 shrink-0" aria-hidden />
-                    <span className="truncate">{user.email}</span>
+              </div>
+
+              <div>
+                <h3 className="mb-3 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
+                  {t("profile.contactDetails")}
+                </h3>
+                <div className="grid gap-4 sm:grid-cols-2">
+                {showEmailRow ? (
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                      {t("auth.email")}
+                    </label>
+                    <div
+                      className={[
+                        readOnlyFieldClass,
+                        "gap-2",
+                        emailDisplay
+                          ? "text-zinc-600 dark:text-zinc-300"
+                          : "text-zinc-400 dark:text-zinc-500"
+                      ].join(" ")}
+                    >
+                      <FiMail className="h-4 w-4 shrink-0" aria-hidden />
+                      <span className="truncate">
+                        {emailDisplay || t("profile.emailNotLinked")}
+                      </span>
+                    </div>
                   </div>
+                ) : null}
+                {showPhoneRow ? (
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                      {t("profile.phone")}
+                    </label>
+                    <div
+                      className={[
+                        readOnlyFieldClass,
+                        "gap-2",
+                        phoneDisplay
+                          ? "text-zinc-600 dark:text-zinc-300"
+                          : "text-zinc-400 dark:text-zinc-500"
+                      ].join(" ")}
+                    >
+                      <FiSmartphone className="h-4 w-4 shrink-0" aria-hidden />
+                      <span className="truncate">
+                        {phoneDisplay || t("profile.phoneNotLinked")}
+                      </span>
+                    </div>
+                  </div>
+                ) : null}
                 </div>
               </div>
 
@@ -201,7 +278,7 @@ function ProfileContent() {
             </form>
           </section>
 
-          {!verified ? (
+          {showEmailVerify ? (
             <section className="rounded-2xl border border-zinc-200 bg-zinc-50 p-6 ring-1 ring-zinc-900/5 dark:border-white/10 dark:bg-black dark:ring-white/10">
               <h2 className="text-base font-semibold text-zinc-900 dark:text-white">{t("profile.verifySection")}</h2>
               <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{t("profile.verifyHint")}</p>
@@ -226,14 +303,20 @@ function ProfileContent() {
 
           <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm ring-1 ring-zinc-900/5 dark:border-white/10 dark:bg-zinc-950 dark:ring-white/10">
             <h2 className="text-base font-semibold text-zinc-900 dark:text-white">{t("profile.security")}</h2>
-            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{t("profile.securityHint")}</p>
-            <Link
-              href="/forgot-password"
-              className="mt-4 inline-flex items-center gap-2 rounded-full border border-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-50 dark:border-white/15 dark:text-white dark:hover:bg-white/5"
-            >
-              <FiLock className="h-4 w-4" />
-              {t("profile.changePassword")}
-            </Link>
+            {phoneAuth ? (
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{t("profile.securityPhoneHint")}</p>
+            ) : (
+              <>
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{t("profile.securityHint")}</p>
+                <Link
+                  href="/forgot-password"
+                  className="mt-4 inline-flex items-center gap-2 rounded-full border border-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-50 dark:border-white/15 dark:text-white dark:hover:bg-white/5"
+                >
+                  <FiLock className="h-4 w-4" />
+                  {t("profile.changePassword")}
+                </Link>
+              </>
+            )}
           </section>
         </div>
       </div>

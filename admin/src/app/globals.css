@@ -1,0 +1,432 @@
+@import "flag-icons/css/flag-icons.min.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #c32c2b;
+}
+
+html {
+  color-scheme: dark;
+}
+
+html:not(.dark) {
+  color-scheme: light;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-zinc-950 text-zinc-100 antialiased;
+  font-family: var(--font-manrope), "Manrope", system-ui, sans-serif;
+}
+
+html:not(.dark) body {
+  @apply bg-zinc-50 text-zinc-900;
+}
+
+/* DataTables — admin users list */
+.zt-datatables-wrap {
+  padding: 1rem 1rem 1.25rem;
+}
+
+.zt-datatables-wrap .dt-container {
+  @apply text-zinc-700 dark:text-zinc-300;
+}
+
+.zt-datatables-wrap .dt-layout-row {
+  @apply mb-3 gap-3 px-0.5;
+}
+
+.zt-datatables-wrap .dt-length label,
+.zt-datatables-wrap .dt-search label {
+  @apply flex flex-wrap items-center gap-2 text-sm font-medium text-zinc-600 dark:text-zinc-400;
+}
+
+.zt-datatables-wrap .dt-search input,
+.zt-datatables-wrap .dt-length select {
+  @apply min-w-[12rem] rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none ring-brand-600/20 focus:border-brand-500 focus:ring-2 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100;
+}
+
+.zt-datatables-wrap .dt-length select {
+  @apply min-w-[5rem];
+}
+
+.zt-datatables-wrap table.dataTable thead th {
+  @apply border-b border-zinc-200 bg-zinc-50 px-4 py-3 text-left text-xs font-semibold tracking-wide text-zinc-600 dark:border-zinc-800 dark:bg-zinc-950/80 dark:text-zinc-300;
+}
+
+.zt-datatables-wrap table.dataTable tbody td {
+  @apply border-b border-zinc-100 px-4 py-3 text-zinc-800 dark:border-zinc-800/80 dark:text-zinc-200;
+}
+
+.zt-datatables-wrap table.dataTable tbody tr:hover td {
+  @apply bg-zinc-50 dark:bg-zinc-800/40;
+}
+
+.zt-datatables-wrap .dt-info,
+.zt-datatables-wrap .dt-paging {
+  @apply px-2 pt-3 text-xs text-zinc-500 dark:text-zinc-400;
+}
+
+.zt-datatables-wrap .dt-paging .dt-paging-button {
+  @apply rounded-md border border-transparent px-2 py-1 text-zinc-600 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800;
+}
+
+.zt-datatables-wrap .dt-paging .dt-paging-button.current {
+  @apply border-brand-500/40 bg-brand-50 font-semibold text-brand-800 dark:bg-brand-950/50 dark:text-brand-200;
+}
+
+.zt-dt-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.zt-dt-badge--ok {
+  @apply bg-emerald-50 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300;
+}
+
+.zt-dt-badge--warn {
+  @apply bg-amber-50 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200;
+}
+
+.zt-dt-badge--danger {
+  @apply bg-red-50 text-red-800 dark:bg-red-950/50 dark:text-red-300;
+}
+
+.zt-dt-actions-col {
+  min-width: 11rem;
+  white-space: nowrap;
+}
+
+.zt-dt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.zt-dt-action-btn {
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  border: 1px solid transparent;
+  @apply bg-zinc-100 text-zinc-800 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700;
+}
+
+.zt-dt-action-btn--danger {
+  @apply border-red-200 bg-red-50 text-red-800 hover:bg-red-100 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-950/70;
+}
+
+.zt-dt-action-btn--ok {
+  @apply border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-950/70;
+}
+
+.zt-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(9, 9, 11, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.zt-modal {
+  position: relative;
+  width: min(100%, 28rem);
+  max-height: min(90vh, 36rem);
+  overflow: auto;
+  border-radius: 1rem;
+  @apply border border-zinc-200 bg-white shadow-xl dark:border-zinc-700 dark:bg-zinc-900;
+}
+
+.zt-modal-header {
+  position: relative;
+  padding: 1.25rem 3rem 0.75rem 1.25rem;
+  border-bottom: 1px solid rgb(228 228 231);
+}
+
+html.dark .zt-modal-header {
+  border-bottom-color: rgb(63 63 70);
+}
+
+.zt-modal-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  @apply text-zinc-900 dark:text-zinc-50;
+}
+
+.zt-modal-subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  @apply text-zinc-600 dark:text-zinc-400;
+}
+
+.zt-modal-close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 0.35rem;
+  cursor: pointer;
+  @apply text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100;
+}
+
+.zt-modal-body {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.zt-confirm-modal {
+  width: min(100%, 24rem);
+}
+
+.zt-confirm-message {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  @apply text-zinc-700 dark:text-zinc-300;
+}
+
+.zt-confirm-error {
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
+  @apply text-red-600 dark:text-red-400;
+}
+
+.zt-confirm-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0 1.25rem 1.25rem;
+}
+
+.zt-confirm-btn {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.zt-confirm-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.zt-confirm-btn--ghost {
+  @apply border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800;
+}
+
+.zt-confirm-btn--primary {
+  @apply bg-brand-600 text-white hover:bg-brand-700;
+}
+
+.zt-confirm-btn--danger {
+  @apply bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600;
+}
+
+.zt-wallet-balance-card {
+  border-radius: 0.75rem;
+  padding: 1rem;
+  @apply bg-zinc-50 dark:bg-zinc-950/80;
+}
+
+.zt-wallet-tx-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.zt-wallet-tx-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-radius: 0.5rem;
+  padding: 0.65rem 0.75rem;
+  @apply bg-zinc-50 dark:bg-zinc-950/60;
+}
+
+.zt-dt-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.375rem;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  @apply bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200;
+}
+
+/* Hide DataTables default processing (text + blue dots) — we use a custom overlay */
+.zt-datatables-wrap .dt-processing {
+  display: none !important;
+}
+
+.zt-dt-table-host {
+  position: relative;
+  min-height: 22rem;
+}
+
+.zt-dt-table-host--loading .dt-container {
+  pointer-events: none;
+  user-select: none;
+}
+
+.zt-dt-table-host--loading table.dataTable {
+  opacity: 0.35;
+}
+
+.zt-dt-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(4px);
+}
+
+html.dark .zt-dt-overlay {
+  background: rgba(24, 24, 27, 0.92);
+}
+
+.zt-dt-loading-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.zt-dt-spinner {
+  width: 1.35rem;
+  height: 1.35rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: 2px solid rgba(195, 44, 43, 0.2);
+  border-top-color: var(--brand, #c32c2b);
+  animation: zt-dt-spin 0.65s linear infinite;
+}
+
+.zt-dt-loading-text {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(63 63 70);
+}
+
+html.dark .zt-dt-loading-text {
+  color: rgb(212 212 216);
+}
+
+.zt-dt-skeleton {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.zt-dt-skeleton-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1.2fr 1fr 0.9fr 0.75fr 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(244, 244, 245, 0.65);
+}
+
+html.dark .zt-dt-skeleton-row {
+  background: rgba(39, 39, 42, 0.75);
+}
+
+.zt-dt-skeleton-cell {
+  display: block;
+  height: 0.65rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    rgba(161, 161, 170, 0.25) 0%,
+    rgba(161, 161, 170, 0.45) 50%,
+    rgba(161, 161, 170, 0.25) 100%
+  );
+  background-size: 200% 100%;
+  animation: zt-dt-shimmer 1.2s ease-in-out infinite;
+}
+
+html.dark .zt-dt-skeleton-cell {
+  background: linear-gradient(
+    90deg,
+    rgba(82, 82, 91, 0.35) 0%,
+    rgba(113, 113, 122, 0.55) 50%,
+    rgba(82, 82, 91, 0.35) 100%
+  );
+  background-size: 200% 100%;
+}
+
+.zt-dt-skeleton-cell--wide {
+  width: 92%;
+}
+
+.zt-dt-skeleton-cell--narrow {
+  width: 70%;
+}
+
+.zt-dt-skeleton-cell:not(.zt-dt-skeleton-cell--wide):not(.zt-dt-skeleton-cell--narrow) {
+  width: 85%;
+}
+
+@keyframes zt-dt-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes zt-dt-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.zt-datatables-wrap .dt-paging .dt-paging-button.disabled {
+  @apply opacity-40;
+}
+
+@media (max-width: 768px) {
+  .zt-dt-skeleton-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .zt-dt-skeleton-row .zt-dt-skeleton-cell:nth-child(n + 3) {
+    display: none;
+  }
+}

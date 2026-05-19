@@ -47,6 +47,41 @@ export const loginSchema = z.object({
   rememberMe: z.boolean().optional()
 });
 
+const countryIsoSchema = z
+  .string()
+  .trim()
+  .toUpperCase()
+  .regex(/^[A-Z]{2}$/, "Select a valid country");
+
+const phoneNationalSchema = z
+  .string()
+  .trim()
+  .min(4, "Enter a valid phone number")
+  .max(20, "Phone number is too long");
+
+const otpCodeSchema = z
+  .string()
+  .trim()
+  .regex(/^\d{6}$/, "Enter the 6-digit verification code");
+
+const phoneBodySchema = z.object({
+  country: countryIsoSchema,
+  phone: phoneNationalSchema
+});
+
+export const phoneSendCodeSchema = phoneBodySchema.extend({
+  purpose: z.enum(["login", "register"])
+});
+
+export const phoneLoginSchema = phoneBodySchema.extend({
+  code: otpCodeSchema
+});
+
+export const phoneRegisterSchema = phoneBodySchema.extend({
+  fullName: fullNameSchema,
+  code: otpCodeSchema
+});
+
 const nationalIdSchema = z
   .string()
   .trim()
@@ -92,6 +127,10 @@ const FIELD_LABELS = {
   password: "Password",
   confirmPassword: "Confirm password",
   identifier: "Email",
+  phone: "Phone number",
+  country: "Country",
+  code: "Verification code",
+  purpose: "Purpose",
   token: "Token",
   nationalId: "National ID",
   dateOfBirth: "Date of birth"

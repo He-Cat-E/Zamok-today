@@ -1,0 +1,600 @@
+.shell {
+  --obsidian: #06070d;
+  --carbon: #0d0f17;
+  --cinder: #c32c2b;
+  --ember: #d14f4e;
+  --glow: #e07a79;
+  --cyan: #5ce6ff;
+  --fg: #e9ebf2;
+  --fg-dim: #b4bac8;
+  --fg-mute: #6a7080;
+  --line: rgba(195, 44, 43, 0.18);
+  --line-2: rgba(255, 255, 255, 0.08);
+
+  position: fixed;
+  inset: 0;
+  min-height: 100dvh;
+  z-index: 2147483000;
+  font-family: var(--font-manrope), "Manrope", system-ui, sans-serif;
+  background: var(--obsidian);
+  color: var(--fg);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+.shellFadeOut {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(195, 44, 43, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(195, 44, 43, 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+  animation: gridShift 20s linear infinite;
+}
+
+.shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(ellipse at 50% 30%, rgba(195, 44, 43, 0.18) 0%, transparent 55%);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+}
+
+.scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--cinder) 20%,
+    var(--ember) 50%,
+    var(--cinder) 80%,
+    transparent
+  );
+  box-shadow: 0 0 24px var(--cinder), 0 0 60px rgba(195, 44, 43, 0.5);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 2;
+  animation: scanMove 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.wrap {
+  position: relative;
+  z-index: 3;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 32px clamp(20px, 5vw, 64px);
+  gap: 32px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+
+.id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7fffb4;
+  box-shadow: 0 0 8px #7fffb4, 0 0 16px rgba(127, 255, 180, 0.6);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+.clock {
+  color: var(--cyan);
+}
+
+.clock b {
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.id b {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.hero {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: 28px;
+}
+
+.stamp {
+  font-size: 11px;
+  letter-spacing: 0.42em;
+  color: var(--cinder);
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid var(--cinder);
+  background: rgba(195, 44, 43, 0.06);
+  animation: fadeIn 0.8s 0.2s both;
+}
+
+.stamp::before {
+  content: "// ";
+  color: var(--fg-mute);
+}
+
+.logo {
+  font-family: var(--font-manrope), "Manrope", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(70px, 17vw, 240px);
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  margin: 0;
+  display: flex;
+  gap: clamp(2px, 0.8vw, 12px);
+}
+
+.logo span {
+  display: inline-block;
+  color: var(--fg);
+  position: relative;
+  opacity: 0;
+  transform: translateY(40px);
+  filter: blur(18px);
+  animation: dropIn 0.9s cubic-bezier(0.2, 0.85, 0.2, 1) forwards;
+  text-shadow:
+    0 0 18px rgba(195, 44, 43, 0.55),
+    0 0 60px rgba(195, 44, 43, 0.25);
+}
+
+.logo span:nth-child(1) {
+  animation-delay: 0.35s;
+}
+.logo span:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.logo span:nth-child(3) {
+  animation-delay: 0.65s;
+  color: var(--cinder);
+}
+.logo span:nth-child(4) {
+  animation-delay: 0.8s;
+}
+.logo span:nth-child(5) {
+  animation-delay: 0.95s;
+}
+
+.glitch {
+  animation:
+    dropIn 0.9s cubic-bezier(0.2, 0.85, 0.2, 1) forwards,
+    glitch 6s 3s infinite;
+}
+
+.underline {
+  width: clamp(220px, 38vw, 600px);
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--cinder) 20%,
+    var(--ember) 50%,
+    var(--cinder) 80%,
+    transparent
+  );
+  box-shadow: 0 0 16px rgba(195, 44, 43, 0.6);
+  transform-origin: center;
+  animation:
+    lineGrow 1.4s 1.2s cubic-bezier(0.2, 0.85, 0.2, 1) both,
+    lineShimmer 4s 2.6s linear infinite;
+}
+
+.tag {
+  font-family: var(--font-manrope), "Manrope", system-ui, sans-serif;
+  font-weight: 300;
+  font-size: clamp(14px, 1.6vw, 19px);
+  color: var(--fg-dim);
+  letter-spacing: 0.05em;
+  animation: fadeIn 1s 1.6s both;
+  max-width: 640px;
+}
+
+.tag b {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.soon {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  color: var(--cinder);
+  text-transform: uppercase;
+  animation: fadeIn 1s 1.9s both;
+}
+
+.dots {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.dots i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--cinder);
+  border-radius: 50%;
+  animation: dotBlink 1.4s ease-in-out infinite;
+}
+
+.dots i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.dots i:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.progress {
+  width: clamp(260px, 32vw, 460px);
+  animation: fadeIn 1s 2.2s both;
+}
+
+.progressLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  color: var(--fg-mute);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.progressLabel b {
+  color: var(--cinder);
+  font-weight: 500;
+}
+
+.bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line-2);
+  position: relative;
+  overflow: hidden;
+}
+
+.fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cinder), var(--ember));
+  box-shadow: 0 0 12px rgba(195, 44, 43, 0.6);
+}
+
+.fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6));
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--fg-mute);
+  text-transform: uppercase;
+  animation: fadeIn 1s 2.6s both;
+}
+
+.contact {
+  display: grid;
+  gap: 6px;
+  max-width: 50%;
+}
+
+.contact a {
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: 0.12em;
+  text-transform: none;
+  font-size: 12.5px;
+  border-bottom: 1px dashed var(--line-2);
+  padding-bottom: 2px;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.contact a:hover {
+  color: var(--cinder);
+  border-bottom-color: var(--cinder);
+}
+
+.lbl {
+  font-size: 10px;
+  color: var(--fg-mute);
+  letter-spacing: 0.3em;
+}
+
+.meta {
+  text-align: right;
+  opacity: 0.8;
+  line-height: 1.7;
+}
+
+.meta b {
+  color: var(--fg-dim);
+  font-weight: 500;
+}
+
+.bracket {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-color: var(--cinder);
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+  animation: fadeIn 1s 3s both;
+}
+
+.tl {
+  top: 18px;
+  left: 18px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.tr {
+  top: 18px;
+  right: 18px;
+  border-top: 2px solid;
+  border-right: 2px solid;
+}
+.bl {
+  bottom: 18px;
+  left: 18px;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+}
+.br {
+  bottom: 18px;
+  right: 18px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+@media (max-width: 720px) {
+  .top {
+    font-size: 9.5px;
+  }
+  .clock {
+    display: none;
+  }
+  .foot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .meta {
+    text-align: left;
+  }
+  .contact {
+    max-width: 100%;
+  }
+  .underline {
+    width: 70vw;
+  }
+}
+
+@media (max-width: 420px) {
+  .logo {
+    font-size: 22vw;
+  }
+  .progress {
+    width: 80vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell::before {
+    animation: none;
+  }
+  .scan,
+  .led,
+  .logo span,
+  .glitch,
+  .underline,
+  .dots i,
+  .stamp,
+  .tag,
+  .soon,
+  .progress,
+  .foot,
+  .bracket {
+    animation: none !important;
+  }
+  .logo span {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .stamp,
+  .tag,
+  .soon,
+  .progress,
+  .foot,
+  .bracket {
+    opacity: 1;
+    transform: none;
+  }
+  .underline {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  .canvas {
+    display: none;
+  }
+}
+
+@keyframes gridShift {
+  to {
+    background-position: 56px 56px;
+  }
+}
+
+@keyframes scanMove {
+  0% {
+    top: -4px;
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.7;
+  }
+  92% {
+    opacity: 0.7;
+  }
+  100% {
+    top: 100vh;
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes dropIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+    filter: blur(18px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  75% {
+    transform: translateY(-3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes glitch {
+  0%,
+  90%,
+  100% {
+    transform: translate(0, 0);
+    text-shadow:
+      0 0 18px rgba(195, 44, 43, 0.55),
+      0 0 60px rgba(195, 44, 43, 0.25);
+  }
+  92% {
+    transform: translate(-3px, 1px);
+    text-shadow: 3px 0 var(--cyan), -3px 0 var(--cinder);
+  }
+  94% {
+    transform: translate(2px, -1px);
+    text-shadow: -2px 0 var(--cyan), 2px 0 var(--cinder);
+  }
+  96% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes lineGrow {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes lineShimmer {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.6);
+  }
+}
+
+@keyframes dotBlink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
