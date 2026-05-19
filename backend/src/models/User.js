@@ -20,6 +20,8 @@ const userSchema = new mongoose.Schema(
     },
     passwordHash: { type: String, required: true, select: false },
     avatarUrl: { type: String, default: "" },
+    nationalId: { type: String, default: "", trim: true, maxlength: 11 },
+    dateOfBirth: { type: String, default: "", trim: true, maxlength: 10 },
     emailVerified: { type: Boolean, default: true },
     emailVerificationTokenHash: { type: String, default: null, select: false },
     emailVerificationExpires: { type: Date, default: null, select: false },
@@ -41,6 +43,8 @@ userSchema.methods.toPublicJSON = function toPublicJSON() {
     fullName: this.getFullName(),
     email: this.email,
     avatarUrl: this.avatarUrl || "",
+    nationalId: this.nationalId || "",
+    dateOfBirth: this.dateOfBirth || "",
     emailVerified: this.emailVerified ?? true
   };
 };

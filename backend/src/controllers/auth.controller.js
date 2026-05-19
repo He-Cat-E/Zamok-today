@@ -175,6 +175,12 @@ export async function updateProfile(req, res) {
   }
 
   req.user.fullName = normalizeFullName(parsed.data.fullName);
+  if (parsed.data.nationalId !== undefined) {
+    req.user.nationalId = parsed.data.nationalId || "";
+  }
+  if (parsed.data.dateOfBirth !== undefined) {
+    req.user.dateOfBirth = parsed.data.dateOfBirth || "";
+  }
   await req.user.save();
 
   return res.json({ user: req.user.toPublicJSON() });

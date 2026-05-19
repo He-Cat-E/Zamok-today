@@ -6,6 +6,7 @@ import localeRoutes from "./routes/locale.routes.js";
 import flightRoutes from "./routes/flight.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import walletRoutes from "./routes/wallet.routes.js";
+import profileRoutes from "./routes/profile.routes.js";
 
 export function createApp() {
   const app = express();
@@ -35,6 +36,7 @@ export function createApp() {
   app.use("/api/flights", flightRoutes);
   app.use("/api/auth", authRoutes);
   app.use("/api/wallet", walletRoutes);
+  app.use("/api/profile", profileRoutes);
 
   return app;
 }

@@ -47,8 +47,24 @@ export const loginSchema = z.object({
   rememberMe: z.boolean().optional()
 });
 
+const nationalIdSchema = z
+  .string()
+  .trim()
+  .regex(/^[1-9]\d{10}$/, "Enter a valid 11-digit national ID")
+  .optional()
+  .or(z.literal(""));
+
+const dateOfBirthSchema = z
+  .string()
+  .trim()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD format")
+  .optional()
+  .or(z.literal(""));
+
 export const updateProfileSchema = z.object({
-  fullName: fullNameSchema
+  fullName: fullNameSchema,
+  nationalId: nationalIdSchema,
+  dateOfBirth: dateOfBirthSchema
 });
 
 export const forgotPasswordSchema = z.object({
@@ -76,7 +92,9 @@ const FIELD_LABELS = {
   password: "Password",
   confirmPassword: "Confirm password",
   identifier: "Email",
-  token: "Token"
+  token: "Token",
+  nationalId: "National ID",
+  dateOfBirth: "Date of birth"
 };
 
 export function formatZodError(err) {
