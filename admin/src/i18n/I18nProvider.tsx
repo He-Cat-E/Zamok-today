@@ -9,8 +9,9 @@ import {
   useState,
   type ReactNode
 } from "react";
-import { normalizeAdminLang, type AdminLangCode } from "@/i18n/locales";
+import { DEFAULT_ADMIN_LANG, normalizeAdminLang, type AdminLangCode } from "@/i18n/locales";
 import enLocale from "../../public/locales/en.json";
+import trLocale from "../../public/locales/tr.json";
 
 type Dict = Record<string, string>;
 
@@ -23,18 +24,22 @@ type I18nContextValue = {
 const I18nContext = createContext<I18nContextValue | null>(null);
 const STORAGE_KEY = "zamok_admin_lang";
 
+/** English base, Turkish overrides — default UI language. */
+const TR_PRIMARY_DICT: Dict = { ...enLocale, ...trLocale };
+
 function readStoredLang(): AdminLangCode {
   try {
-    return normalizeAdminLang(localStorage.getItem(STORAGE_KEY) || "en");
+    return normalizeAdminLang(localStorage.getItem(STORAGE_KEY) || DEFAULT_ADMIN_LANG);
   } catch {
-    return "en";
+    return DEFAULT_ADMIN_LANG;
   }
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<AdminLangCode>("en");
-  const [dict, setDict] = useState<Dict>(enLocale);
+  const [lang, setLangState] = useState<AdminLangCode>(DEFAULT_ADMIN_LANG);
+  const [dict, setDict] = useState<Dict>(TR_PRIMARY_DICT);
   const [enDict, setEnDict] = useState<Dict>(enLocale);
+  const [trDict, setTrDict] = useState<Dict>(TR_PRIMARY_DICT);
 
   useEffect(() => {
     setLangState(readStoredLang());
@@ -60,15 +65,27 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
     async function run() {
       const enFetched = (await load("en")) || {};
-      const enMerged = { ...enLocale, ...enFetched };
-      if (!cancelled) setEnDict(enMerged);
+      const enMerged: Dict = { ...enLocale, ...enFetched };
 
+      const trFetched = (await load("tr")) || {};
+      const trMerged: Dict = { ...enMerged, ...trLocale, ...trFetched };
+
+      if (cancelled) return;
+      setEnDict(enMerged);
+      setTrDict(trMerged);
+
+      if (lang === DEFAULT_ADMIN_LANG) {
+        setDict(trMerged);
+        return;
+      }
       if (lang === "en") {
-        if (!cancelled) setDict(enMerged);
+        setDict(enMerged);
         return;
       }
       const loaded = await load(lang);
-      if (!cancelled) setDict({ ...enMerged, ...(loaded || {}) });
+      if (!cancelled) {
+        setDict({ ...trMerged, ...(loaded || {}) });
+      }
     }
 
     void run();
@@ -91,9 +108,9 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     () => ({
       lang,
       setLang,
-      t: (key) => dict[key] ?? enDict[key] ?? key
+      t: (key) => dict[key] ?? trDict[key] ?? enDict[key] ?? key
     }),
-    [lang, setLang, dict, enDict]
+    [lang, setLang, dict, trDict, enDict]
   );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

@@ -100,7 +100,7 @@ export function TransactionPeriodRangePicker({
   hasAppliedFilter
 }: Props) {
   const { lang } = useI18n();
-  const locale = lang === "en" ? undefined : lang;
+  const locale = lang;
   const rootRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [leftMonth, setLeftMonth] = useState(() => {

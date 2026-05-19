@@ -1,7 +1,10 @@
 /**
  * Keep in sync with `frontend/src/i18n/locales/index.ts` and locale JSON files on disk.
  */
+export const DEFAULT_ADMIN_LANG = "tr" as const;
+
 export const ADMIN_SUPPORTED_LANGUAGES = [
+  "tr",
   "da",
   "de",
   "el",
@@ -23,7 +26,6 @@ export const ADMIN_SUPPORTED_LANGUAGES = [
   "ru",
   "sv",
   "th",
-  "tr",
   "uk",
   "vi",
   "zh"
@@ -34,7 +36,7 @@ export type AdminLangCode = (typeof ADMIN_SUPPORTED_LANGUAGES)[number];
 const SUPPORTED = new Set<string>(ADMIN_SUPPORTED_LANGUAGES);
 
 export function normalizeAdminLang(tag: string): AdminLangCode {
-  const base = String(tag || "en").split(/[-_]/)[0]!.toLowerCase();
+  const base = String(tag || DEFAULT_ADMIN_LANG).split(/[-_]/)[0]!.toLowerCase();
   if (SUPPORTED.has(base)) return base as AdminLangCode;
-  return "en";
+  return DEFAULT_ADMIN_LANG;
 }

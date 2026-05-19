@@ -1,3 +1,5 @@
+import { DEFAULT_ADMIN_LANG } from "@/i18n/locales";
+
 /** ISO region codes for flag-icons (aligned with frontend LocalePicker). */
 export const LANGUAGE_TO_REGION: Record<string, string> = {
   en: "gb",
@@ -32,7 +34,7 @@ export function languageRegion(code: string): string {
   return LANGUAGE_TO_REGION[base] ?? base;
 }
 
-export function languageDisplayName(code: string, locale = "en"): string {
+export function languageDisplayName(code: string, locale = DEFAULT_ADMIN_LANG): string {
   try {
     const dn = new Intl.DisplayNames([locale], { type: "language" });
     return dn.of(code) || code;

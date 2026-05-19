@@ -4,7 +4,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FiCheck, FiGlobe, FiSearch, FiX } from "react-icons/fi";
 import { dropdownPanel, localePickerBtn } from "@/components/layout/layoutUi";
 import { languageDisplayName, languageRegion } from "@/i18n/languageMeta";
-import { ADMIN_SUPPORTED_LANGUAGES, type AdminLangCode } from "@/i18n/locales";
+import {
+  ADMIN_SUPPORTED_LANGUAGES,
+  DEFAULT_ADMIN_LANG,
+  type AdminLangCode
+} from "@/i18n/locales";
 import { useI18n, useT } from "@/i18n/I18nProvider";
 
 type LangOption = { code: AdminLangCode; name: string; region: string };
@@ -21,9 +25,13 @@ export function AdminLanguagePicker() {
     () =>
       ADMIN_SUPPORTED_LANGUAGES.map((code) => ({
         code,
-        name: languageDisplayName(code),
+        name: languageDisplayName(code, DEFAULT_ADMIN_LANG),
         region: languageRegion(code)
-      })).sort((a, b) => a.name.localeCompare(b.name)),
+      })).sort((a, b) => {
+        if (a.code === DEFAULT_ADMIN_LANG) return -1;
+        if (b.code === DEFAULT_ADMIN_LANG) return 1;
+        return a.name.localeCompare(b.name, DEFAULT_ADMIN_LANG);
+      }),
     []
   );
 
